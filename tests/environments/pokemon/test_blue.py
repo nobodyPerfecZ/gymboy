@@ -2,16 +2,16 @@ import unittest
 
 import numpy as np
 
-from gymboy.environments.pokemon.blue import PokemonBlue
+import gymboy
 
 
 class TestPokemonBlue(unittest.TestCase):
     """Tests the PokemonBlue class."""
 
     def setUp(self):
-        self.env1 = PokemonBlue(render_mode=None)
-        self.env2 = PokemonBlue(render_mode="human")
-        self.env3 = PokemonBlue(render_mode="rgb_array")
+        self.env1 = gymboy.make("Pokemon-Blue-v1", render_mode=None)
+        self.env2 = gymboy.make("Pokemon-Blue-v1", render_mode="human")
+        self.env3 = gymboy.make("Pokemon-Blue-v1", render_mode="rgb_array")
 
     def tearDown(self):
         self.env1.close()

@@ -2,16 +2,16 @@ import unittest
 
 import numpy as np
 
-from gymboy.environments.pokemon.gold import PokemonGold
+import gymboy
 
 
 class TestPokemonGold(unittest.TestCase):
     """Tests the PokemonGold class."""
 
     def setUp(self):
-        self.env1 = PokemonGold(render_mode=None)
-        self.env2 = PokemonGold(render_mode="human")
-        self.env3 = PokemonGold(render_mode="rgb_array")
+        self.env1 = gymboy.make("Pokemon-Gold-v1", render_mode=None)
+        self.env2 = gymboy.make("Pokemon-Gold-v1", render_mode="human")
+        self.env3 = gymboy.make("Pokemon-Gold-v1", render_mode="rgb_array")
 
     def tearDown(self):
         self.env1.close()
