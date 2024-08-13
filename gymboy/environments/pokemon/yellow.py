@@ -35,9 +35,7 @@ class PokemonYellow(gym.Env):
 
         # Create the environment
         if self.render_mode == "human":
-            self.pyboy = PyBoy(
-                gamerom=rom_path,
-            )
+            self.pyboy = PyBoy(gamerom=rom_path)
         else:
             self.pyboy = PyBoy(
                 gamerom=rom_path,

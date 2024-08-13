@@ -2,8 +2,14 @@
 
 import gymnasium as gym
 
-from gymboy.environments.mario import super_mario_land_2
-from gymboy.environments.pokemon import blue, gold, red, silver, yellow
+from gymboy.environments.mario import land
+from gymboy.environments.mario import land_2
+
+from gymboy.environments.pokemon import blue
+from gymboy.environments.pokemon import red
+from gymboy.environments.pokemon import yellow
+from gymboy.environments.pokemon import silver
+from gymboy.environments.pokemon import gold
 
 
 def make(env_id: str, **env_kwargs) -> gym.Env:
@@ -25,8 +31,10 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
         raise ValueError(f"{env_id} is not in registered gymboy environments.")
 
     # 1. Mario environments
-    if env_id == "Super-Mario-Land-2-v1":
-        env = super_mario_land_2.SuperMarioLand2(**env_kwargs)
+    if env_id == "Super-Mario-Land-v1":
+        env = land.SuperMarioLand(**env_kwargs)
+    elif env_id == "Super-Mario-Land-2-v1":
+        env = land_2.SuperMarioLand2(**env_kwargs)
 
     # 2. Pokemon environments
     elif env_id == "Pokemon-Blue-v1":
@@ -45,6 +53,7 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
 
 
 registered_envs = [
+    "Super-Mario-Land-v1",
     "Super-Mario-Land-2-v1",
     "Pokemon-Blue-v1",
     "Pokemon-Red-v1",

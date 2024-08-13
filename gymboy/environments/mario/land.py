@@ -8,15 +8,15 @@ from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
 
-class PokemonSilver(gym.Env):
-    """Pokemon Silver environment."""
+class SuperMarioLand(gym.Env):
+    """Super Mario Land environment."""
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/pokemon_silver.gbc",
+        rom_path: str = "./gymboy/resources/roms/super_mario_land.gb",
         init_state_path: Optional[
             str
-        ] = "./gymboy/resources/states/pokemon_silver_after_intro.state",
+        ] = "./gymboy/resources/states/super_mario_land_1_1.state",
         render_mode: Optional[str] = None,
     ):
         self.rom_path = rom_path
@@ -44,6 +44,8 @@ class PokemonSilver(gym.Env):
 
     def _get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
+        if self.pyboy.game_wrapper.lives_left == 0 or self.pyboy.game_wrapper.time_left == 0:
+            return 0.0
         return 1.0
 
     def _get_obs(self) -> np.ndarray:
@@ -71,8 +73,7 @@ class PokemonSilver(gym.Env):
 
         observation = self._get_obs()
         reward = self._get_reward()
-        terminated = False
-
+        terminated = self.pyboy.game_wrapper.lives_left == 0
         truncated = False
         info = {}
 
