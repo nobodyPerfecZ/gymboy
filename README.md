@@ -1,2 +1,2 @@
-# gym-pyboy
+# gymboy
 PyBoy environments in Gymnasium
