@@ -6,6 +6,15 @@ __pycache__/
 # C extensions
 *.so
 
+# IDEA / VSCode / PyCharm / Jupyter / JupyterLab / IPython
+.idea/
+
+# ROMs
+*.gb
+*.gbc
+*.ram
+*.rtc
+
 # Distribution / packaging
 .Python
 build/
