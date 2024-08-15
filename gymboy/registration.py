@@ -2,14 +2,14 @@
 
 import gymnasium as gym
 
-from gymboy.environments.mario import land
-from gymboy.environments.mario import land_2
+from gymboy.environments.mario import SuperMarioLand
+from gymboy.environments.mario import SuperMarioLand2
 
-from gymboy.environments.pokemon import blue
-from gymboy.environments.pokemon import red
-from gymboy.environments.pokemon import yellow
-from gymboy.environments.pokemon import silver
-from gymboy.environments.pokemon import gold
+from gymboy.environments.pokemon import PokemonBlue
+from gymboy.environments.pokemon import PokemonRed
+from gymboy.environments.pokemon import PokemonYellow
+from gymboy.environments.pokemon import PokemonSilver
+from gymboy.environments.pokemon import PokemonGold
 
 
 def make(env_id: str, **env_kwargs) -> gym.Env:
@@ -32,21 +32,21 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
 
     # 1. Mario environments
     if env_id == "Super-Mario-Land-v1":
-        env = land.SuperMarioLand(**env_kwargs)
+        env = SuperMarioLand(**env_kwargs)
     elif env_id == "Super-Mario-Land-2-v1":
-        env = land_2.SuperMarioLand2(**env_kwargs)
+        env = SuperMarioLand2(**env_kwargs)
 
     # 2. Pokemon environments
     elif env_id == "Pokemon-Blue-v1":
-        env = blue.PokemonBlue(**env_kwargs)
+        env = PokemonBlue(**env_kwargs)
     elif env_id == "Pokemon-Red-v1":
-        env = red.PokemonRed(**env_kwargs)
+        env = PokemonRed(**env_kwargs)
     elif env_id == "Pokemon-Yellow-v1":
-        env = yellow.PokemonYellow(**env_kwargs)
+        env = PokemonYellow(**env_kwargs)
     elif env_id == "Pokemon-Gold-v1":
-        env = gold.PokemonGold(**env_kwargs)
+        env = PokemonSilver(**env_kwargs)
     elif env_id == "Pokemon-Silver-v1":
-        env = silver.PokemonSilver(**env_kwargs)
+        env = PokemonGold(**env_kwargs)
     else:
         raise ValueError("Environment ID is not registered.")
     return env
