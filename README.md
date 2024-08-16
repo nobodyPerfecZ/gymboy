@@ -1,4 +1,4 @@
-![](docs/logo_curved.png)
+<p align="center"><img src="docs/logo_curved.png" alt="Logo"></p>
 
 <h1 align="center">Gameboy (Color) Environments in Gymnasium 🤖</h1>
 
