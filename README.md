@@ -17,5 +17,10 @@ To use these environments, you need to manually install the specific game ROMs l
 ## Installation ⚙️
 TODO: Add text here
 
+## TODOs ⛏
+- Add a more complicated reward structure for the Gen 2 Pokemon Games (Gold and Silver)
+- Add a more complicated reward structure for Super Mario Land 2
+- Add an environment version to handle JAX (with gymnax)
+
 ## Development 🔧
 Contributions are welcome! Please fork the repository and submit a pull request. Make sure to follow the coding standards and write tests for any new features or bug fixes.
