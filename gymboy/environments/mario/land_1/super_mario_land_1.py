@@ -8,6 +8,7 @@ from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
 from gymboy.environments.mario.land_1.constant import *
+from gymboy.utils.binary import *
 
 
 class SuperMarioLand1(gym.Env):
@@ -148,11 +149,8 @@ class SuperMarioLand1(gym.Env):
 
     def get_score(self) -> int:
         """Returns the current score."""
-        nums = self.pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3]
-        return (
-            100 * 100 * (10 * ((nums[0] >> 4) & 0x0F) + (nums[0] & 0x0F))
-            + 100 * (10 * ((nums[1] >> 4) & 0x0F) + (nums[1] & 0x0F))
-            + (10 * ((nums[2] >> 4) & 0x0F) + (nums[2] & 0x0F))
+        return bcds_to_integer(
+            self.pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3], digit=100
         )
 
     def get_world_level(self) -> tuple[int, int]:
@@ -170,8 +168,9 @@ class SuperMarioLand1(gym.Env):
 
     def get_coins(self) -> int:
         """Returns the current number of coins."""
-        nums = self.pyboy.memory[COINS_ADDRESS : COINS_ADDRESS + 2]
-        return 10 * nums[0] + nums[1]
+        return bcds_to_integer(
+            self.pyboy.memory[COINS_ADDRESS : COINS_ADDRESS + 2], digit=10
+        )
 
     def get_max_coins(self) -> int:
         """Returns the maximum number of coins."""
@@ -183,8 +182,7 @@ class SuperMarioLand1(gym.Env):
 
     def get_lives_left(self) -> int:
         """Returns the current lives left."""
-        num = self.pyboy.memory[LIVES_LEFT_ADDRESS]
-        return (10 * ((num >> 4) & 0x0F) + (num & 0x0F)) + 1
+        return bcds_to_integer([self.pyboy.memory[LIVES_LEFT_ADDRESS]], digit=0) + 1
 
     def get_max_lives_left(self) -> int:
         """Returns the maximum number of lives."""
@@ -196,8 +194,9 @@ class SuperMarioLand1(gym.Env):
 
     def get_time_left(self) -> int:
         """Returns the current time left."""
-        nums = self.pyboy.memory[TIMES_LEFT_ADDRESS : TIMES_LEFT_ADDRESS + 3]
-        return 100 * nums[0] + 10 * nums[1] + nums[2]
+        return bcds_to_integer(
+            self.pyboy.memory[TIMES_LEFT_ADDRESS : TIMES_LEFT_ADDRESS + 3], digit=10
+        )
 
     def get_max_time_left(self) -> int:
         """Returns the maximum time left."""

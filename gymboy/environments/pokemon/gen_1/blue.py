@@ -8,6 +8,7 @@ from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
 from gymboy.environments.pokemon.gen_1.constant import *
+from gymboy.utils.binary import *
 
 
 class PokemonBlue(gym.Env):
@@ -155,7 +156,7 @@ class PokemonBlue(gym.Env):
 
     def get_badges(self) -> int:
         """Returns the number of badges."""
-        return bin(self.pyboy.memory[BADGE_COUNT_ADDRESS]).count("1")
+        return bytes_bit_count([self.pyboy.memory[BADGE_COUNT_ADDRESS]])
 
     def get_max_badges(self) -> int:
         """Returns the maximum number of badges."""
@@ -167,12 +168,7 @@ class PokemonBlue(gym.Env):
 
     def get_money(self) -> int:
         """Returns the money."""
-        nums = self.pyboy.memory[MONEY_ADDRESS : MONEY_ADDRESS + 3]
-        return (
-            100 * 100 * (10 * ((nums[0] >> 4) & 0x0F) + (nums[0] & 0x0F))
-            + 100 * (10 * ((nums[1] >> 4) & 0x0F) + (nums[1] & 0x0F))
-            + (10 * ((nums[2] >> 4) & 0x0F) + (nums[2] & 0x0F))
-        )
+        return bcds_to_integer(self.pyboy.memory[MONEY_ADDRESS : MONEY_ADDRESS + 3], digit=100)
 
     def get_max_money(self) -> int:
         """Returns the maximum money."""
@@ -212,7 +208,7 @@ class PokemonBlue(gym.Env):
         """Returns the current HPs of the pokemons in the team."""
         return np.array(
             [
-                256 * self.pyboy.memory[hp_address] + self.pyboy.memory[hp_address + 1]
+                bytes_to_int(self.pyboy.memory[hp_address : hp_address + 2])
                 for hp_address in HP_ADDRESSES
             ]
         )
@@ -221,8 +217,7 @@ class PokemonBlue(gym.Env):
         """Returns the max HPs of the pokemons in the team."""
         return np.array(
             [
-                256 * self.pyboy.memory[max_hp_address]
-                + self.pyboy.memory[max_hp_address + 1]
+                bytes_to_int(self.pyboy.memory[max_hp_address : max_hp_address + 2])
                 for max_hp_address in MAX_HP_ADDRESSES
             ]
         )
@@ -241,9 +236,7 @@ class PokemonBlue(gym.Env):
         """Returns the experience of the pokemons in the team."""
         return np.array(
             [
-                256 * 256 * self.pyboy.memory[exp_address]
-                + 256 * self.pyboy.memory[exp_address + 1]
-                + self.pyboy.memory[exp_address + 2]
+                bytes_to_int(self.pyboy.memory[exp_address : exp_address + 3])
                 for exp_address in EXP_ADDRESSES
             ]
         )
@@ -287,13 +280,8 @@ class PokemonBlue(gym.Env):
 
     def get_seen_pokemons(self) -> int:
         """Returns the number of seen pokemons."""
-        return np.sum(
-            [
-                bin(self.pyboy.memory[address]).count("1")
-                for address in range(
-                    POKEDEX_SEEN_START_ADDRESS, POKEDEX_SEEN_END_ADDRESS
-                )
-            ]
+        return bytes_bit_count(
+            self.pyboy.memory[POKEDEX_SEEN_START_ADDRESS:POKEDEX_SEEN_END_ADDRESS]
         )
 
     def get_max_seen_pokemons(self) -> int:
@@ -306,11 +294,8 @@ class PokemonBlue(gym.Env):
 
     def get_events(self) -> int:
         """Returns the number of events experienced."""
-        return np.sum(
-            [
-                bin(self.pyboy.memory[address]).count("1")
-                for address in range(EVENT_FLAGS_START_ADDRESS, EVENT_FLAGS_END_ADDRESS)
-            ]
+        return bytes_bit_count(
+            self.pyboy.memory[EVENT_FLAGS_START_ADDRESS:EVENT_FLAGS_END_ADDRESS]
         )
 
     def get_max_events(self) -> int:

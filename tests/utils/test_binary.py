@@ -39,14 +39,17 @@ class TestBinary(unittest.TestCase):
         numbers1 = [0x00, 0x31, 0x75]
         numbers2 = [0x00, 0x30, 0x00]
         numbers3 = [0xFF, 0xFF, 0xFF]
+        numbers4 = [0x01, 0x08, 0x09, 0x05]
 
-        result1 = bcds_to_integer(numbers1)
-        result2 = bcds_to_integer(numbers2)
-        result3 = bcds_to_integer(numbers3)
+        result1 = bcds_to_integer(numbers1, digit=100)
+        result2 = bcds_to_integer(numbers2, digit=100)
+        result3 = bcds_to_integer(numbers3, digit=100)
+        result4 = bcds_to_integer(numbers4, digit=10)
 
         self.assertEqual(result1, 3175)
         self.assertEqual(result2, 3000)
         self.assertEqual(result3, 1666665)
+        self.assertEqual(result4, 1895)
 
 
 if __name__ == "__main__":
