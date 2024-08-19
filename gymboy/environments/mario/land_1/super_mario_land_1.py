@@ -26,10 +26,12 @@ class SuperMarioLand1(gym.Env):
         time_factor: float = 1.0,
         game_over_factor: float = 1.0,
         game_finished_factor: float = 1.0,
+        sound: bool = False,
         render_mode: Optional[str] = None,
     ):
         self.rom_path = rom_path
         self.init_state_path = init_state_path
+        self.sound = sound
         self.render_mode = render_mode
 
         self.world_level = None
@@ -53,12 +55,11 @@ class SuperMarioLand1(gym.Env):
 
         # Create the environment
         if self.render_mode == "human":
-            self.pyboy = PyBoy(gamerom=rom_path)
+            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
+            self.pyboy.set_emulation_speed(1)
         else:
-            self.pyboy = PyBoy(
-                gamerom=rom_path,
-                window="null",
-            )
+            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
+            self.pyboy.set_emulation_speed(0)
 
     def step(
         self, action: ActType
@@ -72,6 +73,7 @@ class SuperMarioLand1(gym.Env):
             pass
         else:
             self.pyboy.button(self.actions[action])
+        self.pyboy.tick(1)
 
         observation = self.get_obs()
         reward = self.get_reward()
@@ -94,6 +96,7 @@ class SuperMarioLand1(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+        self.pyboy.tick(1)
 
         # Update the world level
         self.world_level = self.get_world_level()
@@ -105,15 +108,7 @@ class SuperMarioLand1(gym.Env):
         return observation, info
 
     def render(self) -> RenderFrame | list[RenderFrame] | None:
-        if self.render_mode == "human":
-            self.pyboy.tick()
-            return self.get_obs()
-        elif self.render_mode == "rgb_array":
-            return self.get_obs()
-        elif self.render_mode is None:
-            return None
-        else:
-            raise ValueError("Invalid render mode.")
+        return None
 
     def close(self):
         self.pyboy.stop()

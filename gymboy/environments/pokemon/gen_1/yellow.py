@@ -28,10 +28,12 @@ class PokemonYellow(gym.Env):
         pps_factor: float = 1.0,
         seen_pokemons_factor: float = 1.0,
         events_factor: float = 1.0,
+        sound: bool = False,
         render_mode: Optional[str] = None,
     ):
         self.rom_path = rom_path
         self.init_state_path = init_state_path
+        self.sound = sound
         self.render_mode = render_mode
 
         self.badge_factor = badge_factor
@@ -55,12 +57,11 @@ class PokemonYellow(gym.Env):
 
         # Create the environment
         if self.render_mode == "human":
-            self.pyboy = PyBoy(gamerom=rom_path)
+            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
+            self.pyboy.set_emulation_speed(1)
         else:
-            self.pyboy = PyBoy(
-                gamerom=rom_path,
-                window="null",
-            )
+            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
+            self.pyboy.set_emulation_speed(0)
 
     def step(
         self, action: ActType
@@ -74,6 +75,7 @@ class PokemonYellow(gym.Env):
             pass
         else:
             self.pyboy.button(self.actions[action])
+        self.pyboy.tick(1)
 
         observation = self.get_obs()
         reward = self.get_reward()
@@ -97,7 +99,7 @@ class PokemonYellow(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
-        self.pyboy.tick()
+        self.pyboy.tick(1)
 
         # Get the initial observation and info
         observation = self.get_obs()
@@ -106,15 +108,7 @@ class PokemonYellow(gym.Env):
         return observation, info
 
     def render(self) -> RenderFrame | list[RenderFrame] | None:
-        if self.render_mode == "human":
-            self.pyboy.tick()
-            return self.get_obs()
-        elif self.render_mode == "rgb_array":
-            return self.get_obs()
-        elif self.render_mode is None:
-            return None
-        else:
-            raise ValueError("Invalid render mode.")
+        return None
 
     def close(self):
         self.pyboy.stop()

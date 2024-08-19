@@ -17,10 +17,12 @@ class SuperMarioLand2(gym.Env):
         init_state_path: Optional[
             str
         ] = "./gymboy/resources/states/super_mario_land_2_a_0_0.state",
+        sound: bool = False,
         render_mode: Optional[str] = None,
     ):
         self.rom_path = rom_path
         self.init_state_path = init_state_path
+        self.sound = sound
         self.render_mode = render_mode
 
         # Default actions and observation shape
@@ -35,18 +37,17 @@ class SuperMarioLand2(gym.Env):
 
         # Create the environment
         if self.render_mode == "human":
-            self.pyboy = PyBoy(gamerom=rom_path)
+            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
+            self.pyboy.set_emulation_speed(1)
         else:
-            self.pyboy = PyBoy(
-                gamerom=rom_path,
-                window="null",
-            )
+            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
+            self.pyboy.set_emulation_speed(0)
 
-    def _get_reward(self) -> SupportsFloat:
+    def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
         return 1.0
 
-    def _get_obs(self) -> np.ndarray:
+    def get_obs(self) -> np.ndarray:
         """Returns the current observation as an RGB image."""
         # Get the current screen RGBA image
         observation = self.pyboy.screen.ndarray
@@ -68,9 +69,10 @@ class SuperMarioLand2(gym.Env):
             pass
         else:
             self.pyboy.button(self.actions[action])
+        self.pyboy.tick(1)
 
-        observation = self._get_obs()
-        reward = self._get_reward()
+        observation = self.get_obs()
+        reward = self.get_reward()
         terminated = False
 
         truncated = False
@@ -91,23 +93,16 @@ class SuperMarioLand2(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+        self.pyboy.tick(1)
 
         # Get the initial observation and info
-        observation = self._get_obs()
+        observation = self.get_obs()
         info = {}
 
         return observation, info
 
     def render(self) -> RenderFrame | list[RenderFrame] | None:
-        if self.render_mode == "human":
-            self.pyboy.tick()
-            return self._get_obs()
-        elif self.render_mode == "rgb_array":
-            return self._get_obs()
-        elif self.render_mode is None:
-            return None
-        else:
-            raise ValueError("Invalid render mode.")
+        return None
 
     def close(self):
         self.pyboy.stop()

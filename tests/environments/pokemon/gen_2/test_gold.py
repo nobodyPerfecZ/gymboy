@@ -9,78 +9,47 @@ class TestPokemonGold(unittest.TestCase):
     """Tests the PokemonGold class."""
 
     def setUp(self):
-        self.env1 = gymboy.make("Pokemon-Gold-v1", render_mode=None)
-        self.env2 = gymboy.make("Pokemon-Gold-v1", render_mode="human")
-        self.env3 = gymboy.make("Pokemon-Gold-v1", render_mode="rgb_array")
+        self.env = gymboy.make("Pokemon-Gold-v1")
 
     def tearDown(self):
-        self.env1.close()
-        self.env2.close()
-        self.env3.close()
+        self.env.close()
 
     def test_step(self):
         """Tests the step() method."""
-        self.env1.reset()
-        self.env2.reset()
-        self.env3.reset()
+        self.env.reset()
 
-        obs1, reward1, terminated1, truncated1, info1 = self.env1.step(0)
-        obs2, reward2, terminated2, truncated2, info2 = self.env2.step(0)
-        obs3, reward3, terminated3, truncated3, info3 = self.env3.step(0)
+        obs, reward, terminated, truncated, info = self.env.step(0)
 
-        self.assertIsInstance(obs1, np.ndarray)
-        self.assertEqual((144, 160, 3), obs1.shape)
-        self.assertIsInstance(reward1, float)
-        self.assertIsInstance(terminated1, bool)
-        self.assertIsInstance(truncated1, bool)
-        self.assertIsInstance(info1, dict)
-
-        self.assertIsInstance(obs2, np.ndarray)
-        self.assertEqual((144, 160, 3), obs2.shape)
-        self.assertIsInstance(reward2, float)
-        self.assertIsInstance(terminated2, bool)
-        self.assertIsInstance(truncated2, bool)
-        self.assertIsInstance(info2, dict)
-
-        self.assertIsInstance(obs3, np.ndarray)
-        self.assertEqual((144, 160, 3), obs3.shape)
-        self.assertIsInstance(reward3, float)
-        self.assertIsInstance(terminated3, bool)
-        self.assertIsInstance(truncated3, bool)
-        self.assertIsInstance(info3, dict)
+        self.assertIsInstance(obs, np.ndarray)
+        self.assertEqual((144, 160, 3), obs.shape)
+        self.assertIsInstance(reward, float)
+        self.assertIsInstance(terminated, bool)
+        self.assertIsInstance(truncated, bool)
+        self.assertIsInstance(info, dict)
 
     def test_reset(self):
         """Tests the reset() method."""
-        obs1, _ = self.env1.reset()
-        obs2, _ = self.env2.reset()
-        obs3, _ = self.env3.reset()
+        obs, _ = self.env.reset()
 
-        self.assertIsInstance(obs1, np.ndarray)
-        self.assertEqual((144, 160, 3), obs1.shape)
+        self.assertIsInstance(obs, np.ndarray)
+        self.assertEqual((144, 160, 3), obs.shape)
 
-        self.assertIsInstance(obs2, np.ndarray)
-        self.assertEqual((144, 160, 3), obs1.shape)
+    def test_get_reward(self):
+        """Tests the get_reward() method."""
+        self.env.reset()
 
-        self.assertIsInstance(obs3, np.ndarray)
-        self.assertEqual((144, 160, 3), obs1.shape)
+        reward = self.env.get_reward()
 
-    def test_render(self):
-        """Tests the render() method."""
-        self.env1.reset()
-        self.env2.reset()
-        self.env3.reset()
+        np.testing.assert_allclose(1.0, reward)
 
-        obs1 = self.env1.render()
-        obs2 = self.env2.render()
-        obs3 = self.env3.render()
+    def test_get_obs(self):
+        """Tests the get_obs() method."""
+        self.env.reset()
 
-        self.assertIsNone(obs1)
+        obs = self.env.get_obs()
 
-        self.assertIsInstance(obs2, np.ndarray)
-        self.assertEqual((144, 160, 3), obs2.shape)
-
-        self.assertIsInstance(obs3, np.ndarray)
-        self.assertEqual((144, 160, 3), obs3.shape)
+        self.assertIsInstance(obs, np.ndarray)
+        self.assertEqual((144, 160, 3), obs.shape)
 
 
 if __name__ == "__main__":
