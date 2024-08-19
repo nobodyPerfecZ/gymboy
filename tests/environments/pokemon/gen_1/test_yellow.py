@@ -53,23 +53,24 @@ class TestPokemonYellow(unittest.TestCase):
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
-        vectorized_env = gymboy.make_vec("Pokemon-Yellow-v1", num_envs=10)
+        num_envs = 3
+        vectorized_env = gymboy.make_vec("Pokemon-Yellow-v1", num_envs=num_envs)
 
         obs, info = vectorized_env.reset()
 
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((10, 144, 160, 3), obs.shape)
+        self.assertEqual((num_envs, 144, 160, 3), obs.shape)
 
-        obs, reward, terminated, truncated, info = vectorized_env.step([0] * 10)
+        obs, reward, terminated, truncated, info = vectorized_env.step([0] * num_envs)
 
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((10, 144, 160, 3), obs.shape)
+        self.assertEqual((num_envs, 144, 160, 3), obs.shape)
         self.assertIsInstance(reward, np.ndarray)
-        self.assertEqual((10,), reward.shape)
+        self.assertEqual((num_envs,), reward.shape)
         self.assertIsInstance(terminated, np.ndarray)
-        self.assertEqual((10,), terminated.shape)
+        self.assertEqual((num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
-        self.assertEqual((10,), truncated.shape)
+        self.assertEqual((num_envs,), truncated.shape)
         self.assertIsInstance(info, dict)
 
         vectorized_env.close()
