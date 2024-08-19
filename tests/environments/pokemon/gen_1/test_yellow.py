@@ -51,6 +51,29 @@ class TestPokemonYellow(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
+    def test_vectorized_env(self):
+        """Tests the vectorized environment."""
+        vectorized_env = gymboy.make_vec("Pokemon-Yellow-v1", num_envs=10)
+
+        obs, info = vectorized_env.reset()
+
+        self.assertIsInstance(obs, np.ndarray)
+        self.assertEqual((10, 144, 160, 3), obs.shape)
+
+        obs, reward, terminated, truncated, info = vectorized_env.step([0] * 10)
+
+        self.assertIsInstance(obs, np.ndarray)
+        self.assertEqual((10, 144, 160, 3), obs.shape)
+        self.assertIsInstance(reward, np.ndarray)
+        self.assertEqual((10,), reward.shape)
+        self.assertIsInstance(terminated, np.ndarray)
+        self.assertEqual((10,), terminated.shape)
+        self.assertIsInstance(truncated, np.ndarray)
+        self.assertEqual((10,), truncated.shape)
+        self.assertIsInstance(info, dict)
+
+        vectorized_env.close()
+
     def test_get_badges(self):
         """Tests the get_badges() method."""
         self.env.reset()
