@@ -9,7 +9,8 @@ __pycache__/
 # IDEA / VSCode / PyCharm / Jupyter / JupyterLab / IPython
 .idea/
 
-# ROMs
+# ROMs and States
+*.state
 *.gb
 *.gbc
 *.ram
