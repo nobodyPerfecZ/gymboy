@@ -16,10 +16,10 @@ class PokemonYellow(gym.Env):
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/pokemon_yellow.gbc",
+        rom_path: str = "./gymboy/resources/roms/pokemon/gen_1/yellow/pokemon_yellow.gbc",
         init_state_path: Optional[
             str
-        ] = "./gymboy/resources/states/pokemon_yellow_after_intro.state",
+        ] = "./gymboy/resources/states/pokemon/gen_1/yellow/pokemon_yellow_after_intro.state",
         badge_factor: float = 1.0,
         money_factor: float = 1.0,
         team_size_factor: float = 1.0,

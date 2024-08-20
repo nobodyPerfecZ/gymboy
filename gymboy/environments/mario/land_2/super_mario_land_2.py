@@ -13,10 +13,10 @@ class SuperMarioLand2(gym.Env):
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/super_mario_land_2.gb",
+        rom_path: str = "./gymboy/resources/roms/mario/land_2/super_mario_land_2.gb",
         init_state_path: Optional[
             str
-        ] = "./gymboy/resources/states/super_mario_land_2_a_0_0.state",
+        ] = "./gymboy/resources/states/mario/land_2/super_mario_land_2_a_0_0.state",
         sound: bool = False,
         render_mode: Optional[str] = None,
     ):

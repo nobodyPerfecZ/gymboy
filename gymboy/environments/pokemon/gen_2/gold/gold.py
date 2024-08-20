@@ -8,15 +8,15 @@ from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
 
-class PokemonSilver(gym.Env):
-    """Pokemon Silver environment."""
+class PokemonGold(gym.Env):
+    """Pokemon Gold environment."""
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/pokemon_silver.gbc",
+        rom_path: str = "./gymboy/resources/roms/pokemon/gen_2/gold/pokemon_gold.gbc",
         init_state_path: Optional[
             str
-        ] = "./gymboy/resources/states/pokemon_silver_after_intro.state",
+        ] = "./gymboy/resources/states/pokemon/gen_2/gold/pokemon_gold_after_intro.state",
         sound: bool = False,
         render_mode: Optional[str] = None,
     ):

@@ -16,10 +16,10 @@ class SuperMarioLand1(gym.Env):
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/super_mario_land_1.gb",
+        rom_path: str = "./gymboy/resources/roms/mario/land_1/super_mario_land_1.gb",
         init_state_path: Optional[
             str
-        ] = "./gymboy/resources/states/super_mario_land_1_1_1.state",
+        ] = "./gymboy/resources/states/mario/land_1/super_mario_land_1_1_1.state",
         score_factor: float = 1.0,
         coin_factor: float = 1.0,
         live_factor: float = 1.0,

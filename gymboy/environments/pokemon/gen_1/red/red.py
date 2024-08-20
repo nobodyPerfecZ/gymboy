@@ -11,15 +11,15 @@ from gymboy.environments.pokemon.gen_1.constant import *
 from gymboy.utils.binary import *
 
 
-class PokemonBlue(gym.Env):
-    """Pokemon Blue environment."""
+class PokemonRed(gym.Env):
+    """Pokemon Red environment."""
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/pokemon_blue.gb",
+        rom_path: str = "./gymboy/resources/roms/pokemon/gen_1/red/pokemon_red.gb",
         init_state_path: Optional[
             str
-        ] = "./gymboy/resources/states/pokemon_blue_after_intro.state",
+        ] = "./gymboy/resources/states/pokemon/gen_1/red/pokemon_red_after_intro.state",
         badge_factor: float = 1.0,
         money_factor: float = 1.0,
         team_size_factor: float = 1.0,
