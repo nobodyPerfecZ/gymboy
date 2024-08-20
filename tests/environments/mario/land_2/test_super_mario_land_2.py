@@ -9,7 +9,10 @@ class TestSuperMarioLand2(unittest.TestCase):
     """Tests the SuperMarioLand2 class."""
 
     def setUp(self):
-        self.env = gymboy.make("Super-Mario-Land-2-v1")
+        self.env = gymboy.make(
+            env_id="Super-Mario-Land-2-v1",
+            init_state_path="./gymboy/resources/states/mario/land_2/super_mario_land_2_a_0_0.state",
+        )
 
     def tearDown(self):
         self.env.close()
@@ -54,7 +57,11 @@ class TestSuperMarioLand2(unittest.TestCase):
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
         num_envs = 3
-        vectorized_env = gymboy.make_vec("Super-Mario-Land-2-v1", num_envs=num_envs)
+        vectorized_env = gymboy.make_vec(
+            env_id="Super-Mario-Land-2-v1",
+            num_envs=num_envs,
+            init_state_path="./gymboy/resources/states/mario/land_2/super_mario_land_2_a_0_0.state",
+        )
 
         obs, info = vectorized_env.reset()
 

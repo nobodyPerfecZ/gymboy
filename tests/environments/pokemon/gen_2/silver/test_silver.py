@@ -5,11 +5,14 @@ import numpy as np
 import gymboy
 
 
-class TestPokemonGold(unittest.TestCase):
-    """Tests the PokemonGold class."""
+class TestPokemonSilver(unittest.TestCase):
+    """Tests the PokemonSilver class."""
 
     def setUp(self):
-        self.env = gymboy.make("Pokemon-Gold-v1")
+        self.env = gymboy.make(
+            env_id="Pokemon-Silver-v1",
+            init_state_path="./gymboy/resources/states/pokemon/gen_2/silver/pokemon_silver_after_intro.state",
+        )
 
     def tearDown(self):
         self.env.close()
@@ -54,7 +57,11 @@ class TestPokemonGold(unittest.TestCase):
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
         num_envs = 3
-        vectorized_env = gymboy.make_vec("Pokemon-Gold-v1", num_envs=num_envs)
+        vectorized_env = gymboy.make_vec(
+            env_id="Pokemon-Silver-v1",
+            num_envs=num_envs,
+            init_state_path="./gymboy/resources/states/pokemon/gen_2/silver/pokemon_silver_after_intro.state",
+        )
 
         obs, info = vectorized_env.reset()
 

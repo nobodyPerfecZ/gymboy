@@ -9,7 +9,10 @@ class TestSuperMarioLand(unittest.TestCase):
     """Tests the SuperMarioLand class."""
 
     def setUp(self):
-        self.env = gymboy.make("Super-Mario-Land-1-v1")
+        self.env = gymboy.make(
+            env_id="Super-Mario-Land-1-v1",
+            init_state_path="./tests/resources/states/mario/land_1/super_mario_land_1_1_1_end.state",
+        )
 
     def tearDown(self):
         self.env.close()
@@ -40,7 +43,7 @@ class TestSuperMarioLand(unittest.TestCase):
 
         reward = self.env.get_reward()
 
-        np.testing.assert_allclose(1.0253030303030304, reward)
+        np.testing.assert_allclose(1.0517383917383918, reward)
 
     def test_get_obs(self):
         """Tests the get_obs() method."""
@@ -54,7 +57,11 @@ class TestSuperMarioLand(unittest.TestCase):
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
         num_envs = 3
-        vectorized_env = gymboy.make_vec("Super-Mario-Land-1-v1", num_envs=num_envs)
+        vectorized_env = gymboy.make_vec(
+            env_id="Super-Mario-Land-1-v1",
+            num_envs=num_envs,
+            init_state_path="./tests/resources/states/mario/land_1/super_mario_land_1_1_1_end.state",
+        )
 
         obs, info = vectorized_env.reset()
 
@@ -89,7 +96,7 @@ class TestSuperMarioLand(unittest.TestCase):
 
         score = self.env.get_score()
 
-        self.assertEqual(0, score)
+        self.assertEqual(7900, score)
 
     def test_get_max_score(self):
         """Tests the get_max_score() method."""
@@ -105,7 +112,7 @@ class TestSuperMarioLand(unittest.TestCase):
 
         score_reward = self.env.get_score_reward()
 
-        self.assertEqual(0, score_reward)
+        np.testing.assert_allclose(0.0079000079000079, score_reward)
 
     def test_get_coins(self):
         """Tests the get_coins() method."""
@@ -113,7 +120,7 @@ class TestSuperMarioLand(unittest.TestCase):
 
         coins = self.env.get_coins()
 
-        self.assertEqual(0, coins)
+        self.assertEqual(35, coins)
 
     def test_get_max_coins(self):
         """Tests the get_max_coins() method."""
@@ -129,7 +136,7 @@ class TestSuperMarioLand(unittest.TestCase):
 
         coins_reward = self.env.get_coins_reward()
 
-        self.assertEqual(0, coins_reward)
+        np.testing.assert_allclose(0.35353535353535354, coins_reward)
 
     def test_get_lives_left(self):
         """Tests the get_lives_left() method."""
@@ -161,7 +168,7 @@ class TestSuperMarioLand(unittest.TestCase):
 
         time_left = self.env.get_time_left()
 
-        self.assertEqual(398, time_left)
+        self.assertEqual(264, time_left)
 
     def test_get_max_time_left(self):
         """Tests the get_max_time_left() method."""
@@ -177,7 +184,7 @@ class TestSuperMarioLand(unittest.TestCase):
 
         time_left_reward = self.env.get_time_left_reward()
 
-        np.testing.assert_allclose(0.995, time_left_reward)
+        np.testing.assert_allclose(0.66, time_left_reward)
 
     def test_game_over(self):
         """Tests the game_over() method."""
