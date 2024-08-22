@@ -1,51 +1,47 @@
 # Memory ADRs:
-# https://datacrystal.romhacking.net/wiki/Pok%C3%A9mon_Red/Blue:RAM_map
-# Memory Values:
-# https://github.com/pret/pokered/blob/91dc3c9f9c8fd529bb6e8307b58b96efa0bec67e/constants/event_constants.asm
+# https://datacrystal.tcrf.net/wiki/Pok%C3%A9mon_Gold_and_Silver/RAM_map
 
-# (1 Byte) Number of pokemons in team
-TEAM_SIZE_ADDRESS = 0xD163
+# (1 Byte) Number of badges obtained (Johto)
+JOHTO_BADGE_COUNT_ADDRESS = 0xD57C
 
-# (1 Byte) Number of badges obtained
-BADGE_COUNT_ADDRESS = 0xD356
+# (1 Byte) Number of badges obtained (Kanto)
+KANTO_BADGE_COUNT_ADDRESS = 0xD57D
 
 # (3 Bytes) Current money
-MONEY_ADDRESS = 0xD347
+MONEY_ADDRESS = 0xD573
+
+# (1 Byte) Number of pokemons in team
+TEAM_SIZE_ADDRESS = 0xDA22
 
 # (1 Byte) Pokemon levels of each team member
-LEVELS_ADDRESSES = [0xD18C, 0xD1B8, 0xD1E4, 0xD210, 0xD23C, 0xD268]
+LEVELS_ADDRESSES = [0xDA49, 0xDA79, 0xDAA9, 0xDAD9, 0xDB09, 0xDB39]
 
 # (2 Bytes) Current Pokemon HPs of each team member
-HP_ADDRESSES = [0xD16C, 0xD198, 0xD1C4, 0xD1F0, 0xD21C, 0xD248]
+HP_ADDRESSES = [0xDA4C, 0xDA7C, 0xDAAC, 0xDADC, 0xDB0C, 0xDB3C]
 
 # (2 Bytes) Max Pokemon HPs of each team member
-MAX_HP_ADDRESSES = [0xD18D, 0xD1B9, 0xD1E5, 0xD211, 0xD23D, 0xD269]
+MAX_HP_ADDRESSES = [0xDA4E, 0xDA7E, 0xDAAE, 0xDADE, 0xDB0E, 0xDB3E]
 
 # (3 Bytes) Pokemon EXPs of each team member
-EXP_ADDRESSES = [0xD179, 0xD1A5, 0xD1D1, 0xD1FD, 0xD229, 0xD255]
+EXP_ADDRESSES = [0xDA32, 0xDA62, 0xDA92, 0xDAC2, 0xDAF2, 0xDB22]
 
 # (4 Bytes) Pokemon Moves of each team member
-MOVE_ADDRESSES = [0xD173, 0xD19F, 0xD1CB, 0xD1F7, 0xD223, 0xD24F]
+MOVE_ADDRESSES = [0xDA2C, 0xDA5C, 0xDA8C, 0xDABC, 0xDAEC, 0xDB1C]
 
 # (4 Bytes) Pokemon PPs of each attack of each team member
-PP_ADDRESSES = [0xD188, 0xD1B4, 0xD1E0, 0xD20C, 0xD238, 0xD264]
+PP_ADDRESSES = [0xDA41, 0xDA71, 0xDAA1, 0xDAD1, 0xDB01, 0xDB31]
 
 # (X Bytes) Pokemons seen in the pokedex
-POKEDEX_SEEN_START_ADDRESS = 0xD30A
-POKEDEX_SEEN_END_ADDRESS = 0xD31D
-
-# (X Bytes) Event flags
-EVENT_FLAGS_START_ADDRESS = 0xD747
-EVENT_FLAGS_END_ADDRESS = 0xD886
-MUSEUM_TICKET_ADDRESS = 0xD754
+POKEDEX_SEEN_START_ADDRESS = 0xDBE4
+POKEDEX_SEEN_END_ADDRESS = 0xDC24
 
 
 # IDs:
-# https://github.com/pret/pokered/blob/91dc3c9f9c8fd529bb6e8307b58b96efa0bec67e/constants/move_constants.asm
+# https://github.com/pret/pokegold/blob/master/constants/move_constants.asm
 # Max PPs:
-# https://pokemondb.net/move/generation/1
+# https://pokemondb.net/move/generation/2
 MOVES_TO_MAX_PP = {
-    0x00: 0,    # NO_MOVE
+0x00: 0,    # NO_MOVE
     0x01: 35,   # POUND
     0x02: 25,   # KARATE_CHOP
     0x03: 10,   # DOUBLESLAP
@@ -211,4 +207,90 @@ MOVES_TO_MAX_PP = {
     0xA3: 20,   # SLASH
     0xA4: 10,   # SUBSTITUTE
     0xA5: 0,    # STRUGGLE
+    0xA6: 1,    # SKETCH
+    0xA7: 10,   # TRIPLE_KICK
+    0xA8: 25,   # THIEF
+    0xA9: 10,   # SPIDER_WEB
+    0xAA: 5,    # MIND_READER
+    0xAB: 15,   # NIGHTMARE
+    0xAC: 25,   # FLAME_WHEEL
+    0xAD: 15,   # SNORE
+    0xAE: 10,   # CURSE
+    0xAF: 15,   # FLAIL
+    0xB0: 30,   # CONVERSION_2
+    0xB1: 5,    # AEROBLAST
+    0xB2: 40,   # COTTON_SPORE
+    0xB3: 15,   # REVERSAL
+    0xB4: 10,   # SPITE
+    0xB5: 25,   # POWDER_SNOW
+    0xB6: 10,   # PROTECT
+    0xB7: 30,   # MACH_PUNCH
+    0xB8: 10,   # SCARY_FACE
+    0xB9: 20,   # FEINT_ATTACK
+    0xBA: 10,   # SWEET_KISS
+    0xBB: 10,   # BELLY_DRUM
+    0xBC: 10,   # SLUDGE_BOMB
+    0xBD: 10,   # MUD_SLAP
+    0xBE: 10,   # OCTAZOOKA
+    0xBF: 20,   # SPIKES
+    0xC0: 5,    # ZAP_CANNON
+    0xC1: 40,   # FORESIGHT
+    0xC2: 5,    # DESTINY_BOND
+    0xC3: 5,    # PERISH_SONG
+    0xC4: 15,   # ICY_WIND
+    0xC5: 5,    # DETECT
+    0xC6: 10,   # BONE_RUSH
+    0xC7: 5,    # LOCK_ON
+    0xC8: 10,   # OUTRAGE
+    0xC9: 10,   # SANDSTORM
+    0xCA: 10,   # GIGA_DRAIN
+    0xCB: 10,   # ENDURE
+    0xCC: 20,   # CHARM
+    0xCD: 20,   # ROLLOUT
+    0xCE: 40,   # FALSE_SWIPE
+    0xCF: 15,   # SWAGGER
+    0xD0: 5,    # MILK_DRINK
+    0xD1: 20,   # SPARK
+    0xD2: 20,   # FURY_CUTTER
+    0xD3: 25,   # STEEL_WING
+    0xD4: 5,    # MEAN_LOOK
+    0xD5: 15,   # ATTRACT
+    0xD6: 10,   # SLEEP_TALK
+    0xD7: 5,    # HEAL_BELL
+    0xD8: 20,   # RETURN
+    0xD9: 15,   # PRESENT
+    0xDA: 20,   # FRUSTRATION
+    0xDB: 25,   # SAFEGUARD
+    0xDC: 20,   # PAIN_SPLIT
+    0xDD: 5,    # SACRED_FIRE
+    0xDE: 30,   # MAGNITUDE
+    0xDF: 5,    # DYNAMICPUNCH
+    0xE0: 10,   # MEGAHORN
+    0xE1: 20,   # DRAGONBREATH
+    0xE2: 40,   # BATON_PASS
+    0xE3: 5,    # ENCORE
+    0xE4: 20,   # PURSUIT
+    0xE5: 40,   # RAPID_SPIN
+    0xE6: 20,   # SWEET_SCENT
+    0xE7: 15,   # IRON_TAIL
+    0xE8: 35,   # METAL_CLAW
+    0xE9: 10,   # VITAL_THROW
+    0xEA: 5,    # MORNING_SUN
+    0xEB: 5,    # SYNTHESIS
+    0xEC: 5,    # MOONLIGHT
+    0xED: 15,   # HIDDEN_POWER
+    0xEE: 5,    # CROSS_CHOP
+    0xEF: 20,   # TWISTER
+    0xF0: 5,    # RAIN_DANCE
+    0xF1: 5,    # SUNNY_DAY
+    0xF2: 15,   # CRUNCH
+    0xF3: 20,   # MIRROR_COAT
+    0xF4: 10,   # PSYCH_UP
+    0xF5: 5,    # EXTREMESPEED
+    0xF6: 5,    # ANCIENTPOWER
+    0xF7: 15,   # SHADOW_BALL
+    0xF8: 10,   # FUTURE_SIGHT
+    0xF9: 15,   # ROCK_SMASH
+    0xFA: 15,   # WHIRLPOOL
+    0xFB: 10,   # BEAT_UP
 }

@@ -224,7 +224,7 @@ def get_max_pps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     """
     return np.array(
         [
-            [MOVES_TO_MAX_PP[move] if move != 0 else 0 for move in pokemon]
+            [MOVES_TO_MAX_PP[move] for move in pokemon]
             for pokemon in get_moves(pyboy, yellow=yellow)
         ]
     )

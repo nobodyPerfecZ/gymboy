@@ -7,6 +7,8 @@ from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
+from gymboy.environments.pokemon.gen_2.memory import *
+
 
 class PokemonGold(gym.Env):
     """Pokemon Gold environment."""
@@ -17,6 +19,13 @@ class PokemonGold(gym.Env):
         init_state_path: Optional[
             str
         ] = "./gymboy/resources/states/pokemon/gen_2/gold/pokemon_gold_after_intro.state",
+        badge_factor: float = 1.0,
+        money_factor: float = 1.0,
+        team_size_factor: float = 1.0,
+        levels_factor: float = 1.0,
+        hps_factor: float = 1.0,
+        pps_factor: float = 1.0,
+        seen_pokemons_factor: float = 1.0,
         sound: bool = False,
         render_mode: Optional[str] = None,
     ):
@@ -24,6 +33,14 @@ class PokemonGold(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+
+        self.badge_factor = badge_factor
+        self.money_factor = money_factor
+        self.team_size_factor = team_size_factor
+        self.levels_factor = levels_factor
+        self.hps_factor = hps_factor
+        self.pps_factor = pps_factor
+        self.seen_pokemons_factor = seen_pokemons_factor
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -45,7 +62,26 @@ class PokemonGold(gym.Env):
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        return 1.0
+        # Compute the single rewards
+        badges_reward = self.badge_factor * self.get_badges_reward()
+        money_reward = self.money_factor * self.get_money_reward()
+        pokemon_team_size_reward = self.team_size_factor * self.get_team_size_reward()
+        pokemon_levels_reward = self.levels_factor * self.get_levels_reward()
+        pokemon_hps_reward = self.hps_factor * self.get_hps_reward()
+        pokemon_pps_reward = self.pps_factor * self.get_pps_reward()
+        pokemons_seen_reward = (
+            self.seen_pokemons_factor * self.get_seen_pokemons_reward()
+        )
+
+        return (
+            badges_reward
+            + money_reward
+            + pokemon_team_size_reward
+            + pokemon_levels_reward
+            + pokemon_hps_reward
+            + pokemon_pps_reward
+            + pokemons_seen_reward
+        )
 
     def get_obs(self) -> np.ndarray:
         """Returns the current observation as an RGB image."""
@@ -106,3 +142,35 @@ class PokemonGold(gym.Env):
 
     def close(self):
         self.pyboy.stop()
+
+    def get_badges_reward(self) -> float:
+        """Returns the normalized rewards (0.0, 1.0) to signalize the number of badges collected."""
+        return get_badges(self.pyboy) / 16
+
+    def get_money_reward(self) -> float:
+        """Returns the normalized rewards (0.0, 1.0) to signalize the money collected."""
+        return get_money(self.pyboy) / 999999
+
+    def get_team_size_reward(self) -> float:
+        """Returns the normalized rewards (0.0, 1.0) to signalize the team size."""
+        return get_team_size(self.pyboy) / 6
+
+    def get_levels_reward(self) -> float:
+        """Returns the normalized rewards (0.0, 1.0) to signalize the level earned."""
+        return np.sum(get_levels(self.pyboy)) / 600
+
+    def get_hps_reward(self) -> float:
+        """Returns the normalized rewards (0.0, 1.0) to signalize the Pokemon HPs."""
+        hps = get_hps(self.pyboy)
+        max_hps = get_max_hps(self.pyboy)
+        return np.sum(hps) / np.sum(max_hps) if np.any(max_hps != 0) else 0.0
+
+    def get_pps_reward(self) -> float:
+        """Returns the normalized rewards (0.0, 1.0) to signalize the Pokemon PPs."""
+        pps = get_pps(self.pyboy)
+        max_pps = get_max_pps(self.pyboy)
+        return np.sum(pps) / np.sum(max_pps) if np.any(max_pps != 0) else 0.0
+
+    def get_seen_pokemons_reward(self) -> float:
+        """Returns the normalized rewards (0.0, 1.0) to signalize the seen pokemons."""
+        return get_seen_pokemons(self.pyboy) / 251

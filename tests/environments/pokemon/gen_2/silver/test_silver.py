@@ -11,7 +11,7 @@ class TestPokemonSilver(unittest.TestCase):
     def setUp(self):
         self.env = gymboy.make(
             env_id="Pokemon-Silver-v1",
-            init_state_path="./gymboy/resources/states/pokemon/gen_2/silver/pokemon_silver_after_intro.state",
+            init_state_path="./tests/resources/states/pokemon/gen_2/silver/pokemon_silver_first_pokemon.state",
         )
         self.env.reset()
 
@@ -44,7 +44,7 @@ class TestPokemonSilver(unittest.TestCase):
 
     def test_get_reward(self):
         """Tests the get_reward() method."""
-        np.testing.assert_allclose(1.0, self.env.get_reward())
+        np.testing.assert_allclose(2.1859681304900427, self.env.get_reward())
 
     def test_get_obs(self):
         """Tests the get_obs() method."""
@@ -88,6 +88,36 @@ class TestPokemonSilver(unittest.TestCase):
         self.assertIsInstance(info, dict)
 
         vectorized_env.close()
+
+    def test_get_badges_reward(self):
+        """Tests the get_badges_reward() method."""
+        self.assertEqual(0, self.env.get_badges_reward())
+
+    def test_get_money_reward(self):
+        """Tests the get_money_reward() method."""
+        np.testing.assert_allclose(0.003000003000003, self.env.get_money_reward())
+
+    def test_get_team_size_reward(self):
+        """Tests the get_team_size_reward() method."""
+        np.testing.assert_allclose(0.16666666666666666, self.env.get_team_size_reward())
+
+    def test_get_levels_reward(self):
+        """Tests the get_levels_reward() method."""
+        np.testing.assert_allclose(0.008333333333333333, self.env.get_levels_reward())
+
+    def test_get_hps_reward(self):
+        """Tests the get_hps_reward() method."""
+        np.testing.assert_allclose(1.0, self.env.get_hps_reward())
+
+    def test_get_pps_reward(self):
+        """Tests the get_pps_reward() method."""
+        np.testing.assert_allclose(1.0, self.env.get_pps_reward())
+
+    def test_get_seen_pokemons_reward(self):
+        """Tests the get_seen_pokemons_reward() method."""
+        np.testing.assert_allclose(
+            0.00796812749003984, self.env.get_seen_pokemons_reward()
+        )
 
 
 if __name__ == "__main__":
