@@ -149,38 +149,38 @@ class PokemonBlue(gym.Env):
 
     def get_badges_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the number of badges collected."""
-        return get_badges(self.pyboy, offset=0) / 8
+        return get_badges(self.pyboy, yellow=False) / 8
 
     def get_money_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the money collected."""
-        return get_money(self.pyboy, offset=0) / 999999
+        return get_money(self.pyboy, yellow=False) / 999999
 
     def get_team_size_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the team size."""
-        return get_team_size(self.pyboy, offset=0) / 6
+        return get_team_size(self.pyboy, yellow=False) / 6
 
     def get_levels_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the level earned."""
-        return np.sum(get_levels(self.pyboy, offset=0)) / 600
+        return np.sum(get_levels(self.pyboy, yellow=False)) / 600
 
     def get_hps_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the Pokemon HPs."""
-        hps = get_hps(self.pyboy, offset=0)
-        max_hps = get_max_hps(self.pyboy, offset=0)
+        hps = get_hps(self.pyboy, yellow=False)
+        max_hps = get_max_hps(self.pyboy, yellow=False)
         return np.sum(hps) / np.sum(max_hps) if np.any(max_hps != 0) else 0.0
 
     def get_pps_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the Pokemon PPs."""
-        pps = get_pps(self.pyboy, offset=0)
-        max_pps = get_max_pps(self.pyboy, offset=0)
+        pps = get_pps(self.pyboy, yellow=False)
+        max_pps = get_max_pps(self.pyboy, yellow=False)
         return np.sum(pps) / np.sum(max_pps) if np.any(max_pps != 0) else 0.0
 
     def get_seen_pokemons_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the seen pokemons."""
-        return get_seen_pokemons(self.pyboy, offset=0) / 151
+        return get_seen_pokemons(self.pyboy, yellow=False) / 151
 
     def get_events_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the experienced events."""
-        return get_events(self.pyboy, offset=0) / (
+        return get_events(self.pyboy, yellow=False) / (
             8 * (EVENT_FLAGS_END_ADDRESS - EVENT_FLAGS_START_ADDRESS)
         )
