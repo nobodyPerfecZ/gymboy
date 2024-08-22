@@ -27,6 +27,7 @@ class PokemonYellow(gym.Env):
         pps_factor: float = 1.0,
         seen_pokemons_factor: float = 1.0,
         events_factor: float = 1.0,
+        n_frameskip: int = 60,
         sound: bool = False,
         render_mode: Optional[str] = None,
     ):
@@ -58,9 +59,11 @@ class PokemonYellow(gym.Env):
         if self.render_mode == "human":
             self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
             self.pyboy.set_emulation_speed(1)
+            self.n_frameskip = 1
         else:
             self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
             self.pyboy.set_emulation_speed(0)
+            self.n_frameskip = n_frameskip
 
     def step(
         self, action: ActType
@@ -74,7 +77,7 @@ class PokemonYellow(gym.Env):
             pass
         else:
             self.pyboy.button(self.actions[action])
-        self.pyboy.tick(1)
+        self.pyboy.tick(self.n_frameskip)
 
         observation = self.get_obs()
         reward = self.get_reward()

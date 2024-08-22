@@ -26,6 +26,7 @@ class SuperMarioLand1(gym.Env):
         time_over_factor: float = 1.0,
         level_finished_factor: float = 1.0,
         game_over_factor: float = 1.0,
+        n_frameskip: int = 60,
         sound: bool = False,
         render_mode: Optional[str] = None,
     ):
@@ -56,9 +57,11 @@ class SuperMarioLand1(gym.Env):
         if self.render_mode == "human":
             self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
             self.pyboy.set_emulation_speed(1)
+            self.n_frameskip = 1
         else:
             self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
             self.pyboy.set_emulation_speed(0)
+            self.n_frameskip = n_frameskip
 
     def step(
         self, action: ActType
@@ -72,7 +75,7 @@ class SuperMarioLand1(gym.Env):
             pass
         else:
             self.pyboy.button(self.actions[action])
-        self.pyboy.tick(1)
+        self.pyboy.tick(self.n_frameskip)
 
         observation = self.get_obs()
         reward = self.get_reward()
