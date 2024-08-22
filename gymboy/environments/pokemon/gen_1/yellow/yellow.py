@@ -7,8 +7,7 @@ from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
-from gymboy.environments.pokemon.gen_1.constant import *
-from gymboy.utils.binary import *
+from gymboy.environments.pokemon.gen_1.memory import *
 
 
 class PokemonYellow(gym.Env):
@@ -148,163 +147,40 @@ class PokemonYellow(gym.Env):
 
         return observation
 
-    def get_badges(self) -> int:
-        """Returns the number of badges."""
-        return bytes_bit_count([self.pyboy.memory[BADGE_COUNT_ADDRESS - 1]])
-
-    def get_max_badges(self) -> int:
-        """Returns the maximum number of badges."""
-        return 8
-
     def get_badges_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the number of badges collected."""
-        return self.get_badges() / self.get_max_badges()
-
-    def get_money(self) -> int:
-        """Returns the money."""
-        return bcds_to_integer(
-            self.pyboy.memory[MONEY_ADDRESS - 1 : MONEY_ADDRESS - 1 + 3],
-            digit=100,
-        )
-
-    def get_max_money(self) -> int:
-        """Returns the maximum money."""
-        return 999999
+        return get_badges(self.pyboy, offset=1) / 8
 
     def get_money_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the money collected."""
-        return self.get_money() / self.get_max_money()
-
-    def get_team_size(self) -> int:
-        """Returns the number of pokemons in team."""
-        return self.pyboy.memory[TEAM_SIZE_ADDRESS - 1]
-
-    def get_max_team_size(self) -> int:
-        """Returns the maximum number of pokemons in team."""
-        return 6
+        return get_money(self.pyboy, offset=1) / 999999
 
     def get_team_size_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the team size."""
-        return self.get_team_size() / self.get_max_team_size()
-
-    def get_levels(self) -> np.ndarray:
-        """Returns the levels of the pokemons in the team."""
-        return np.array(
-            [self.pyboy.memory[level_address - 1] for level_address in LEVELS_ADDRESSES]
-        )
-
-    def get_max_levels(self) -> np.ndarray:
-        """Returns the maximum levels of the pokemons in the team."""
-        return np.array([100, 100, 100, 100, 100, 100])
+        return get_team_size(self.pyboy, offset=1) / 6
 
     def get_levels_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the level earned."""
-        return np.sum(self.get_levels()) / np.sum(self.get_max_levels())
-
-    def get_hps(self) -> np.ndarray:
-        """Returns the current HPs of the pokemons in the team."""
-        return np.array(
-            [
-                bytes_to_int(self.pyboy.memory[hp_address - 1 : hp_address - 1 + 2])
-                for hp_address in HP_ADDRESSES
-            ]
-        )
-
-    def get_max_hps(self) -> np.ndarray:
-        """Returns the max HPs of the pokemons in the team."""
-        return np.array(
-            [
-                bytes_to_int(
-                    self.pyboy.memory[max_hp_address - 1 : max_hp_address - 1 + 2]
-                )
-                for max_hp_address in MAX_HP_ADDRESSES
-            ]
-        )
+        return np.sum(get_levels(self.pyboy, offset=1)) / 600
 
     def get_hps_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the Pokemon HPs."""
-        hps = self.get_hps()
-        max_hps = self.get_max_hps()
-
-        if np.all(max_hps == 0):
-            # Case: All pokemons are dead or player has no pokemons (beginning of the game)
-            return 0.0
-        return np.sum(hps) / np.sum(hps)
-
-    def get_exps(self) -> np.ndarray:
-        """Returns the experience of the pokemons in the team."""
-        return np.array(
-            [
-                bytes_to_int(self.pyboy.memory[exp_address - 1 : exp_address - 1 + 3])
-                for exp_address in EXP_ADDRESSES
-            ]
-        )
-
-    def get_moves(self) -> np.ndarray:
-        """Returns the moves of the pokemons in the team."""
-        return np.array(
-            [
-                self.pyboy.memory[move_address - 1 : move_address + 3]
-                for move_address in MOVE_ADDRESSES
-            ]
-        )
-
-    def get_pps(self) -> np.ndarray:
-        """Returns the current power points (PPs) of the pokemons in the team."""
-        return np.array(
-            [
-                self.pyboy.memory[pp_address - 1 : pp_address + 3]
-                for pp_address in PP_ADDRESSES
-            ]
-        )
-
-    def get_max_pps(self) -> np.ndarray:
-        """Returns the max power points (PPs) of the pokemons in the team."""
-        return np.array(
-            [
-                [MOVES_TO_MAX_PP[move] if move != 0 else 0 for move in pokemon]
-                for pokemon in self.get_moves()
-            ]
-        )
+        hps = get_hps(self.pyboy, offset=1)
+        max_hps = get_max_hps(self.pyboy, offset=1)
+        return np.sum(hps) / np.sum(max_hps) if np.any(max_hps != 0) else 0.0
 
     def get_pps_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the Pokemon PPs."""
-        pps = self.get_pps()
-        max_pps = self.get_max_pps()
-
-        if np.all(max_pps == 0):
-            # Case: All pokemons are dead or player has no pokemons (beginning of the game)
-            return 0.0
-        return np.sum(pps) / np.sum(max_pps)
-
-    def get_seen_pokemons(self) -> int:
-        """Returns the number of seen pokemons."""
-        return bytes_bit_count(
-            self.pyboy.memory[
-                POKEDEX_SEEN_START_ADDRESS - 1 : POKEDEX_SEEN_END_ADDRESS - 1
-            ]
-        )
-
-    def get_max_seen_pokemons(self) -> int:
-        """Returns the number of maximum pokemons."""
-        return 151
+        pps = get_pps(self.pyboy, offset=1)
+        max_pps = get_max_pps(self.pyboy, offset=1)
+        return np.sum(pps) / np.sum(max_pps) if np.any(max_pps != 0) else 0.0
 
     def get_seen_pokemons_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the seen pokemons."""
-        return self.get_seen_pokemons() / self.get_max_seen_pokemons()
-
-    def get_events(self) -> int:
-        """Returns the number of events experienced."""
-        return bytes_bit_count(
-            self.pyboy.memory[
-                EVENT_FLAGS_START_ADDRESS - 1 : EVENT_FLAGS_END_ADDRESS - 1
-            ]
-        )
-
-    def get_max_events(self) -> int:
-        """Returns the maximum number of events experienced."""
-        return 8 * ((EVENT_FLAGS_END_ADDRESS - 1) - (EVENT_FLAGS_START_ADDRESS - 1))
+        return get_seen_pokemons(self.pyboy, offset=1) / 151
 
     def get_events_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the experienced events."""
-        return self.get_events() / self.get_max_events()
+        return get_events(self.pyboy, offset=1) / (
+            8 * (EVENT_FLAGS_END_ADDRESS - EVENT_FLAGS_START_ADDRESS)
+        )

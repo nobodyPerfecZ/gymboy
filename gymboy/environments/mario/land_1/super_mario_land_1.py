@@ -7,8 +7,7 @@ from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
-from gymboy.environments.mario.land_1.constant import *
-from gymboy.utils.binary import *
+from gymboy.environments.mario.land_1.memory import *
 
 
 class SuperMarioLand1(gym.Env):
@@ -24,8 +23,9 @@ class SuperMarioLand1(gym.Env):
         coin_factor: float = 1.0,
         live_factor: float = 1.0,
         time_factor: float = 1.0,
+        time_over_factor: float = 1.0,
+        level_finished_factor: float = 1.0,
         game_over_factor: float = 1.0,
-        game_finished_factor: float = 1.0,
         sound: bool = False,
         render_mode: Optional[str] = None,
     ):
@@ -34,14 +34,13 @@ class SuperMarioLand1(gym.Env):
         self.sound = sound
         self.render_mode = render_mode
 
-        self.world_level = None
-
         self.score_factor = score_factor
         self.coin_factor = coin_factor
         self.live_factor = live_factor
         self.time_factor = time_factor
+        self.time_over_factor = time_over_factor
+        self.level_finished_factor = level_finished_factor
         self.game_over_factor = game_over_factor
-        self.game_finished_factor = game_finished_factor
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -77,7 +76,7 @@ class SuperMarioLand1(gym.Env):
 
         observation = self.get_obs()
         reward = self.get_reward()
-        terminated = self.game_over() or self.game_finished()
+        terminated = game_over(self.pyboy) or level_finished(self.pyboy)
         truncated = False
         info = {}
 
@@ -98,9 +97,6 @@ class SuperMarioLand1(gym.Env):
                 self.pyboy.load_state(f)
         self.pyboy.tick(1)
 
-        # Update the world level
-        self.world_level = self.get_world_level()
-
         # Get the initial observation and info
         observation = self.get_obs()
         info = {}
@@ -118,18 +114,22 @@ class SuperMarioLand1(gym.Env):
         # Compute the single rewards
         score_reward = self.score_factor * self.get_score_reward()
         coin_reward = self.coin_factor * self.get_coins_reward()
-        live_reward = self.live_factor * self.get_lives_left_reward()
-        time_reward = self.time_factor * self.get_time_left_reward()
+        live_reward = self.live_factor * self.get_lives_reward()
+        time_reward = self.time_factor * self.get_time_reward()
+        time_over_reward = self.time_over_factor * self.time_over_reward()
+        level_finished_reward = (
+            self.level_finished_factor * self.level_finished_reward()
+        )
         game_over_reward = self.game_over_factor * self.game_over_reward()
-        game_finished_reward = self.game_finished_factor * self.game_finished_reward()
 
         return (
             score_reward
             + coin_reward
             + live_reward
             + time_reward
+            + time_over_reward
+            + level_finished_reward
             + game_over_reward
-            + game_finished_reward
         )
 
     def get_obs(self) -> np.ndarray:
@@ -142,83 +142,36 @@ class SuperMarioLand1(gym.Env):
 
         return observation
 
-    def get_score(self) -> int:
-        """Returns the current score."""
-        return bcds_to_integer(
-            self.pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3], digit=100
-        )
-
-    def get_world_level(self) -> tuple[int, int]:
-        """Returns the current world and level."""
-        world_level = self.pyboy.memory[WORLD_LEVEL_ADDRESS]
-        return world_level >> 4, world_level & 0x0F
-
-    def get_max_score(self) -> int:
-        """Returns the maximum score."""
-        return 999999
-
     def get_score_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the scores received."""
-        return self.get_score() / self.get_max_score()
-
-    def get_coins(self) -> int:
-        """Returns the current number of coins."""
-        return bcds_to_integer(
-            self.pyboy.memory[COINS_ADDRESS : COINS_ADDRESS + 2], digit=10
-        )
-
-    def get_max_coins(self) -> int:
-        """Returns the maximum number of coins."""
-        return 99
+        return get_score(self.pyboy) / 999999
 
     def get_coins_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the coins received."""
-        return self.get_coins() / self.get_max_coins()
+        return get_coins(self.pyboy) / 99
 
-    def get_lives_left(self) -> int:
-        """Returns the current lives left."""
-        return bcds_to_integer([self.pyboy.memory[LIVES_LEFT_ADDRESS]], digit=0) + 1
-
-    def get_max_lives_left(self) -> int:
-        """Returns the maximum number of lives."""
-        return 99
-
-    def get_lives_left_reward(self) -> float:
+    def get_lives_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the lives left."""
-        return self.get_lives_left() / self.get_max_lives_left()
+        return get_lives(self.pyboy) / 99
 
-    def get_time_left(self) -> int:
-        """Returns the current time left."""
-        return bcds_to_integer(
-            self.pyboy.memory[TIMES_LEFT_ADDRESS : TIMES_LEFT_ADDRESS + 3], digit=10
-        )
-
-    def get_max_time_left(self) -> int:
-        """Returns the maximum time left."""
-        return 400
-
-    def get_time_left_reward(self) -> float:
+    def get_time_reward(self) -> float:
         """Returns the normalized rewards (0.0, 1.0) to signalize the time left."""
-        return self.get_time_left() / self.get_max_time_left()
+        return get_time(self.pyboy) / 400
 
-    def game_over(self) -> bool:
-        """Returns True if the game is over."""
-        return self.pyboy.memory[GAME_OVER_ADDRESS] == 0x39
-
-    def game_over_reward(self) -> float:
-        """Returns the rewards for the game over."""
-        if self.game_over():
+    def time_over_reward(self) -> float:
+        """Returns the rewards for the time over."""
+        if time_over(self.pyboy):
             return -1.0
         return 0.0
 
-    def game_finished(self) -> bool:
-        """Returns True if the game is finished."""
-        if self.world_level is None:
-            return False
-        return self.world_level != self.get_world_level()
-
-    def game_finished_reward(self) -> float:
-        """Returns the rewards for the game finished."""
-        if self.game_finished():
+    def level_finished_reward(self) -> float:
+        """Returns the rewards for the level finished."""
+        if level_finished(self.pyboy):
             return 1.0
+        return 0.0
+
+    def game_over_reward(self) -> float:
+        """Returns the rewards for the game over."""
+        if game_over(self.pyboy):
+            return -1.0
         return 0.0

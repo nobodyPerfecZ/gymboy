@@ -13,16 +13,22 @@ class TestPokemonRed(unittest.TestCase):
             env_id="Pokemon-Red-v1",
             init_state_path="./tests/resources/states/pokemon/gen_1/red/pokemon_red_first_pokemon.state",
         )
+        self.env.reset()
 
     def tearDown(self):
         self.env.close()
 
     def test_step(self):
         """Tests the step() method."""
-        self.env.reset()
-
         obs, reward, terminated, truncated, info = self.env.step(0)
+        self.assertIsInstance(obs, np.ndarray)
+        self.assertEqual((144, 160, 3), obs.shape)
+        self.assertIsInstance(reward, float)
+        self.assertIsInstance(terminated, bool)
+        self.assertIsInstance(truncated, bool)
+        self.assertIsInstance(info, dict)
 
+        obs, reward, terminated, truncated, info = self.env.step(1)
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
         self.assertIsInstance(reward, float)
@@ -33,24 +39,16 @@ class TestPokemonRed(unittest.TestCase):
     def test_reset(self):
         """Tests the reset() method."""
         obs, _ = self.env.reset()
-
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
     def test_get_reward(self):
         """Tests the get_reward() method."""
-        self.env.reset()
-
-        reward = self.env.get_reward()
-
-        np.testing.assert_allclose(2.195437800132936, reward)
+        np.testing.assert_allclose(2.195437800132936, self.env.get_reward())
 
     def test_get_obs(self):
         """Tests the get_obs() method."""
-        self.env.reset()
-
         obs = self.env.get_obs()
-
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
@@ -64,12 +62,21 @@ class TestPokemonRed(unittest.TestCase):
         )
 
         obs, info = vectorized_env.reset()
-
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((num_envs, 144, 160, 3), obs.shape)
 
         obs, reward, terminated, truncated, info = vectorized_env.step([0] * num_envs)
+        self.assertIsInstance(obs, np.ndarray)
+        self.assertEqual((num_envs, 144, 160, 3), obs.shape)
+        self.assertIsInstance(reward, np.ndarray)
+        self.assertEqual((num_envs,), reward.shape)
+        self.assertIsInstance(terminated, np.ndarray)
+        self.assertEqual((num_envs,), terminated.shape)
+        self.assertIsInstance(truncated, np.ndarray)
+        self.assertEqual((num_envs,), truncated.shape)
+        self.assertIsInstance(info, dict)
 
+        obs, reward, terminated, truncated, info = vectorized_env.step([1] * num_envs)
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((num_envs, 144, 160, 3), obs.shape)
         self.assertIsInstance(reward, np.ndarray)
@@ -82,243 +89,39 @@ class TestPokemonRed(unittest.TestCase):
 
         vectorized_env.close()
 
-    def test_get_badges(self):
-        """Tests the get_badges() method."""
-        self.env.reset()
-
-        badges = self.env.get_badges()
-
-        self.assertEqual(0, badges)
-
-    def test_get_max_badges(self):
-        """Tests the get_max_badges() method."""
-        self.env.reset()
-
-        max_badges = self.env.get_max_badges()
-
-        self.assertEqual(8, max_badges)
-
     def test_get_badges_reward(self):
         """Tests the get_badges_reward() method."""
-        self.env.reset()
-
-        badges_reward = self.env.get_badges_reward()
-
-        self.assertEqual(0, badges_reward)
-
-    def test_get_money(self):
-        """Tests the get_money() method."""
-        self.env.reset()
-
-        money = self.env.get_money()
-
-        self.assertEqual(3175, money)
-
-    def test_get_max_money(self):
-        """Tests the get_max_money() method."""
-        self.env.reset()
-
-        max_money = self.env.get_max_money()
-
-        self.assertEqual(999999, max_money)
+        self.assertEqual(0, self.env.get_badges_reward())
 
     def test_get_money_reward(self):
         """Tests the get_money_reward() method."""
-        self.env.reset()
-
-        money_reward = self.env.get_money_reward()
-
-        np.testing.assert_allclose(0.003175003175003175, money_reward)
-
-    def test_get_team_size(self):
-        """Tests the get_team_size() method."""
-        self.env.reset()
-
-        team_size = self.env.get_team_size()
-
-        self.assertEqual(1, team_size)
-
-    def test_get_max_team_size(self):
-        """Tests the get_max_team_size() method."""
-        self.env.reset()
-
-        max_team_size = self.env.get_max_team_size()
-
-        self.assertEqual(6, max_team_size)
+        np.testing.assert_allclose(0.003175003175003175, self.env.get_money_reward())
 
     def test_get_team_size_reward(self):
         """Tests the get_team_size_reward() method."""
-        self.env.reset()
-
-        team_size_reward = self.env.get_team_size_reward()
-
-        np.testing.assert_allclose(0.16666666666666666, team_size_reward)
-
-    def test_get_levels(self):
-        """Tests the get_levels() method."""
-        self.env.reset()
-
-        levels = self.env.get_levels()
-
-        np.testing.assert_allclose([6, 0, 0, 0, 0, 0], levels)
-
-    def test_get_max_levels(self):
-        """Tests the get_max_levels() method."""
-        self.env.reset()
-
-        max_levels = self.env.get_max_levels()
-
-        np.testing.assert_allclose([100, 100, 100, 100, 100, 100], max_levels)
+        np.testing.assert_allclose(0.16666666666666666, self.env.get_team_size_reward())
 
     def test_get_levels_reward(self):
         """Tests the get_levels_reward() method."""
-        self.env.reset()
-
-        levels_reward = self.env.get_levels_reward()
-
-        np.testing.assert_allclose(0.01, levels_reward)
-
-    def test_get_hps(self):
-        """Tests the get_hps() method."""
-        self.env.reset()
-
-        hps = self.env.get_hps()
-
-        np.testing.assert_allclose([20, 0, 0, 0, 0, 0], hps)
-
-    def test_get_max_hps(self):
-        """Tests the get_max_hps() method."""
-        self.env.reset()
-
-        max_hps = self.env.get_max_hps()
-
-        np.testing.assert_allclose([20, 0, 0, 0, 0, 0], max_hps)
+        np.testing.assert_allclose(0.01, self.env.get_levels_reward())
 
     def test_get_hps_reward(self):
         """Tests the get_hps_reward() method."""
-        self.env.reset()
-
-        hps_reward = self.env.get_hps_reward()
-
-        np.testing.assert_allclose(1.0, hps_reward)
-
-    def test_get_exps(self):
-        """Tests the get_exps() method."""
-        self.env.reset()
-
-        exps = self.env.get_exps()
-
-        np.testing.assert_allclose([205, 0, 0, 0, 0, 0], exps)
-
-    def test_get_moves(self):
-        """Tests the get_moves() method."""
-        self.env.reset()
-
-        moves = self.env.get_moves()
-
-        np.testing.assert_allclose(
-            [
-                [10, 45, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-            ],
-            moves,
-        )
-
-    def test_get_pps(self):
-        """Tests the get_pps() method."""
-        self.env.reset()
-
-        pps = self.env.get_pps()
-
-        np.testing.assert_allclose(
-            [
-                [35, 40, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-            ],
-            pps,
-        )
-    
-    def test_get_max_pps(self):
-        """Tests the max_pps() method."""
-        self.env.reset()
-
-        max_pps = self.env.get_max_pps()
-
-        np.testing.assert_allclose(
-            [
-                [35, 40, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
-            ],
-            max_pps,
-        )
+        np.testing.assert_allclose(1.0, self.env.get_hps_reward())
 
     def test_get_pps_reward(self):
         """Tests the get_pps_reward() method."""
-        self.env.reset()
-
-        pps_reward = self.env.get_pps_reward()
-
-        np.testing.assert_allclose(1.0, pps_reward)
-
-    def test_get_seen_pokemons(self):
-        """Tests the get_seen_pokemons() method."""
-        self.env.reset()
-
-        seen_pokemons = self.env.get_seen_pokemons()
-
-        self.assertEqual(2, seen_pokemons)
-
-    def test_get_max_seen_pokemons(self):
-        """Tests the get_max_seen_pokemons() method."""
-        self.env.reset()
-
-        max_seen_pokemons = self.env.get_max_seen_pokemons()
-
-        self.assertEqual(151, max_seen_pokemons)
+        np.testing.assert_allclose(1.0, self.env.get_pps_reward())
 
     def test_get_seen_pokemons_reward(self):
         """Tests the get_seen_pokemons_reward() method."""
-        self.env.reset()
-
-        seen_pokemons_reward = self.env.get_seen_pokemons_reward()
-
-        np.testing.assert_allclose(0.013245033112582781, seen_pokemons_reward)
-
-    def test_get_events(self):
-        """Tests the get_events() method."""
-        self.env.reset()
-
-        events = self.env.get_events()
-
-        self.assertEqual(6, events)
-
-    def test_get_max_events(self):
-        """Tests the get_max_events() method."""
-        self.env.reset()
-
-        max_events = self.env.get_max_events()
-
-        self.assertEqual(2552, max_events)
+        np.testing.assert_allclose(
+            0.013245033112582781, self.env.get_seen_pokemons_reward()
+        )
 
     def test_get_events_reward(self):
         """Tests the get_events_reward() method."""
-        self.env.reset()
-
-        events_reward = self.env.get_events_reward()
-
-        np.testing.assert_allclose(0.0023510971786833857, events_reward)
+        np.testing.assert_allclose(0.0023510971786833857, self.env.get_events_reward())
 
 
 if __name__ == "__main__":
