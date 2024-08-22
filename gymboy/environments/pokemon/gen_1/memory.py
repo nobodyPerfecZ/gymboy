@@ -38,9 +38,7 @@ def get_money(pyboy: PyBoy, offset: int = 0) -> int:
         int:
             The current money
     """
-    return bcds_to_integer(
-        pyboy.memory[MONEY_ADDRESS - offset : MONEY_ADDRESS - offset + 3], digit=100
-    )
+    return bcds_to_integer(pyboy.memory[MONEY_ADDRESS - offset : MONEY_ADDRESS - offset + 3])
 
 
 def get_team_size(pyboy: PyBoy, offset: int = 0) -> int:

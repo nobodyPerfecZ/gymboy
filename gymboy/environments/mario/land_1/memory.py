@@ -16,7 +16,7 @@ def get_score(pyboy: PyBoy) -> int:
         int:
             The current score of the game
     """
-    return bcds_to_integer(pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3], digit=100)
+    return bcds_to_integer(pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3])
 
 
 def get_world_level(pyboy: PyBoy) -> tuple[int, int]:
@@ -47,7 +47,7 @@ def get_coins(pyboy: PyBoy) -> int:
         int:
             The current number of coins of the game
     """
-    return bcds_to_integer(pyboy.memory[COINS_ADDRESS : COINS_ADDRESS + 2], digit=10)
+    return reduced_bcds_to_integer(pyboy.memory[COINS_ADDRESS : COINS_ADDRESS + 2])
 
 
 def get_lives(pyboy: PyBoy) -> int:
@@ -62,7 +62,7 @@ def get_lives(pyboy: PyBoy) -> int:
         int:
             The current number of lives of the game
     """
-    return bcds_to_integer([pyboy.memory[LIVES_ADDRESS]], digit=0)
+    return reduced_bcds_to_integer([pyboy.memory[LIVES_ADDRESS]])
 
 
 def get_time(pyboy: PyBoy) -> int:
@@ -77,7 +77,7 @@ def get_time(pyboy: PyBoy) -> int:
         int:
             The current time of the game
     """
-    return bcds_to_integer(pyboy.memory[TIMES_ADDRESS : TIMES_ADDRESS + 3], digit=10)
+    return reduced_bcds_to_integer(pyboy.memory[TIMES_ADDRESS : TIMES_ADDRESS + 3])
 
 
 def time_over(pyboy: PyBoy) -> bool:
