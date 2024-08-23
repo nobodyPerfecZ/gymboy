@@ -169,12 +169,8 @@ class SuperMarioLand1(gym.Env):
 
     def level_finished_reward(self) -> float:
         """Returns the rewards for the level finished."""
-        if level_finished(self.pyboy):
-            return 1.0
-        return 0.0
+        return 1.0 if level_finished(self.pyboy) else 0.0
 
     def game_over_reward(self) -> float:
         """Returns the rewards for the game over."""
-        if game_over(self.pyboy):
-            return -1.0
-        return 0.0
+        return -1.0 if game_over(self.pyboy) else 0.0

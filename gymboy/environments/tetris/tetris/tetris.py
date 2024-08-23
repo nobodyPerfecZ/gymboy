@@ -126,6 +126,4 @@ class Tetris(gym.Env):
 
     def game_over_reward(self) -> float:
         """Returns the rewards for the game over."""
-        if game_over(self.pyboy):
-            return -1.0
-        return 0.0
+        return -1.0 if game_over(self.pyboy) else 0.0
