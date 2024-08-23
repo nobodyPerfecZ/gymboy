@@ -9,6 +9,7 @@ To use these environments, you need to manually install the specific game ROMs l
 ## Implemented Environments 🌍
 | Environment Name | ROM Version | Source |
 |----------|----------|----------|
+| `Tetris-v1`  | Tetris (JUE) (V1.1) [!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/tetris/tetris/tetris.py)   | 
 | `Super-Mario-Land-1-v1`  | Super Mario Land (JUE) (V1.1) [!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/mario/land_1/super_mario_land_1.py)   | 
 | `Pokemon-Blue-v1`   | Pokemon - Blue Version (UE)[!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/blue/blue.py)   |
 | `Pokemon-Red-v1`   | Pokemon - Red Version (UE)[!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/red/red.py)   |
@@ -20,7 +21,6 @@ To use these environments, you need to manually install the specific game ROMs l
 TODO: Add text here
 
 ## TODOs ⛏
-- Add a more complicated reward structure for Super Mario Land 2
 - Add an environment version to handle JAX (with gymnax)
 
 ## Development 🔧

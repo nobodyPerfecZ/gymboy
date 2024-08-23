@@ -7,16 +7,20 @@ from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
+from gymboy.environments.tetris.tetris.memory import *
 
-class SuperMarioLand2(gym.Env):
-    """Super Mario Land 2 environment."""
+
+class Tetris(gym.Env):
+    """Tetris environment."""
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/mario/land_2/super_mario_land_2.gb",
+        rom_path: str = "./gymboy/resources/roms/tetris/tetris/tetris.gb",
         init_state_path: Optional[
             str
-        ] = "./gymboy/resources/states/mario/land_2/super_mario_land_2_a_0_0.state",
+        ] = "./gymboy/resources/states/tetris/tetris/tetris_9.state",
+        score_factor: float = 1.0,
+        game_over_factor: float = 1.0,
         n_frameskip: int = 60,
         sound: bool = False,
         render_mode: Optional[str] = None,
@@ -25,6 +29,9 @@ class SuperMarioLand2(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+
+        self.score_factor = score_factor
+        self.game_over_factor = game_over_factor
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -46,20 +53,6 @@ class SuperMarioLand2(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
-    def get_reward(self) -> SupportsFloat:
-        """Returns the current reward."""
-        return 1.0
-
-    def get_obs(self) -> np.ndarray:
-        """Returns the current observation as an RGB image."""
-        # Get the current screen RGBA image
-        observation = self.pyboy.screen.ndarray
-
-        # Convert RGBA to RGB image
-        observation = cv2.cvtColor(observation, cv2.COLOR_RGBA2RGB)
-
-        return observation
-
     def step(
         self, action: ActType
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
@@ -76,8 +69,7 @@ class SuperMarioLand2(gym.Env):
 
         observation = self.get_obs()
         reward = self.get_reward()
-        terminated = False
-
+        terminated = game_over(self.pyboy)
         truncated = False
         info = {}
 
@@ -109,3 +101,31 @@ class SuperMarioLand2(gym.Env):
 
     def close(self):
         self.pyboy.stop()
+
+    def get_reward(self) -> SupportsFloat:
+        """Returns the current reward."""
+        # Compute the single rewards
+        score_reward = self.score_factor * self.get_score_reward()
+        game_over_reward = self.game_over_factor * self.game_over_reward()
+
+        return score_reward + game_over_reward
+
+    def get_obs(self) -> np.ndarray:
+        """Returns the current observation as an RGB image."""
+        # Get the current screen RGBA image
+        observation = self.pyboy.screen.ndarray
+
+        # Convert RGBA to RGB image
+        observation = cv2.cvtColor(observation, cv2.COLOR_RGBA2RGB)
+
+        return observation
+
+    def get_score_reward(self) -> float:
+        """Returns the normalized rewards (0.0, 1.0) to signalize the scores received."""
+        return get_score(self.pyboy) / 999999
+
+    def game_over_reward(self) -> float:
+        """Returns the rewards for the game over."""
+        if game_over(self.pyboy):
+            return -1.0
+        return 0.0

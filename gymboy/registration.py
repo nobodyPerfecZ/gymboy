@@ -3,8 +3,9 @@
 from typing import Callable
 import gymnasium as gym
 
+from gymboy.environments.tetris import Tetris
+
 from gymboy.environments.mario import SuperMarioLand1
-from gymboy.environments.mario import SuperMarioLand2
 
 from gymboy.environments.pokemon import PokemonBlue
 from gymboy.environments.pokemon import PokemonRed
@@ -31,13 +32,15 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
     if env_id not in registered_envs:
         raise ValueError(f"{env_id} is not in registered gymboy environments.")
 
-    # 1. Mario environments
-    if env_id == "Super-Mario-Land-1-v1":
-        env = SuperMarioLand1(**env_kwargs)
-    elif env_id == "Super-Mario-Land-2-v1":
-        env = SuperMarioLand2(**env_kwargs)
+    # 1. Tetris environments
+    if env_id == "Tetris-v1":
+        env = Tetris(**env_kwargs)
 
-    # 2. Pokemon environments
+    # 2. Mario environments
+    elif env_id == "Super-Mario-Land-1-v1":
+        env = SuperMarioLand1(**env_kwargs)
+
+    # 3. Pokemon environments
     elif env_id == "Pokemon-Blue-v1":
         env = PokemonBlue(**env_kwargs)
     elif env_id == "Pokemon-Red-v1":
@@ -89,8 +92,8 @@ def make_vec(
 
 
 registered_envs = [
+    "Tetris-v1",
     "Super-Mario-Land-1-v1",
-    "Super-Mario-Land-2-v1",
     "Pokemon-Blue-v1",
     "Pokemon-Red-v1",
     "Pokemon-Yellow-v1",
