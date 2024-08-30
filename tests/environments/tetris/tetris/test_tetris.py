@@ -58,6 +58,7 @@ class TestTetris(unittest.TestCase):
         vectorized_env = gymboy.make_vec(
             env_id="Tetris-v1",
             num_envs=num_envs,
+            vectorization_mode="sync",
             init_state_path="./tests/resources/states/tetris/tetris/tetris_9.state",
         )
 

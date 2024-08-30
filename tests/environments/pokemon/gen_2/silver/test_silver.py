@@ -58,6 +58,7 @@ class TestPokemonSilver(unittest.TestCase):
         vectorized_env = gymboy.make_vec(
             env_id="Pokemon-Silver-v1",
             num_envs=num_envs,
+            vectorization_mode="sync",
             init_state_path="./gymboy/resources/states/pokemon/gen_2/silver/pokemon_silver_after_intro.state",
         )
 

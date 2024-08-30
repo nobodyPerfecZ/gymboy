@@ -1,17 +1,18 @@
 """An version of OpenAI's infamous env.make(env_name)."""
 
 from typing import Callable
+
 import gymnasium as gym
 
-from gymboy.environments.tetris import Tetris
-
 from gymboy.environments.mario import SuperMarioLand1
-
-from gymboy.environments.pokemon import PokemonBlue
-from gymboy.environments.pokemon import PokemonRed
-from gymboy.environments.pokemon import PokemonYellow
-from gymboy.environments.pokemon import PokemonSilver
-from gymboy.environments.pokemon import PokemonGold
+from gymboy.environments.pokemon import (
+    PokemonBlue,
+    PokemonGold,
+    PokemonRed,
+    PokemonSilver,
+    PokemonYellow,
+)
+from gymboy.environments.tetris import Tetris
 
 
 def make(env_id: str, **env_kwargs) -> gym.Env:
@@ -57,7 +58,7 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
 
 
 def make_vec(
-    env_id: str, num_envs: int = 1, asynchronous: bool = True, **env_kwargs
+    env_id: str, num_envs: int, vectorization_mode: str, **env_kwargs
 ) -> gym.vector.VectorEnv:
     """
     A self-version of OpenAI's infamous env.vec_make(env_name).
@@ -69,13 +70,18 @@ def make_vec(
         num_envs (int, optional):
             The number of environments
 
-        asynchronous (bool, optional):
-            Controls whether to use multiprocessing or not
+        vectorization_mode (str):
+            The vectorization mmode used.
+            Can be either "async" or "sync".
 
     Returns:
         gym.vector.VectorEnv:
             The vectorized environment
     """
+    if num_envs <= 0:
+        raise ValueError("Number of environments must be greater than 0.")
+    if vectorization_mode not in ["async", "sync"]:
+        raise ValueError("Invalid vectorization mode.")
 
     def create_env(env_num: int) -> Callable[[], gym.Env]:
         def _make_env():
@@ -84,11 +90,11 @@ def make_vec(
         return _make_env
 
     env_fns = [create_env(env_num) for env_num in range(num_envs)]
-    return (
-        gym.vector.AsyncVectorEnv(env_fns)
-        if asynchronous
-        else gym.vector.SyncVectorEnv(env_fns)
-    )
+
+    if vectorization_mode == "async":
+        return gym.vector.AsyncVectorEnv(env_fns)
+    else:
+        return gym.vector.SyncVectorEnv(env_fns)
 
 
 registered_envs = [

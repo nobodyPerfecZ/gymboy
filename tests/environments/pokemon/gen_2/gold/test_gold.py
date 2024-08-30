@@ -58,6 +58,7 @@ class TestPokemonGold(unittest.TestCase):
         vectorized_env = gymboy.make_vec(
             env_id="Pokemon-Gold-v1",
             num_envs=num_envs,
+            vectorization_mode="sync",
             init_state_path="./gymboy/resources/states/pokemon/gen_2/gold/pokemon_gold_after_intro.state",
         )
 

@@ -58,6 +58,7 @@ class TestPokemonYellow(unittest.TestCase):
         vectorized_env = gymboy.make_vec(
             env_id="Pokemon-Yellow-v1",
             num_envs=num_envs,
+            vectorization_mode="sync",
             init_state_path="./tests/resources/states/pokemon/gen_1/yellow/pokemon_yellow_first_pokemon.state",
         )
 

@@ -58,6 +58,7 @@ class TestSuperMarioLand(unittest.TestCase):
         vectorized_env = gymboy.make_vec(
             env_id="Super-Mario-Land-1-v1",
             num_envs=num_envs,
+            vectorization_mode="sync",
             init_state_path="./tests/resources/states/mario/land_1/super_mario_land_1_1_1_end.state",
         )
 
