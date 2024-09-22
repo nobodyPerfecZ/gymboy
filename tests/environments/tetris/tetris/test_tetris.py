@@ -42,15 +42,15 @@ class TestTetrisFlatten(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((182,), obs.shape)
 
-    def test_get_reward(self):
-        """Tests the get_reward() method."""
-        np.testing.assert_allclose(2.000002000002e-05, self.env.get_reward())
-
     def test_get_obs(self):
         """Tests the get_obs() method."""
         obs = self.env.get_obs()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((182,), obs.shape)
+
+    def test_get_reward(self):
+        """Tests the get_reward() method."""
+        np.testing.assert_allclose(2.000002000002e-05, self.env.get_reward())
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
@@ -128,15 +128,15 @@ class TestTetrisImage(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
-    def test_get_reward(self):
-        """Tests the get_reward() method."""
-        np.testing.assert_allclose(2.000002000002e-05, self.env.get_reward())
-
     def test_get_obs(self):
         """Tests the get_obs() method."""
         obs = self.env.get_obs()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
+
+    def test_get_reward(self):
+        """Tests the get_reward() method."""
+        np.testing.assert_allclose(2.000002000002e-05, self.env.get_reward())
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""

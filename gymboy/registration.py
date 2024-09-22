@@ -4,7 +4,7 @@ from typing import Callable
 
 import gymnasium as gym
 
-from gymboy.environments.mario import SuperMarioLand1
+from gymboy.environments.mario import SuperMarioLand1Flatten, SuperMarioLand1Image
 from gymboy.environments.pokemon import (
     PokemonBlue,
     PokemonGold,
@@ -40,8 +40,10 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
         env = TetrisImage(**env_kwargs)
 
     # 2. Mario environments
-    elif env_id == "Super-Mario-Land-1-v1":
-        env = SuperMarioLand1(**env_kwargs)
+    elif env_id == "Super-Mario-Land-1-flatten-v1":
+        env = SuperMarioLand1Flatten(**env_kwargs)
+    elif env_id == "Super-Mario-Land-1-image-v1":
+        env = SuperMarioLand1Image(**env_kwargs)
 
     # 3. Pokemon environments
     elif env_id == "Pokemon-Blue-v1":
@@ -105,7 +107,8 @@ def make_vec(
 registered_envs = [
     "Tetris-flatten-v1",
     "Tetris-image-v1",
-    "Super-Mario-Land-1-v1",
+    "Super-Mario-Land-1-flatten-v1",
+    "Super-Mario-Land-1-image-v1",
     "Pokemon-Blue-v1",
     "Pokemon-Red-v1",
     "Pokemon-Yellow-v1",

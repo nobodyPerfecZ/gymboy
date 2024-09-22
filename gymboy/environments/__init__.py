@@ -4,7 +4,7 @@
 from gymboy.environments.tetris import TetrisFlatten, TetrisImage
 
 # Mario environments
-from gymboy.environments.mario import SuperMarioLand1
+from gymboy.environments.mario import SuperMarioLand1Flatten, SuperMarioLand1Image
 
 # Pokemon environments
 from gymboy.environments.pokemon import (
@@ -19,7 +19,8 @@ from gymboy.environments.pokemon import (
 __all__ = [
     "TetrisFlatten",
     "TetrisImage",
-    "SuperMarioLand1",
+    "SuperMarioLand1Flatten",
+    "SuperMarioLand1Image",
     "PokemonBlue",
     "PokemonRed",
     "PokemonYellow",

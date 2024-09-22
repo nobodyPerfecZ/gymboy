@@ -58,7 +58,10 @@ class TetrisFlatten(gym.Env):
         # Create action and observation spaces
         self.action_space = spaces.Discrete(len(self.actions))
         self.observation_space = spaces.Box(
-            low=-np.inf, high=np.inf, shape=self.observation_shape, dtype=np.float32
+            low=-np.inf,
+            high=np.inf,
+            shape=self.observation_shape,
+            dtype=np.float32,
         )
 
         # Create the environment
@@ -120,18 +123,18 @@ class TetrisFlatten(gym.Env):
     def close(self):
         self.pyboy.stop()
 
+    def get_obs(self) -> np.ndarray:
+        """Returns the current observation."""
+        level = np.array([get_level(self.pyboy)])
+        next_block = np.array([get_next_block(self.pyboy)])
+        game_area = self.pyboy.game_area().flatten()
+        return np.concatenate((level, next_block, game_area)).astype(np.float32)
+
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
         score_reward = get_score(self.pyboy) / 999999
         game_over_reward = -1.0 if game_over(self.pyboy) else 0.0
         return score_reward + game_over_reward
-
-    def get_obs(self) -> np.ndarray:
-        """Returns the current observation as an RGB image."""
-        level = np.array([get_level(self.pyboy)])
-        next_block = np.array([get_next_block(self.pyboy)])
-        game_area = self.pyboy.game_area().flatten()
-        return np.concatenate((level, next_block, game_area)).astype(np.float32)
 
 
 class TetrisImage(gym.Env):
@@ -182,7 +185,10 @@ class TetrisImage(gym.Env):
         # Create action and observation spaces
         self.action_space = spaces.Discrete(len(self.actions))
         self.observation_space = spaces.Box(
-            low=0, high=255, shape=self.observation_shape, dtype=np.uint8
+            low=0,
+            high=255,
+            shape=self.observation_shape,
+            dtype=np.uint8,
         )
 
         # Create the environment
@@ -244,12 +250,12 @@ class TetrisImage(gym.Env):
     def close(self):
         self.pyboy.stop()
 
+    def get_obs(self) -> np.ndarray:
+        """Returns the current observation."""
+        return cv2.cvtColor(self.pyboy.screen.ndarray, cv2.COLOR_RGBA2RGB)
+
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
         score_reward = get_score(self.pyboy) / 999999
         game_over_reward = -1.0 if game_over(self.pyboy) else 0.0
         return score_reward + game_over_reward
-
-    def get_obs(self) -> np.ndarray:
-        """Returns the current observation as an RGB image."""
-        return cv2.cvtColor(self.pyboy.screen.ndarray, cv2.COLOR_RGBA2RGB)
