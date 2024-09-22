@@ -11,7 +11,30 @@ from gymboy.environments.tetris.tetris.memory import *
 
 
 class TetrisFlatten(gym.Env):
-    """Tetris environment."""
+    """
+    The Tetris environment.
+
+    ## Action Space
+    The action space consists of 9 discrete actions:
+    - 0: No action
+    - 1: Press A
+    - 2: Press B
+    - 3: Press Left
+    - 4: Press Right
+    - 5: Press Up
+    - 6: Press Down
+    - 7: Press Start
+    - 8: Press Select
+
+    ## Observation Space
+    An (182,) array, where arr[0] is the current level, arr[1] is the next block, and arr[2:] is a simplified game area.
+
+    ## Rewards
+    The current score normalized, plus -1.0 if the game is over.
+
+    ## Version History
+    - v1: Original version
+    """
 
     def __init__(
         self,
@@ -112,7 +135,30 @@ class TetrisFlatten(gym.Env):
 
 
 class TetrisImage(gym.Env):
-    """Tetris environment."""
+    """
+    The Tetris environment.
+
+    ## Action Space
+    The action space consists of 9 discrete actions:
+    - 0: No action
+    - 1: Press A
+    - 2: Press B
+    - 3: Press Left
+    - 4: Press Right
+    - 5: Press Up
+    - 6: Press Down
+    - 7: Press Start
+    - 8: Press Select
+
+    ## Observation Space
+    An (144, 160, 3) array representing the RGB image of the game screen.
+
+    ## Rewards
+    The current score normalized, plus -1.0 if the game is over.
+
+    ## Version History
+    - v1: Original version
+    """
 
     def __init__(
         self,
