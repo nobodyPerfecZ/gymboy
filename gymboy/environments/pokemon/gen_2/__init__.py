@@ -1,11 +1,7 @@
 """Pokemon Gen 2 environments."""
 
-from gymboy.environments.pokemon.gen_2 import gold
-from gymboy.environments.pokemon.gen_2 import silver
-
-
-PokemonGold = gold.PokemonGold
-PokemonSilver = silver.PokemonSilver
+from gymboy.environments.pokemon.gen_2.gold import PokemonGold
+from gymboy.environments.pokemon.gen_2.silver import PokemonSilver
 
 
 __all__ = [

@@ -1,12 +1,8 @@
 """Pokemon Gen 1 environments."""
 
-from gymboy.environments.pokemon.gen_1 import blue
-from gymboy.environments.pokemon.gen_1 import red
-from gymboy.environments.pokemon.gen_1 import yellow
-
-PokemonBlue = blue.PokemonBlue
-PokemonRed = red.PokemonRed
-PokemonYellow = yellow.PokemonYellow
+from gymboy.environments.pokemon.gen_1.blue import PokemonBlue
+from gymboy.environments.pokemon.gen_1.red import PokemonRed
+from gymboy.environments.pokemon.gen_1.yellow import PokemonYellow
 
 
 __all__ = [

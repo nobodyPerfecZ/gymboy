@@ -1,8 +1,6 @@
 """Super Mario Land environments."""
 
-from gymboy.environments.mario.land_1 import super_mario_land_1
-
-SuperMarioLand1 = super_mario_land_1.SuperMarioLand1
+from gymboy.environments.mario.land_1.super_mario_land_1 import SuperMarioLand1
 
 
 __all__ = [

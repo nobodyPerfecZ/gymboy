@@ -19,6 +19,36 @@ def get_score(pyboy: PyBoy) -> int:
     return bcds_to_integer(reversed(pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3]))
 
 
+def get_level(pyboy: PyBoy) -> int:
+    """
+    Returns the current level of the game.
+
+    Args:
+        pyboy (PyBoy):
+            The game boy instance
+
+    Returns:
+        int:
+            The current level of the game
+    """
+    return pyboy.memory[LEVEL_ADDRESS]
+
+
+def get_next_block(pyboy: PyBoy) -> int:
+    """
+    Returns the next block of the game.
+
+    Args:
+        pyboy (PyBoy):
+            The game boy instance
+
+    Returns:
+        int:
+            The next block of the game
+    """
+    return pyboy.memory[NEXT_BLOCK_ADDRESS] & 0b11111100
+
+
 def game_over(pyboy: PyBoy) -> bool:
     """
     Returns True if the game is over.

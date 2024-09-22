@@ -1,8 +1,6 @@
 """Pokemon Red environment."""
 
-from gymboy.environments.pokemon.gen_1.red import red
-
-PokemonRed = red.PokemonRed
+from gymboy.environments.pokemon.gen_1.red.red import PokemonRed
 
 
 __all__ = [

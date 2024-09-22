@@ -1,10 +1,9 @@
 """Tetris environment."""
 
-from gymboy.environments.tetris.tetris import tetris
-
-Tetris = tetris.Tetris
+from gymboy.environments.tetris.tetris.tetris import TetrisFlatten, TetrisImage
 
 
 __all__ = [
-    "Tetris",
+    "TetrisFlatten",
+    "TetrisImage"
 ]

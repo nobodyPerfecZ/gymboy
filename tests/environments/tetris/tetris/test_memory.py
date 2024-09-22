@@ -24,6 +24,14 @@ class TestMemory(unittest.TestCase):
         """Tests the get_score() method."""
         self.assertEqual(20, get_score(self.pyboy))
 
+    def test_get_level(self):
+        """Tests the get_level() method."""
+        self.assertEqual(9, get_level(self.pyboy))
+
+    def test_get_next_block(self):
+        """Tests the get_next_block() method."""
+        self.assertEqual(24, get_next_block(self.pyboy))
+
     def test_game_over(self):
         """Tests the game_over() method."""
         self.assertFalse(game_over(self.pyboy))

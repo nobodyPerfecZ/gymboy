@@ -12,7 +12,7 @@ from gymboy.environments.pokemon import (
     PokemonSilver,
     PokemonYellow,
 )
-from gymboy.environments.tetris import Tetris
+from gymboy.environments.tetris import TetrisImage, TetrisFlatten
 
 
 def make(env_id: str, **env_kwargs) -> gym.Env:
@@ -34,8 +34,10 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
         raise ValueError(f"{env_id} is not in registered gymboy environments.")
 
     # 1. Tetris environments
-    if env_id == "Tetris-v1":
-        env = Tetris(**env_kwargs)
+    if env_id == "Tetris-flatten-v1":
+        env = TetrisFlatten(**env_kwargs)
+    elif env_id == "Tetris-image-v1":
+        env = TetrisImage(**env_kwargs)
 
     # 2. Mario environments
     elif env_id == "Super-Mario-Land-1-v1":
@@ -58,7 +60,10 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
 
 
 def make_vec(
-    env_id: str, num_envs: int, vectorization_mode: str, **env_kwargs
+    env_id: str,
+    num_envs: int = 1,
+    vectorization_mode: str = "sync",
+    **env_kwargs,
 ) -> gym.vector.VectorEnv:
     """
     A self-version of OpenAI's infamous env.vec_make(env_name).
@@ -98,7 +103,8 @@ def make_vec(
 
 
 registered_envs = [
-    "Tetris-v1",
+    "Tetris-flatten-v1",
+    "Tetris-image-v1",
     "Super-Mario-Land-1-v1",
     "Pokemon-Blue-v1",
     "Pokemon-Red-v1",

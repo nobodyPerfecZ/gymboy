@@ -1,24 +1,24 @@
 """Gymboy environments."""
 
-from gymboy.environments import tetris
-from gymboy.environments import mario
-from gymboy.environments import pokemon
-
 # Tetris environments
-Tetris = tetris.Tetris
+from gymboy.environments.tetris import TetrisFlatten, TetrisImage
 
 # Mario environments
-SuperMarioLand1 = mario.SuperMarioLand1
+from gymboy.environments.mario import SuperMarioLand1
 
 # Pokemon environments
-PokemonBlue = pokemon.PokemonBlue
-PokemonRed = pokemon.PokemonRed
-PokemonYellow = pokemon.PokemonYellow
-PokemonGold = pokemon.PokemonGold
-PokemonSilver = pokemon.PokemonSilver
+from gymboy.environments.pokemon import (
+    PokemonBlue,
+    PokemonRed,
+    PokemonYellow,
+    PokemonGold,
+    PokemonSilver,
+)
+
 
 __all__ = [
-    "Tetris",
+    "TetrisFlatten",
+    "TetrisImage",
     "SuperMarioLand1",
     "PokemonBlue",
     "PokemonRed",
