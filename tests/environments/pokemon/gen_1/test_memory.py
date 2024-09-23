@@ -33,6 +33,11 @@ class TestMemory(unittest.TestCase):
         money = get_money(self.pyboy, yellow=False)
         self.assertEqual(3175, money)
 
+    def test_get_pokemon_ids(self):
+        """Tests the get_pokemon_ids() method."""
+        pokemon_ids = get_pokemon_ids(self.pyboy, yellow=False)
+        np.testing.assert_allclose([177, 0, 0, 0, 0, 0], pokemon_ids)
+
     def test_get_team_size(self):
         """Tests the get_team_size() method."""
         team_size = get_team_size(self.pyboy, yellow=False)

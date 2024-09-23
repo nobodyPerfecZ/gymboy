@@ -43,6 +43,26 @@ def get_money(pyboy: PyBoy, yellow: bool = False) -> int:
     )
 
 
+def get_pokemon_ids(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
+    """
+    Returns the current pokemon IDs in your team.
+
+    Args:
+        pyboy (PyBoy):
+            The game boy instance
+
+        yellow (bool, optional):
+            The flag to indicate if the game is Pokemon Yellow
+
+    Returns:
+        np.ndarray:
+            The current pokemon IDs in your team
+    """
+    return np.array(
+        [pyboy.memory[pokemon_id - int(yellow)] for pokemon_id in POKEMON_IDS_ADDRESSES]
+    )
+
+
 def get_team_size(pyboy: PyBoy, yellow: bool = False) -> int:
     """
     Returns the current number of pokemons in your team.
