@@ -11,7 +11,40 @@ from gymboy.environments.mario.land_1.memory import *
 
 
 class SuperMarioLand1Flatten(gym.Env):
-    """Super Mario Land 1 environment."""
+    """
+    The Super Mario Land 1 environment.
+
+    ## Action Space
+    The action space consists of 9 discrete actions:
+    - 0: No action
+    - 1: Press A
+    - 2: Press B
+    - 3: Press Left
+    - 4: Press Right
+    - 5: Press Up
+    - 6: Press Down
+    - 7: Press Start
+    - 8: Press Select
+
+    ## Observation Space
+    The observation is an (324,) array that consists:
+    - [0]: The current world
+    - [1]: The current level
+    - [2]: The current lives
+    - [3]: The current time left
+    - [4:]: The simplified game area
+
+    ## Rewards
+    The reward is the sum of:
+    - The normalized score
+    - The normalized number of coins
+    - -1.0 if the time is over
+    - 1.0 if the level is finished
+    - -1.0 if the game is over
+
+    ## Version History
+    - v1: Original version
+    """
 
     def __init__(
         self,
@@ -100,6 +133,15 @@ class SuperMarioLand1Flatten(gym.Env):
     def close(self):
         self.pyboy.stop()
 
+    def get_obs(self) -> np.ndarray:
+        """Returns the current observation."""
+        world, level = get_world_level(self.pyboy)
+        world, level = np.array([world]), np.array([level])
+        lives = np.array([get_lives(self.pyboy)])
+        time = np.array([get_time(self.pyboy)])
+        game_area = self.pyboy.game_area().flatten()
+        return np.concatenate((world, level, lives, time, game_area))
+
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
         score_reward = get_score(self.pyboy) / 999999
@@ -115,18 +157,37 @@ class SuperMarioLand1Flatten(gym.Env):
             + game_over_reward
         )
 
-    def get_obs(self) -> np.ndarray:
-        """Returns the current observation."""
-        lives = np.array([get_lives(self.pyboy)])
-        world, level = get_world_level(self.pyboy)
-        world, level = np.array([world]), np.array([level])
-        time = np.array([get_time(self.pyboy)])
-        game_area = self.pyboy.game_area().flatten()
-        return np.concatenate((lives, world, level, time, game_area))
-
 
 class SuperMarioLand1Image(gym.Env):
-    """Super Mario Land 1 environment."""
+    """
+    The Super Mario Land 1 environment.
+
+    ## Action Space
+    The action space consists of 9 discrete actions:
+    - 0: No action
+    - 1: Press A
+    - 2: Press B
+    - 3: Press Left
+    - 4: Press Right
+    - 5: Press Up
+    - 6: Press Down
+    - 7: Press Start
+    - 8: Press Select
+
+    ## Observation Space
+    The observation is an (144, 160, 3) array representing the RGB image of the game screen.
+
+    ## Rewards
+    The reward is the sum of:
+    - The normalized score
+    - The normalized number of coins
+    - -1.0 if the time is over
+    - 1.0 if the level is finished
+    - -1.0 if the game is over
+
+    ## Version History
+    - v1: Original version
+    """
 
     def __init__(
         self,
@@ -215,6 +276,10 @@ class SuperMarioLand1Image(gym.Env):
     def close(self):
         self.pyboy.stop()
 
+    def get_obs(self) -> np.ndarray:
+        """Returns the current observation."""
+        return cv2.cvtColor(self.pyboy.screen.ndarray, cv2.COLOR_RGBA2RGB)
+
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
         score_reward = get_score(self.pyboy) / 999999
@@ -229,7 +294,3 @@ class SuperMarioLand1Image(gym.Env):
             + level_finished_reward
             + game_over_reward
         )
-
-    def get_obs(self) -> np.ndarray:
-        """Returns the current observation."""
-        return cv2.cvtColor(self.pyboy.screen.ndarray, cv2.COLOR_RGBA2RGB)

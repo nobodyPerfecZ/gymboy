@@ -27,10 +27,15 @@ class TetrisFlatten(gym.Env):
     - 8: Press Select
 
     ## Observation Space
-    An (182,) array, where arr[0] is the current level, arr[1] is the next block, and arr[2:] is a simplified game area.
+    The observation is an (182,) array that consists:
+    - [0]: The current level
+    - [1]: The next block
+    - [2:]: The simplified game area
 
     ## Rewards
-    The current score normalized, plus -1.0 if the game is over.
+    The reward is the sum of:
+    - The normalized score
+    - -1.0 if the game is over
 
     ## Version History
     - v1: Original version
@@ -154,10 +159,12 @@ class TetrisImage(gym.Env):
     - 8: Press Select
 
     ## Observation Space
-    An (144, 160, 3) array representing the RGB image of the game screen.
+    The observation is an (144, 160, 3) array representing the RGB image of the game screen.
 
     ## Rewards
-    The current score normalized, plus -1.0 if the game is over.
+    The reward is the sum of:
+    - The normalized score
+    - -1.0 if the game is over
 
     ## Version History
     - v1: Original version
