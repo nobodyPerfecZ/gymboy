@@ -85,7 +85,8 @@ class SuperMarioLand1Flatten(gym.Env):
             self.n_frameskip = n_frameskip
 
     def step(
-        self, action: ActType
+        self,
+        action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
         assert self.action_space.contains(
             action
@@ -135,17 +136,17 @@ class SuperMarioLand1Flatten(gym.Env):
 
     def get_obs(self) -> np.ndarray:
         """Returns the current observation."""
-        world, level = get_world_level(self.pyboy)
-        world, level = np.array([world]), np.array([level])
-        lives = np.array([get_lives(self.pyboy)])
-        time = np.array([get_time(self.pyboy)])
-        game_area = self.pyboy.game_area().flatten()
-        return np.concatenate((world, level, lives, time, game_area))
+        world_obs, level_obs = world_level(self.pyboy)
+        world_obs, level_obs = np.array([world_obs]), np.array([level_obs])
+        lives_obs = np.array([lives(self.pyboy)])
+        time_obs = np.array([time(self.pyboy)])
+        game_area_obs = game_area(self.pyboy).flatten()
+        return np.concatenate((world_obs, level_obs, lives_obs, time_obs, game_area_obs))
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = get_score(self.pyboy) / 999999
-        coin_reward = get_coins(self.pyboy) / 99
+        score_reward = score(self.pyboy) / 999999
+        coin_reward = coins(self.pyboy) / 99
         time_over_reward = -1.0 if time_over(self.pyboy) else 0.0
         level_finished_reward = 1.0 if level_finished(self.pyboy) else 0.0
         game_over_reward = -1.0 if game_over(self.pyboy) else 0.0
@@ -228,7 +229,8 @@ class SuperMarioLand1Image(gym.Env):
             self.n_frameskip = n_frameskip
 
     def step(
-        self, action: ActType
+        self,
+        action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
         assert self.action_space.contains(
             action
@@ -282,8 +284,8 @@ class SuperMarioLand1Image(gym.Env):
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = get_score(self.pyboy) / 999999
-        coin_reward = get_coins(self.pyboy) / 99
+        score_reward = score(self.pyboy) / 999999
+        coin_reward = coins(self.pyboy) / 99
         time_over_reward = -1.0 if time_over(self.pyboy) else 0.0
         level_finished_reward = 1.0 if level_finished(self.pyboy) else 0.0
         game_over_reward = -1.0 if game_over(self.pyboy) else 0.0

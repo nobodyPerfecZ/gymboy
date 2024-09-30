@@ -23,44 +23,40 @@ class TestMemory(unittest.TestCase):
     def tearDown(self):
         self.pyboy.stop()
 
-    def test_get_badges(self):
-        """Tests the get_badges() method."""
-        badges = get_badges(self.pyboy)
-        self.assertEqual(0, badges)
+    def test_badges(self):
+        """Tests the badges() method."""
+        self.assertEqual(0, badges(self.pyboy))
 
-    def test_get_money(self):
-        """Tests the get_money() method."""
-        money = get_money(self.pyboy)
-        self.assertEqual(3000, money)
+    def test_money(self):
+        """Tests the money() method."""
+        self.assertEqual(3000, money(self.pyboy))
 
-    def test_get_team_size(self):
-        """Tests the get_team_size() method."""
-        team_size = get_team_size(self.pyboy)
-        self.assertEqual(1, team_size)
+    def test_pokemon_ids(self):
+        """Tests the pokemon_ids() method."""
+        np.testing.assert_allclose([152, 0, 0, 0, 0, 0], pokemon_ids(self.pyboy))
 
-    def test_get_levels(self):
-        """Tests the get_levels() method."""
-        levels = get_levels(self.pyboy)
-        np.testing.assert_allclose([5, 0, 0, 0, 0, 0], levels)
+    def test_team_size(self):
+        """Tests the team_size() method."""
+        self.assertEqual(1, team_size(self.pyboy))
 
-    def test_get_hps(self):
-        """Tests the get_hps() method."""
-        hps = get_hps(self.pyboy)
-        np.testing.assert_allclose([19, 0, 0, 0, 0, 0], hps)
+    def test_levels(self):
+        """Tests the levels() method."""
+        np.testing.assert_allclose([5, 0, 0, 0, 0, 0], levels(self.pyboy))
 
-    def test_get_max_hps(self):
-        """Tests the get_max_hps() method."""
-        max_hps = get_max_hps(self.pyboy)
-        np.testing.assert_allclose([19, 0, 0, 0, 0, 0], max_hps)
+    def test_hps(self):
+        """Tests the hps() method."""
+        np.testing.assert_allclose([19, 0, 0, 0, 0, 0], hps(self.pyboy))
 
-    def test_get_exps(self):
-        """Tests the get_exps() method."""
-        exps = get_exps(self.pyboy)
-        np.testing.assert_allclose([135, 0, 0, 0, 0, 0], exps)
+    def test_max_hps(self):
+        """Tests the max_hps() method."""
+        np.testing.assert_allclose([19, 0, 0, 0, 0, 0], max_hps(self.pyboy))
 
-    def test_get_moves(self):
-        """Tests the get_moves() method."""
-        moves = get_moves(self.pyboy)
+    def test_exps(self):
+        """Tests the exps() method."""
+        np.testing.assert_allclose([135, 0, 0, 0, 0, 0], exps(self.pyboy))
+
+    def test_moves(self):
+        """Tests the moves() method."""
         np.testing.assert_allclose(
             [
                 [33, 45, 0, 0],
@@ -70,12 +66,11 @@ class TestMemory(unittest.TestCase):
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
             ],
-            moves,
+            moves(self.pyboy),
         )
 
-    def test_get_pps(self):
-        """Tests the get_pps() method."""
-        pps = get_pps(self.pyboy)
+    def test_pps(self):
+        """Tests the pps() method."""
         np.testing.assert_allclose(
             [
                 [35, 40, 0, 0],
@@ -85,13 +80,11 @@ class TestMemory(unittest.TestCase):
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
             ],
-            pps,
+            pps(self.pyboy),
         )
 
-    def test_get_max_pps(self):
+    def test_max_pps(self):
         """Tests the max_pps() method."""
-        max_pps = get_max_pps(self.pyboy)
-
         np.testing.assert_allclose(
             [
                 [35, 40, 0, 0],
@@ -101,13 +94,38 @@ class TestMemory(unittest.TestCase):
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
             ],
-            max_pps,
+            max_pps(self.pyboy),
         )
 
-    def test_get_seen_pokemons(self):
-        """Tests the get_seen_pokemons() method."""
-        seen_pokemons = get_seen_pokemons(self.pyboy)
-        self.assertEqual(2, seen_pokemons)
+    def test_seen_pokemons(self):
+        """Tests the seen_pokemons() method."""
+        self.assertEqual(2, seen_pokemons(self.pyboy))
+
+    def test_game_area(self):
+        """Tests the game_area() method."""
+        np.testing.assert_allclose(
+            game_area(self.pyboy),
+            np.array([
+                [286, 287, 286, 287, 272, 273, 273, 273, 273, 273, 273, 273, 273, 273, 273, 274, 286, 287, 286, 287],
+                [302, 303, 302, 303, 269, 270, 270, 270, 270, 270, 270, 270, 270, 270, 270, 271, 302, 303, 302, 303],
+                [302, 303, 302, 303, 269, 270, 270, 270, 270, 270, 270, 270, 270, 270, 270, 271, 302, 303, 302, 303],
+                [318, 319,  21,  20, 266, 267, 267, 267, 267, 267, 267, 267, 267, 267, 267, 268, 318, 319, 318, 319],
+                [261, 261,  23,  22, 282, 283, 283, 283, 283, 283, 283, 283, 283, 283, 283, 284, 286, 287, 286, 287],
+                [261, 261, 261, 261, 282, 294, 294, 283, 283, 283, 283, 283, 283, 294, 294, 284, 302, 303, 302, 303],
+                [261, 261, 334, 335, 282, 283, 283, 283, 311, 312, 283, 283, 283, 283, 283, 284, 302, 303, 302, 303],
+                [261, 261, 350, 351, 257, 258, 258, 258,   0,   1, 258, 258, 258, 258, 258, 278, 318, 319, 318, 319],
+                [261, 261, 261, 261, 262, 262, 262, 262,   2,   3, 262, 262, 262, 262, 262, 262, 261, 261, 261, 261],
+                [261, 261, 261, 261, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 261, 261, 261, 261],
+                [261, 261, 261, 261, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 261, 261, 334, 335],
+                [261, 261, 261, 261, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 261, 261, 350, 351],
+                [262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262],
+                [262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262],
+                [262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262],
+                [262, 262, 262, 262, 262, 262, 262, 262,  32,  33, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262],
+                [262, 262, 262, 262, 262, 262, 262, 262,  34,  35, 262, 262, 334, 335, 262, 262, 262, 262, 262, 262],
+                [262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 350, 351, 262, 262, 262, 262, 262, 262],
+            ])
+        )
 
 
 if __name__ == "__main__":

@@ -10,8 +10,41 @@ from pyboy import PyBoy
 from gymboy.environments.pokemon.gen_2.memory import *
 
 
-class PokemonGold(gym.Env):
-    """Pokemon Gold environment."""
+class PokemonGoldFlatten(gym.Env):
+    """
+    The Pokemon Gold environment.
+
+    ## Action Space
+    The action space consists of 9 discrete actions:
+    - 0: No action
+    - 1: Press A
+    - 2: Press B
+    - 3: Press Left
+    - 4: Press Right
+    - 5: Press Up
+    - 6: Press Down
+    - 7: Press Start
+    - 8: Press Select
+
+    ## Observation Space
+    The observation is an (426,) array that consists:
+    - [0:6]: The ids each pokemon in the team
+    - [6:12]: The levels of each pokemon in the team
+    - [12:18]: The hps of each pokemon in the team
+    - [18:42]: The ids of the moves of each pokemon in the team
+    - [42:66]: The pps of the moves of each pokemon in the team
+    - [66:]: The simplified game area
+
+    ## Rewards
+    The reward is the sum of:
+    - The normalized number of badges
+    - The normalized amount of money
+    - The normalized sum of the levels of the pokemons
+    - The normalized number of pokemons seen
+
+    ## Version History
+    - v1: Original version
+    """
 
     def __init__(
         self,
@@ -19,13 +52,6 @@ class PokemonGold(gym.Env):
         init_state_path: Optional[
             str
         ] = "./gymboy/resources/states/pokemon/gen_2/gold/pokemon_gold_after_intro.state",
-        badge_factor: float = 1.0,
-        money_factor: float = 1.0,
-        team_size_factor: float = 1.0,
-        levels_factor: float = 1.0,
-        hps_factor: float = 1.0,
-        pps_factor: float = 1.0,
-        seen_pokemons_factor: float = 1.0,
         n_frameskip: int = 60,
         sound: bool = False,
         render_mode: Optional[str] = None,
@@ -35,22 +61,17 @@ class PokemonGold(gym.Env):
         self.sound = sound
         self.render_mode = render_mode
 
-        self.badge_factor = badge_factor
-        self.money_factor = money_factor
-        self.team_size_factor = team_size_factor
-        self.levels_factor = levels_factor
-        self.hps_factor = hps_factor
-        self.pps_factor = pps_factor
-        self.seen_pokemons_factor = seen_pokemons_factor
-
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
-        self.observation_shape = (144, 160, 3)
+        self.observation_shape = (426,)
 
         # Create action and observation spaces
         self.action_space = spaces.Discrete(len(self.actions))
         self.observation_space = spaces.Box(
-            low=0, high=255, shape=self.observation_shape, dtype=np.uint8
+            low=-np.inf,
+            high=np.inf,
+            shape=self.observation_shape,
+            dtype=np.float32,
         )
 
         # Create the environment
@@ -59,45 +80,13 @@ class PokemonGold(gym.Env):
             self.pyboy.set_emulation_speed(1)
             self.n_frameskip = 1
         else:
-            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
+            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound, window="null")
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
-    def get_reward(self) -> SupportsFloat:
-        """Returns the current reward."""
-        # Compute the single rewards
-        badges_reward = self.badge_factor * self.get_badges_reward()
-        money_reward = self.money_factor * self.get_money_reward()
-        pokemon_team_size_reward = self.team_size_factor * self.get_team_size_reward()
-        pokemon_levels_reward = self.levels_factor * self.get_levels_reward()
-        pokemon_hps_reward = self.hps_factor * self.get_hps_reward()
-        pokemon_pps_reward = self.pps_factor * self.get_pps_reward()
-        pokemons_seen_reward = (
-            self.seen_pokemons_factor * self.get_seen_pokemons_reward()
-        )
-
-        return (
-            badges_reward
-            + money_reward
-            + pokemon_team_size_reward
-            + pokemon_levels_reward
-            + pokemon_hps_reward
-            + pokemon_pps_reward
-            + pokemons_seen_reward
-        )
-
-    def get_obs(self) -> np.ndarray:
-        """Returns the current observation as an RGB image."""
-        # Get the current screen RGBA image
-        observation = self.pyboy.screen.ndarray
-
-        # Convert RGBA to RGB image
-        observation = cv2.cvtColor(observation, cv2.COLOR_RGBA2RGB)
-
-        return observation
-
     def step(
-        self, action: ActType
+        self,
+        action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
         assert self.action_space.contains(
             action
@@ -113,7 +102,6 @@ class PokemonGold(gym.Env):
         observation = self.get_obs()
         reward = self.get_reward()
         terminated = False
-
         truncated = False
         info = {}
 
@@ -146,34 +134,155 @@ class PokemonGold(gym.Env):
     def close(self):
         self.pyboy.stop()
 
-    def get_badges_reward(self) -> float:
-        """Returns the normalized rewards (0.0, 1.0) to signalize the number of badges collected."""
-        return get_badges(self.pyboy) / 16
+    def get_obs(self) -> np.ndarray:
+        """Returns the current observation."""
+        pokemon_ids_obs = pokemon_ids(self.pyboy)
+        levels_obs = levels(self.pyboy)
+        hps_obs = hps(self.pyboy)
+        moves_obs = moves(self.pyboy).flatten()
+        pps_obs = pps(self.pyboy).flatten()
+        game_area_obs = game_area(self.pyboy).flatten()
+        return np.concatenate((pokemon_ids_obs, levels_obs, hps_obs, moves_obs, pps_obs, game_area_obs))
 
-    def get_money_reward(self) -> float:
-        """Returns the normalized rewards (0.0, 1.0) to signalize the money collected."""
-        return get_money(self.pyboy) / 999999
+    def get_reward(self) -> SupportsFloat:
+        """Returns the current reward."""
+        badges_reward = badges(self.pyboy) / 16
+        money_reward = money(self.pyboy) / 999999
+        pokemon_levels_reward = np.sum(levels(self.pyboy)) / 600
+        pokemons_seen_reward = seen_pokemons(self.pyboy) / 251
+        return (
+            badges_reward + money_reward + pokemon_levels_reward + pokemons_seen_reward
+        )
 
-    def get_team_size_reward(self) -> float:
-        """Returns the normalized rewards (0.0, 1.0) to signalize the team size."""
-        return get_team_size(self.pyboy) / 6
 
-    def get_levels_reward(self) -> float:
-        """Returns the normalized rewards (0.0, 1.0) to signalize the level earned."""
-        return np.sum(get_levels(self.pyboy)) / 600
+class PokemonGoldImage(gym.Env):
+    """
+    The Pokemon Gold environment.
 
-    def get_hps_reward(self) -> float:
-        """Returns the normalized rewards (0.0, 1.0) to signalize the Pokemon HPs."""
-        hps = get_hps(self.pyboy)
-        max_hps = get_max_hps(self.pyboy)
-        return np.sum(hps) / np.sum(max_hps) if np.any(max_hps != 0) else 0.0
+    ## Action Space
+    The action space consists of 9 discrete actions:
+    - 0: No action
+    - 1: Press A
+    - 2: Press B
+    - 3: Press Left
+    - 4: Press Right
+    - 5: Press Up
+    - 6: Press Down
+    - 7: Press Start
+    - 8: Press Select
 
-    def get_pps_reward(self) -> float:
-        """Returns the normalized rewards (0.0, 1.0) to signalize the Pokemon PPs."""
-        pps = get_pps(self.pyboy)
-        max_pps = get_max_pps(self.pyboy)
-        return np.sum(pps) / np.sum(max_pps) if np.any(max_pps != 0) else 0.0
+    ## Observation Space
+    The observation is an (144, 160, 3) array representing the RGB image of the game screen.
 
-    def get_seen_pokemons_reward(self) -> float:
-        """Returns the normalized rewards (0.0, 1.0) to signalize the seen pokemons."""
-        return get_seen_pokemons(self.pyboy) / 251
+    ## Rewards
+    The reward is the sum of:
+    - The normalized number of badges
+    - The normalized amount of money
+    - The normalized sum of the levels of the pokemons
+    - The normalized number of pokemons seen
+
+    ## Version History
+    - v1: Original version
+    """
+
+    def __init__(
+        self,
+        rom_path: str = "./gymboy/resources/roms/pokemon/gen_2/gold/pokemon_gold.gbc",
+        init_state_path: Optional[
+            str
+        ] = "./gymboy/resources/states/pokemon/gen_2/gold/pokemon_gold_after_intro.state",
+        n_frameskip: int = 60,
+        sound: bool = False,
+        render_mode: Optional[str] = None,
+    ):
+        self.rom_path = rom_path
+        self.init_state_path = init_state_path
+        self.sound = sound
+        self.render_mode = render_mode
+
+        # Default actions and observation shape
+        self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
+        self.observation_shape = (144, 160, 3)
+
+        # Create action and observation spaces
+        self.action_space = spaces.Discrete(len(self.actions))
+        self.observation_space = spaces.Box(
+            low=0,
+            high=255,
+            shape=self.observation_shape,
+            dtype=np.uint8,
+        )
+
+        # Create the environment
+        if self.render_mode == "human":
+            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
+            self.pyboy.set_emulation_speed(1)
+            self.n_frameskip = 1
+        else:
+            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
+            self.pyboy.set_emulation_speed(0)
+            self.n_frameskip = n_frameskip
+
+    def step(
+        self,
+        action: ActType,
+    ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        assert self.action_space.contains(
+            action
+        ), f"{action!r} ({type(action)}) invalid"
+
+        # Perform the action
+        if action == 0:
+            pass
+        else:
+            self.pyboy.button(self.actions[action])
+        self.pyboy.tick(self.n_frameskip)
+
+        observation = self.get_obs()
+        reward = self.get_reward()
+        terminated = False
+        truncated = False
+        info = {}
+
+        return observation, reward, terminated, truncated, info
+
+    def reset(
+        self,
+        *,
+        seed: int | None = None,
+        options: dict[str, Any] | None = None,
+    ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
+        if self.init_state_path is None:
+            # Case: Reset the game
+            self.pyboy.game_wrapper.reset_game()
+        else:
+            # Case: Load the initial game state
+            with open(self.init_state_path, "rb") as f:
+                self.pyboy.load_state(f)
+        self.pyboy.tick(1)
+
+        # Get the initial observation and info
+        observation = self.get_obs()
+        info = {}
+
+        return observation, info
+
+    def render(self) -> RenderFrame | list[RenderFrame] | None:
+        return None
+
+    def close(self):
+        self.pyboy.stop()
+
+    def get_obs(self) -> np.ndarray:
+        """Returns the current observation."""
+        return cv2.cvtColor(self.pyboy.screen.ndarray, cv2.COLOR_RGBA2RGB)
+
+    def get_reward(self) -> SupportsFloat:
+        """Returns the current reward."""
+        badges_reward = badges(self.pyboy) / 16
+        money_reward = money(self.pyboy) / 999999
+        pokemon_levels_reward = np.sum(levels(self.pyboy)) / 600
+        pokemons_seen_reward = seen_pokemons(self.pyboy) / 251
+        return (
+            badges_reward + money_reward + pokemon_levels_reward + pokemons_seen_reward
+        )

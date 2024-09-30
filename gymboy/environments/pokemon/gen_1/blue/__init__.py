@@ -1,8 +1,9 @@
 """Pokemon Blue environment."""
 
-from gymboy.environments.pokemon.gen_1.blue.blue import PokemonBlue
+from gymboy.environments.pokemon.gen_1.blue.blue import PokemonBlueFlatten, PokemonBlueImage
 
 
 __all__ = [
-    "PokemonBlue",
+    "PokemonBlueFlatten",
+    "PokemonBlueImage",
 ]

@@ -5,7 +5,7 @@ from gymboy.environments.pokemon.gen_1.constant import *
 from gymboy.utils.binary import *
 
 
-def get_badges(pyboy: PyBoy, yellow: bool = False) -> int:
+def badges(pyboy: PyBoy, yellow: bool = False) -> int:
     """
     Returns the current number of badges.
 
@@ -23,7 +23,7 @@ def get_badges(pyboy: PyBoy, yellow: bool = False) -> int:
     return bytes_bit_count([pyboy.memory[BADGE_COUNT_ADDRESS - int(yellow)]])
 
 
-def get_money(pyboy: PyBoy, yellow: bool = False) -> int:
+def money(pyboy: PyBoy, yellow: bool = False) -> int:
     """
     Returns the current money.
 
@@ -43,7 +43,7 @@ def get_money(pyboy: PyBoy, yellow: bool = False) -> int:
     )
 
 
-def get_pokemon_ids(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
+def pokemon_ids(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     """
     Returns the current pokemon IDs in your team.
 
@@ -63,7 +63,7 @@ def get_pokemon_ids(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     )
 
 
-def get_team_size(pyboy: PyBoy, yellow: bool = False) -> int:
+def team_size(pyboy: PyBoy, yellow: bool = False) -> int:
     """
     Returns the current number of pokemons in your team.
 
@@ -81,7 +81,7 @@ def get_team_size(pyboy: PyBoy, yellow: bool = False) -> int:
     return pyboy.memory[TEAM_SIZE_ADDRESS - int(yellow)]
 
 
-def get_levels(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
+def levels(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     """
     Returns the current levels of pokemons in your team.
 
@@ -104,7 +104,7 @@ def get_levels(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     )
 
 
-def get_hps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
+def hps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     """
     Returns the current HPs of pokemons in your team.
 
@@ -129,7 +129,7 @@ def get_hps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     )
 
 
-def get_max_hps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
+def max_hps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     """
     Returns the max HPs of pokemons in your team.
 
@@ -156,7 +156,7 @@ def get_max_hps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     )
 
 
-def get_exps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
+def exps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     """
     Returns the current EXPs of pokemons in your team.
 
@@ -181,7 +181,7 @@ def get_exps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     )
 
 
-def get_moves(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
+def moves(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     """
     Returns the current move IDs of pokemons in your team.
 
@@ -204,7 +204,7 @@ def get_moves(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     )
 
 
-def get_pps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
+def pps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     """
     Returns the current PPs of pokemons in your team.
 
@@ -227,7 +227,7 @@ def get_pps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     )
 
 
-def get_max_pps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
+def max_pps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     """
     Returns the max PPs of pokemons in your team.
 
@@ -245,12 +245,12 @@ def get_max_pps(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
     return np.array(
         [
             [MOVES_TO_MAX_PP[move] for move in pokemon]
-            for pokemon in get_moves(pyboy, yellow=yellow)
+            for pokemon in moves(pyboy, yellow=yellow)
         ]
     )
 
 
-def get_seen_pokemons(pyboy: PyBoy, yellow: bool = False) -> int:
+def seen_pokemons(pyboy: PyBoy, yellow: bool = False) -> int:
     """
     Returns the current number of seen pokemons.
 
@@ -274,7 +274,7 @@ def get_seen_pokemons(pyboy: PyBoy, yellow: bool = False) -> int:
     )
 
 
-def get_events(pyboy: PyBoy, yellow: bool = False) -> int:
+def events(pyboy: PyBoy, yellow: bool = False) -> int:
     """
     Returns the current number of occurred events.
 
@@ -296,3 +296,47 @@ def get_events(pyboy: PyBoy, yellow: bool = False) -> int:
             - int(yellow)
         ]
     )
+
+
+def game_area(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
+    """
+    Returns the current game area.
+
+    Args:
+        pyboy (PyBoy):
+            The game boy instance
+
+        yellow (bool):
+            The flag to indicate if the game is Pokemon Yellow
+
+    Returns:
+        np.ndarray:
+            The current game area
+    """
+    if not yellow:
+        return pyboy.game_area()
+    else:
+        # Set the screen area
+        xx, yy, width, height = (0, 0, 20, 18)
+
+        # Get the tile matrix
+        area = np.ndarray(shape=(height, width), dtype=np.uint32)
+        for y in range(height):
+            SCX = pyboy.screen.tilemap_position_list[(yy + y) * 8][0] // 8
+            SCY = pyboy.screen.tilemap_position_list[(yy + y) * 8][1] // 8
+            for x in range(width):
+                _x = (xx + x + SCX) % 32
+                _y = (yy + y + SCY) % 32
+                area[y, x] = pyboy.tilemap_background.tile_identifier(_x, _y)
+
+        # Get the sprites
+        sprites = [pyboy.get_sprite(s) for s in range(40)]
+
+        # Add the sprites to the tile matrix
+        for s in sprites:
+            _x = (s.x // 8) - xx
+            _y = (s.y // 8) - yy
+            if 0 <= _y < height and 0 <= _x < width:
+                area[_y][_x] = s.tile_identifier
+
+        return area

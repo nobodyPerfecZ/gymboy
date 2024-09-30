@@ -22,25 +22,25 @@ class TestMemory(unittest.TestCase):
     def tearDown(self):
         self.pyboy.stop()
 
-    def test_get_score(self):
-        """Tests the get_score() method."""
-        self.assertEqual(7900, get_score(self.pyboy))
+    def test_score(self):
+        """Tests the score() method."""
+        self.assertEqual(7900, score(self.pyboy))
 
-    def test_get_world_level(self):
-        """Tests the get_world_level() method."""
-        self.assertEqual((1, 1), get_world_level(self.pyboy))
+    def test_world_level(self):
+        """Tests the world_level() method."""
+        self.assertEqual((1, 1), world_level(self.pyboy))
 
-    def test_get_coins(self):
-        """Tests the get_coins() method."""
-        self.assertEqual(35, get_coins(self.pyboy))
+    def test_coins(self):
+        """Tests the coins() method."""
+        self.assertEqual(35, coins(self.pyboy))
 
-    def test_get_lives(self):
-        """Tests the get_lives() method."""
-        self.assertEqual(2, get_lives(self.pyboy))
+    def test_lives(self):
+        """Tests the lives() method."""
+        self.assertEqual(2, lives(self.pyboy))
 
-    def test_get_time(self):
-        """Tests the get_time() method."""
-        self.assertEqual(264, get_time(self.pyboy))
+    def test_time(self):
+        """Tests the time() method."""
+        self.assertEqual(264, time(self.pyboy))
 
     def test_time_over(self):
         """Tests the time_over() method."""
@@ -53,6 +53,30 @@ class TestMemory(unittest.TestCase):
     def test_game_over(self):
         """Tests the game_over() method."""
         self.assertFalse(game_over(self.pyboy))
+
+    def test_game_area(self):
+        """Tests the game_area() method."""
+        np.testing.assert_allclose(
+            game_area(self.pyboy),
+            np.array([
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300,   1,   0, 300, 300, 300, 300, 300, 300, 275, 289],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300,  17,  16, 300, 300, 300, 300, 300, 300, 292, 313],
+                [300, 300, 300, 300, 300, 300, 300, 300, 239, 239, 239, 300, 300, 300, 300, 300, 300, 142, 143, 142],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 142, 143],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 142, 143],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 142, 143],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 142, 143],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 142, 143],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 142, 143],
+                [300, 300, 300, 300, 300, 239, 239, 239, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 142, 143],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 142, 143],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 142, 143],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 142, 143],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 275, 289],
+                [300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 292, 313],
+                [142, 143, 142, 143, 142, 143, 142, 143, 142, 143, 142, 143, 142, 143, 142, 143, 142, 143, 142, 143],
+            ]),
+        )
 
 
 if __name__ == "__main__":

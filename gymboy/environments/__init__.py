@@ -8,11 +8,16 @@ from gymboy.environments.mario import SuperMarioLand1Flatten, SuperMarioLand1Ima
 
 # Pokemon environments
 from gymboy.environments.pokemon import (
-    PokemonBlue,
-    PokemonRed,
-    PokemonYellow,
-    PokemonGold,
-    PokemonSilver,
+    PokemonBlueFlatten,
+    PokemonBlueImage,
+    PokemonRedFlatten,
+    PokemonRedImage,
+    PokemonYellowFlatten,
+    PokemonYellowImage,
+    PokemonGoldFlatten,
+    PokemonGoldImage,
+    PokemonSilverFlatten,
+    PokemonSilverImage,
 )
 
 
@@ -21,9 +26,14 @@ __all__ = [
     "TetrisImage",
     "SuperMarioLand1Flatten",
     "SuperMarioLand1Image",
-    "PokemonBlue",
-    "PokemonRed",
-    "PokemonYellow",
-    "PokemonGold",
-    "PokemonSilver",
+    "PokemonBlueFlatten",
+    "PokemonBlueImage",
+    "PokemonRedFlatten",
+    "PokemonRedImage",
+    "PokemonYellowFlatten",
+    "PokemonYellowImage",
+    "PokemonGoldFlatten",
+    "PokemonGoldImage",
+    "PokemonSilverFlatten",
+    "PokemonSilverImage",
 ]

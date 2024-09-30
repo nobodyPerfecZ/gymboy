@@ -1,10 +1,11 @@
+import numpy as np
 from pyboy import PyBoy
 
 from gymboy.utils.binary import *
 from gymboy.environments.tetris.tetris.constant import *
 
 
-def get_score(pyboy: PyBoy) -> int:
+def score(pyboy: PyBoy) -> int:
     """
     Returns the current score of the game.
 
@@ -19,7 +20,7 @@ def get_score(pyboy: PyBoy) -> int:
     return bcds_to_integer(reversed(pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3]))
 
 
-def get_level(pyboy: PyBoy) -> int:
+def level(pyboy: PyBoy) -> int:
     """
     Returns the current level of the game.
 
@@ -34,7 +35,7 @@ def get_level(pyboy: PyBoy) -> int:
     return pyboy.memory[LEVEL_ADDRESS]
 
 
-def get_next_block(pyboy: PyBoy) -> int:
+def next_block(pyboy: PyBoy) -> int:
     """
     Returns the next block of the game.
 
@@ -65,3 +66,18 @@ def game_over(pyboy: PyBoy) -> bool:
         pyboy.memory[GAME_OVER_ADDRESS] == 0x0D
         or pyboy.memory[GAME_OVER_ADDRESS] == 0x04
     )
+
+
+def game_area(pyboy: PyBoy) -> np.ndarray:
+    """
+    Returns the current game area.
+
+    Args:
+        pyboy (PyBoy):
+            The game boy instance
+
+    Returns:
+        np.ndarray:
+            The current game area
+    """
+    return pyboy.game_area()

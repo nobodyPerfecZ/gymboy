@@ -1,4 +1,4 @@
 numpy==2.0.1
 gymnasium==0.29.1
-pyboy==2.2.2
+pyboy==2.3.0
 opencv-python==4.10.0.84

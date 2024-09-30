@@ -10,6 +10,9 @@ KANTO_BADGE_COUNT_ADDRESS = 0xD57D
 # (3 Bytes) Current money
 MONEY_ADDRESS = 0xD573
 
+# (1 Byte) Pokemon IDs of each team member
+POKEMON_IDS_ADDRESSES = [0xDA2A, 0xDA5A, 0xDA8A, 0xDABA, 0xDAEA, 0xDB1A]
+
 # (1 Byte) Number of pokemons in team
 TEAM_SIZE_ADDRESS = 0xDA22
 

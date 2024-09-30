@@ -6,13 +6,18 @@ import gymnasium as gym
 
 from gymboy.environments.mario import SuperMarioLand1Flatten, SuperMarioLand1Image
 from gymboy.environments.pokemon import (
-    PokemonBlue,
-    PokemonGold,
-    PokemonRed,
-    PokemonSilver,
-    PokemonYellow,
+    PokemonBlueFlatten,
+    PokemonBlueImage,
+    PokemonGoldFlatten,
+    PokemonGoldImage,
+    PokemonRedFlatten,
+    PokemonRedImage,
+    PokemonSilverFlatten,
+    PokemonSilverImage,
+    PokemonYellowFlatten,
+    PokemonYellowImage,
 )
-from gymboy.environments.tetris import TetrisImage, TetrisFlatten
+from gymboy.environments.tetris import TetrisFlatten, TetrisImage
 
 
 def make(env_id: str, **env_kwargs) -> gym.Env:
@@ -46,16 +51,26 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
         env = SuperMarioLand1Image(**env_kwargs)
 
     # 3. Pokemon environments
-    elif env_id == "Pokemon-Blue-v1":
-        env = PokemonBlue(**env_kwargs)
-    elif env_id == "Pokemon-Red-v1":
-        env = PokemonRed(**env_kwargs)
-    elif env_id == "Pokemon-Yellow-v1":
-        env = PokemonYellow(**env_kwargs)
-    elif env_id == "Pokemon-Gold-v1":
-        env = PokemonSilver(**env_kwargs)
-    elif env_id == "Pokemon-Silver-v1":
-        env = PokemonGold(**env_kwargs)
+    elif env_id == "Pokemon-Blue-flatten-v1":
+        env = PokemonBlueFlatten(**env_kwargs)
+    elif env_id == "Pokemon-Blue-image-v1":
+        env = PokemonBlueImage(**env_kwargs)
+    elif env_id == "Pokemon-Red-flatten-v1":
+        env = PokemonRedFlatten(**env_kwargs)
+    elif env_id == "Pokemon-Red-image-v1":
+        env = PokemonRedImage(**env_kwargs)
+    elif env_id == "Pokemon-Yellow-flatten-v1":
+        env = PokemonYellowFlatten(**env_kwargs)
+    elif env_id == "Pokemon-Yellow-image-v1":
+        env = PokemonYellowImage(**env_kwargs)
+    elif env_id == "Pokemon-Gold-flatten-v1":
+        env = PokemonGoldFlatten(**env_kwargs)
+    elif env_id == "Pokemon-Gold-image-v1":
+        env = PokemonGoldImage(**env_kwargs)
+    elif env_id == "Pokemon-Silver-flatten-v1":
+        env = PokemonSilverFlatten(**env_kwargs)
+    elif env_id == "Pokemon-Silver-image-v1":
+        env = PokemonSilverImage(**env_kwargs)
     else:
         raise ValueError("Environment ID is not registered.")
     return env
@@ -109,9 +124,14 @@ registered_envs = [
     "Tetris-image-v1",
     "Super-Mario-Land-1-flatten-v1",
     "Super-Mario-Land-1-image-v1",
-    "Pokemon-Blue-v1",
-    "Pokemon-Red-v1",
-    "Pokemon-Yellow-v1",
-    "Pokemon-Gold-v1",
-    "Pokemon-Silver-v1",
+    "Pokemon-Blue-flatten-v1",
+    "Pokemon-Blue-image-v1",
+    "Pokemon-Red-flatten-v1",
+    "Pokemon-Red-image-v1",
+    "Pokemon-Yellow-flatten-v1",
+    "Pokemon-Yellow-image-v1",
+    "Pokemon-Gold-flatten-v1",
+    "Pokemon-Gold-image-v1",
+    "Pokemon-Silver-flatten-v1",
+    "Pokemon-Silver-image-v1",
 ]

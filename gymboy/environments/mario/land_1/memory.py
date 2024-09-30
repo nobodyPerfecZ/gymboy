@@ -1,10 +1,11 @@
+import numpy as np
 from pyboy import PyBoy
 
 from gymboy.environments.mario.land_1.constant import *
 from gymboy.utils.binary import *
 
 
-def get_score(pyboy: PyBoy) -> int:
+def score(pyboy: PyBoy) -> int:
     """
     Returns the current score of the game.
 
@@ -19,7 +20,7 @@ def get_score(pyboy: PyBoy) -> int:
     return bcds_to_integer(pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3])
 
 
-def get_world_level(pyboy: PyBoy) -> tuple[int, int]:
+def world_level(pyboy: PyBoy) -> tuple[int, int]:
     """
     Returns the current world and level of the game.
 
@@ -31,11 +32,10 @@ def get_world_level(pyboy: PyBoy) -> tuple[int, int]:
         tuple[int, int]:
             The current (world, level) of the game
     """
-    world_level = pyboy.memory[WORLD_LEVEL_ADDRESS]
-    return world_level >> 4, world_level & 0x0F
+    return pyboy.memory[WORLD_LEVEL_ADDRESS] >> 4, pyboy.memory[WORLD_LEVEL_ADDRESS] & 0x0F
 
 
-def get_coins(pyboy: PyBoy) -> int:
+def coins(pyboy: PyBoy) -> int:
     """
     Returns the current number of coins of the game.
 
@@ -50,7 +50,7 @@ def get_coins(pyboy: PyBoy) -> int:
     return reduced_bcds_to_integer(pyboy.memory[COINS_ADDRESS : COINS_ADDRESS + 2])
 
 
-def get_lives(pyboy: PyBoy) -> int:
+def lives(pyboy: PyBoy) -> int:
     """
     Returns the current number of lives of the game.
 
@@ -65,7 +65,7 @@ def get_lives(pyboy: PyBoy) -> int:
     return reduced_bcds_to_integer([pyboy.memory[LIVES_ADDRESS]])
 
 
-def get_time(pyboy: PyBoy) -> int:
+def time(pyboy: PyBoy) -> int:
     """
     Returns the current time of the game.
 
@@ -123,3 +123,18 @@ def game_over(pyboy: PyBoy) -> bool:
             The game is over
     """
     return pyboy.memory[GAME_OVER_ADDRESS] == 0x39
+
+
+def game_area(pyboy: PyBoy) -> np.ndarray:
+    """
+    Returns the current game area.
+
+    Args:
+        pyboy (PyBoy):
+            The game boy instance
+
+    Returns:
+        np.ndarray:
+            The current game area
+    """
+    return pyboy.game_area()

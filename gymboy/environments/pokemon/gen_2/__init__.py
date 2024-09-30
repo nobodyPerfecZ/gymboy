@@ -1,10 +1,14 @@
 """Pokemon Gen 2 environments."""
 
-from gymboy.environments.pokemon.gen_2.gold import PokemonGold
-from gymboy.environments.pokemon.gen_2.silver import PokemonSilver
-
+from gymboy.environments.pokemon.gen_2.gold import PokemonGoldFlatten, PokemonGoldImage
+from gymboy.environments.pokemon.gen_2.silver import (
+    PokemonSilverFlatten,
+    PokemonSilverImage,
+)
 
 __all__ = [
-    "PokemonGold",
-    "PokemonSilver",
+    "PokemonGoldFlatten",
+    "PokemonGoldImage",
+    "PokemonSilverFlatten",
+    "PokemonSilverImage",
 ]

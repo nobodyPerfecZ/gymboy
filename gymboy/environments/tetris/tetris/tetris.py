@@ -80,7 +80,8 @@ class TetrisFlatten(gym.Env):
             self.n_frameskip = n_frameskip
 
     def step(
-        self, action: ActType
+        self,
+        action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
         assert self.action_space.contains(
             action
@@ -130,14 +131,14 @@ class TetrisFlatten(gym.Env):
 
     def get_obs(self) -> np.ndarray:
         """Returns the current observation."""
-        level = np.array([get_level(self.pyboy)])
-        next_block = np.array([get_next_block(self.pyboy)])
-        game_area = self.pyboy.game_area().flatten()
-        return np.concatenate((level, next_block, game_area)).astype(np.float32)
+        level_obs = np.array([level(self.pyboy)])
+        next_block_obs = np.array([next_block(self.pyboy)])
+        game_area_obs = game_area(self.pyboy).flatten()
+        return np.concatenate((level_obs, next_block_obs, game_area_obs)).astype(np.float32)
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = get_score(self.pyboy) / 999999
+        score_reward = score(self.pyboy) / 999999
         game_over_reward = -1.0 if game_over(self.pyboy) else 0.0
         return score_reward + game_over_reward
 
@@ -209,7 +210,8 @@ class TetrisImage(gym.Env):
             self.n_frameskip = n_frameskip
 
     def step(
-        self, action: ActType
+        self,
+        action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
         assert self.action_space.contains(
             action
@@ -263,6 +265,6 @@ class TetrisImage(gym.Env):
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = get_score(self.pyboy) / 999999
+        score_reward = score(self.pyboy) / 999999
         game_over_reward = -1.0 if game_over(self.pyboy) else 0.0
         return score_reward + game_over_reward
