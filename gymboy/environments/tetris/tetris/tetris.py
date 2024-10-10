@@ -52,11 +52,12 @@ class TetrisFlatten(gym.Env):
     ):
         if rom_path is None:
             rom_path = resource_path("resources/roms/tetris/tetris/tetris.gb")
-
         if init_state_path is None:
             init_state_path = resource_path(
                 "resources/states/tetris/tetris/tetris_9.state"
             )
+        if n_frameskip <= 0:
+            raise ValueError("n_frameskip must be greater than 0.")
 
         self.rom_path = rom_path
         self.init_state_path = init_state_path

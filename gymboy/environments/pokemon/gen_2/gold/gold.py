@@ -69,11 +69,12 @@ class PokemonGoldFlatten(gym.Env):
             rom_path = resource_path(
                 "resources/roms/pokemon/gen_2/gold/pokemon_gold.gbc"
             )
-
         if init_state_path is None:
             init_state_path = resource_path(
                 "resources/states/pokemon/gen_2/gold/pokemon_gold_after_intro.state"
             )
+        if n_frameskip <= 0:
+            raise ValueError("n_frameskip must be greater than 0.")
 
         self.rom_path = rom_path
         self.init_state_path = init_state_path

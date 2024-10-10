@@ -75,6 +75,8 @@ class PokemonRedFlatten(gym.Env):
             init_state_path = resource_path(
                 "resources/states/pokemon/gen_1/red/pokemon_red_after_intro.state"
             )
+        if n_frameskip <= 0:
+            raise ValueError("n_frameskip must be greater than 0.")
 
         self.rom_path = rom_path
         self.init_state_path = init_state_path

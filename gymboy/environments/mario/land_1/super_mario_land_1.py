@@ -69,11 +69,12 @@ class SuperMarioLand1Flatten(gym.Env):
             rom_path = resource_path(
                 "resources/roms/mario/land_1/super_mario_land_1.gb"
             )
-
         if init_state_path is None:
             init_state_path = resource_path(
                 "resources/states/mario/land_1/super_mario_land_1_1_1.state"
             )
+        if n_frameskip <= 0:
+            raise ValueError("n_frameskip must be greater than 0.")
 
         self.rom_path = rom_path
         self.init_state_path = init_state_path
