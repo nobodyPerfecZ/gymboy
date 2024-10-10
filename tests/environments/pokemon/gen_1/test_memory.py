@@ -3,11 +3,26 @@ import unittest
 import numpy as np
 from pyboy import PyBoy
 
-from gymboy.environments.pokemon.gen_1.memory import *
+from gymboy.environments.pokemon.gen_1.memory import (
+    badges,
+    money,
+    pokemon_ids,
+    team_size,
+    levels,
+    hps,
+    max_hps,
+    exps,
+    moves,
+    pps,
+    max_pps,
+    seen_pokemons,
+    events,
+    game_area,
+)
 
 
 class TestMemory(unittest.TestCase):
-    """Tests the methods under the memory.py file."""
+    """Tests the methods under the pokemon/gen_1/memory.py file."""
 
     def setUp(self):
         self.pyboy = PyBoy(
@@ -33,7 +48,9 @@ class TestMemory(unittest.TestCase):
 
     def test_pokemon_ids(self):
         """Tests the pokemon_ids() method."""
-        np.testing.assert_allclose([177, 0, 0, 0, 0, 0], pokemon_ids(self.pyboy, yellow=False))
+        np.testing.assert_allclose(
+            [177, 0, 0, 0, 0, 0], pokemon_ids(self.pyboy, yellow=False)
+        )
 
     def test_team_size(self):
         """Tests the team_size() method."""
@@ -49,7 +66,9 @@ class TestMemory(unittest.TestCase):
 
     def test_max_hps(self):
         """Tests the max_hps() method."""
-        np.testing.assert_allclose([21, 0, 0, 0, 0, 0], max_hps(self.pyboy, yellow=False))
+        np.testing.assert_allclose(
+            [21, 0, 0, 0, 0, 0], max_hps(self.pyboy, yellow=False)
+        )
 
     def test_exps(self):
         """Tests the exps() method."""

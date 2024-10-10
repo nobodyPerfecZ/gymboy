@@ -7,7 +7,7 @@ from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
-from gymboy.environments.tetris.tetris.memory import *
+from .memory import game_area, game_over, level, next_block, score
 
 
 class TetrisFlatten(gym.Env):
@@ -134,7 +134,9 @@ class TetrisFlatten(gym.Env):
         level_obs = np.array([level(self.pyboy)])
         next_block_obs = np.array([next_block(self.pyboy)])
         game_area_obs = game_area(self.pyboy).flatten()
-        return np.concatenate((level_obs, next_block_obs, game_area_obs)).astype(np.float32)
+        return np.concatenate((level_obs, next_block_obs, game_area_obs)).astype(
+            np.float32
+        )
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""

@@ -1,6 +1,6 @@
 """Pokemon environments."""
 
-from gymboy.environments.pokemon.gen_1 import (
+from .gen_1 import (
     PokemonBlueFlatten,
     PokemonBlueImage,
     PokemonRedFlatten,
@@ -8,7 +8,7 @@ from gymboy.environments.pokemon.gen_1 import (
     PokemonYellowFlatten,
     PokemonYellowImage,
 )
-from gymboy.environments.pokemon.gen_2 import (
+from .gen_2 import (
     PokemonGoldFlatten,
     PokemonGoldImage,
     PokemonSilverFlatten,
@@ -18,12 +18,14 @@ from gymboy.environments.pokemon.gen_2 import (
 __all__ = [
     "PokemonBlueFlatten",
     "PokemonBlueImage",
-    "PokemonRedFlatten",
-    "PokemonRedImage",
-    "PokemonYellowFlatten",
-    "PokemonYellowImage",
     "PokemonGoldFlatten",
     "PokemonGoldImage",
+    "PokemonRedFlatten",
+    "PokemonRedImage",
     "PokemonSilverFlatten",
     "PokemonSilverImage",
+    "PokemonYellowFlatten",
+    "PokemonYellowImage",
 ]
+
+assert __all__ == sorted(__all__)

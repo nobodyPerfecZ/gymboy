@@ -3,11 +3,25 @@ import unittest
 import numpy as np
 from pyboy import PyBoy
 
-from gymboy.environments.pokemon.gen_2.memory import *
+from gymboy.environments.pokemon.gen_2.memory import (
+    badges,
+    money,
+    pokemon_ids,
+    team_size,
+    levels,
+    hps,
+    max_hps,
+    exps,
+    moves,
+    pps,
+    max_pps,
+    seen_pokemons,
+    game_area,
+)
 
 
 class TestMemory(unittest.TestCase):
-    """Tests the methods under the memory.py file."""
+    """Tests the methods under the pokemon/gen_2/memory.py file."""
 
     def setUp(self):
         self.pyboy = PyBoy(

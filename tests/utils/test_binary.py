@@ -1,6 +1,11 @@
 import unittest
 
-from gymboy.utils.binary import *
+from gymboy.utils import (
+    bcds_to_integer,
+    bytes_bit_count,
+    bytes_to_int,
+    reduced_bcds_to_integer,
+)
 
 
 class TestBinary(unittest.TestCase):

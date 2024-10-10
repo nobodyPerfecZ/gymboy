@@ -1,8 +1,13 @@
 import numpy as np
 from pyboy import PyBoy
 
-from gymboy.utils.binary import *
-from gymboy.environments.tetris.tetris.constant import *
+from ....utils import bcds_to_integer
+from .constant import (
+    GAME_OVER_ADDRESS,
+    LEVEL_ADDRESS,
+    NEXT_BLOCK_ADDRESS,
+    SCORE_ADDRESS,
+)
 
 
 def score(pyboy: PyBoy) -> int:

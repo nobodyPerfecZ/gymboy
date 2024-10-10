@@ -7,7 +7,17 @@ from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
-from gymboy.environments.mario.land_1.memory import *
+from .memory import (
+    coins,
+    game_area,
+    game_over,
+    level_finished,
+    lives,
+    score,
+    time,
+    time_over,
+    world_level,
+)
 
 
 class SuperMarioLand1Flatten(gym.Env):
@@ -141,7 +151,9 @@ class SuperMarioLand1Flatten(gym.Env):
         lives_obs = np.array([lives(self.pyboy)])
         time_obs = np.array([time(self.pyboy)])
         game_area_obs = game_area(self.pyboy).flatten()
-        return np.concatenate((world_obs, level_obs, lives_obs, time_obs, game_area_obs))
+        return np.concatenate(
+            (world_obs, level_obs, lives_obs, time_obs, game_area_obs)
+        )
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""

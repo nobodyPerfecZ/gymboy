@@ -1,12 +1,19 @@
 import unittest
 
+import numpy as np
 from pyboy import PyBoy
 
-from gymboy.environments.tetris.tetris.memory import *
+from gymboy.environments.tetris.tetris.memory import (
+    game_area,
+    game_over,
+    level,
+    next_block,
+    score,
+)
 
 
 class TestMemory(unittest.TestCase):
-    """Tests the methods under methods.py."""
+    """Tests the methods under tetris/tetris/memory.py."""
 
     def setUp(self):
         self.pyboy = PyBoy(gamerom="./gymboy/resources/roms/tetris/tetris/tetris.gb")

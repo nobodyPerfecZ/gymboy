@@ -1,12 +1,10 @@
 """Pokemon Gold environment."""
 
-from gymboy.environments.pokemon.gen_2.gold.gold import (
-    PokemonGoldFlatten,
-    PokemonGoldImage,
-)
-
+from .gold import PokemonGoldFlatten, PokemonGoldImage
 
 __all__ = [
     "PokemonGoldFlatten",
     "PokemonGoldImage",
 ]
+
+assert __all__ == sorted(__all__)

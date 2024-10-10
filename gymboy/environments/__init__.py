@@ -1,39 +1,40 @@
 """Gymboy environments."""
 
-# Tetris environments
-from gymboy.environments.tetris import TetrisFlatten, TetrisImage
-
 # Mario environments
-from gymboy.environments.mario import SuperMarioLand1Flatten, SuperMarioLand1Image
+from .mario import SuperMarioLand1Flatten, SuperMarioLand1Image
 
 # Pokemon environments
-from gymboy.environments.pokemon import (
+from .pokemon import (
     PokemonBlueFlatten,
     PokemonBlueImage,
-    PokemonRedFlatten,
-    PokemonRedImage,
-    PokemonYellowFlatten,
-    PokemonYellowImage,
     PokemonGoldFlatten,
     PokemonGoldImage,
+    PokemonRedFlatten,
+    PokemonRedImage,
     PokemonSilverFlatten,
     PokemonSilverImage,
+    PokemonYellowFlatten,
+    PokemonYellowImage,
 )
 
+# Tetris environments
+from .tetris import TetrisFlatten, TetrisImage
 
 __all__ = [
-    "TetrisFlatten",
-    "TetrisImage",
-    "SuperMarioLand1Flatten",
-    "SuperMarioLand1Image",
     "PokemonBlueFlatten",
     "PokemonBlueImage",
-    "PokemonRedFlatten",
-    "PokemonRedImage",
-    "PokemonYellowFlatten",
-    "PokemonYellowImage",
     "PokemonGoldFlatten",
     "PokemonGoldImage",
+    "PokemonRedFlatten",
+    "PokemonRedImage",
     "PokemonSilverFlatten",
     "PokemonSilverImage",
+    "PokemonYellowFlatten",
+    "PokemonYellowImage",
+    "SuperMarioLand1Flatten",
+    "SuperMarioLand1Image",
+    "TetrisFlatten",
+    "TetrisImage",
 ]
+
+assert __all__ == sorted(__all__)

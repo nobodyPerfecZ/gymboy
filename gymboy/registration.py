@@ -4,8 +4,7 @@ from typing import Callable
 
 import gymnasium as gym
 
-from gymboy.environments.mario import SuperMarioLand1Flatten, SuperMarioLand1Image
-from gymboy.environments.pokemon import (
+from .environments import (
     PokemonBlueFlatten,
     PokemonBlueImage,
     PokemonGoldFlatten,
@@ -16,8 +15,11 @@ from gymboy.environments.pokemon import (
     PokemonSilverImage,
     PokemonYellowFlatten,
     PokemonYellowImage,
+    SuperMarioLand1Flatten,
+    SuperMarioLand1Image,
+    TetrisFlatten,
+    TetrisImage,
 )
-from gymboy.environments.tetris import TetrisFlatten, TetrisImage
 
 
 def make(env_id: str, **env_kwargs) -> gym.Env:
@@ -120,18 +122,20 @@ def make_vec(
 
 
 registered_envs = [
-    "Tetris-flatten-v1",
-    "Tetris-image-v1",
-    "Super-Mario-Land-1-flatten-v1",
-    "Super-Mario-Land-1-image-v1",
     "Pokemon-Blue-flatten-v1",
     "Pokemon-Blue-image-v1",
-    "Pokemon-Red-flatten-v1",
-    "Pokemon-Red-image-v1",
-    "Pokemon-Yellow-flatten-v1",
-    "Pokemon-Yellow-image-v1",
     "Pokemon-Gold-flatten-v1",
     "Pokemon-Gold-image-v1",
+    "Pokemon-Red-flatten-v1",
+    "Pokemon-Red-image-v1",
     "Pokemon-Silver-flatten-v1",
     "Pokemon-Silver-image-v1",
+    "Pokemon-Yellow-flatten-v1",
+    "Pokemon-Yellow-image-v1",
+    "Super-Mario-Land-1-flatten-v1",
+    "Super-Mario-Land-1-image-v1",
+    "Tetris-flatten-v1",
+    "Tetris-image-v1",
 ]
+
+assert registered_envs == sorted(registered_envs)

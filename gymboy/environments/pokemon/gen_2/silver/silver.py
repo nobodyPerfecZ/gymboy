@@ -7,7 +7,17 @@ from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
-from gymboy.environments.pokemon.gen_2.memory import *
+from ..memory import (
+    badges,
+    game_area,
+    hps,
+    levels,
+    money,
+    moves,
+    pokemon_ids,
+    pps,
+    seen_pokemons,
+)
 
 
 class PokemonSilverFlatten(gym.Env):
@@ -142,7 +152,9 @@ class PokemonSilverFlatten(gym.Env):
         moves_obs = moves(self.pyboy).flatten()
         pps_obs = pps(self.pyboy).flatten()
         game_area_obs = game_area(self.pyboy).flatten()
-        return np.concatenate((pokemon_ids_obs, levels_obs, hps_obs, moves_obs, pps_obs, game_area_obs))
+        return np.concatenate(
+            (pokemon_ids_obs, levels_obs, hps_obs, moves_obs, pps_obs, game_area_obs)
+        )
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""

@@ -1,8 +1,25 @@
 import numpy as np
 from pyboy import PyBoy
 
-from gymboy.environments.pokemon.gen_1.constant import *
-from gymboy.utils.binary import *
+from ....utils import bcds_to_integer, bytes_bit_count, bytes_to_int
+
+from .constant import (
+    BADGE_COUNT_ADDRESS,
+    EVENT_FLAGS_END_ADDRESS,
+    EVENT_FLAGS_START_ADDRESS,
+    EXP_ADDRESSES,
+    HP_ADDRESSES,
+    LEVELS_ADDRESSES,
+    MAX_HP_ADDRESSES,
+    MONEY_ADDRESS,
+    MOVE_ADDRESSES,
+    MOVES_TO_MAX_PP,
+    POKEDEX_SEEN_END_ADDRESS,
+    POKEDEX_SEEN_START_ADDRESS,
+    POKEMON_IDS_ADDRESSES,
+    PP_ADDRESSES,
+    TEAM_SIZE_ADDRESS,
+)
 
 
 def badges(pyboy: PyBoy, yellow: bool = False) -> int:

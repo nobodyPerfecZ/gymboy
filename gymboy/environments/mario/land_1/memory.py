@@ -1,8 +1,18 @@
 import numpy as np
 from pyboy import PyBoy
 
-from gymboy.environments.mario.land_1.constant import *
-from gymboy.utils.binary import *
+from ....utils import bcds_to_integer, reduced_bcds_to_integer
+
+from .constant import (
+    COINS_ADDRESS,
+    GAME_OVER_ADDRESS,
+    LEVEL_COMPLETE,
+    LIVES_ADDRESS,
+    SCORE_ADDRESS,
+    TIME_UP_ADDRESS,
+    TIMES_ADDRESS,
+    WORLD_LEVEL_ADDRESS,
+)
 
 
 def score(pyboy: PyBoy) -> int:
@@ -32,7 +42,10 @@ def world_level(pyboy: PyBoy) -> tuple[int, int]:
         tuple[int, int]:
             The current (world, level) of the game
     """
-    return pyboy.memory[WORLD_LEVEL_ADDRESS] >> 4, pyboy.memory[WORLD_LEVEL_ADDRESS] & 0x0F
+    return (
+        pyboy.memory[WORLD_LEVEL_ADDRESS] >> 4,
+        pyboy.memory[WORLD_LEVEL_ADDRESS] & 0x0F,
+    )
 
 
 def coins(pyboy: PyBoy) -> int:

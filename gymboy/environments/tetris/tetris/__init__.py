@@ -1,9 +1,7 @@
 """Tetris environment."""
 
-from gymboy.environments.tetris.tetris.tetris import TetrisFlatten, TetrisImage
+from .tetris import TetrisFlatten, TetrisImage
 
+__all__ = ["TetrisFlatten", "TetrisImage"]
 
-__all__ = [
-    "TetrisFlatten",
-    "TetrisImage"
-]
+assert __all__ == sorted(__all__)

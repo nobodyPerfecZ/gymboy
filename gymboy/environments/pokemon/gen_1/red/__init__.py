@@ -1,6 +1,7 @@
 """Pokemon Red environment."""
 
-from gymboy.environments.pokemon.gen_1.red.red import PokemonRedFlatten, PokemonRedImage
-
+from .red import PokemonRedFlatten, PokemonRedImage
 
 __all__ = ["PokemonRedFlatten", "PokemonRedImage"]
+
+assert __all__ == sorted(__all__)
