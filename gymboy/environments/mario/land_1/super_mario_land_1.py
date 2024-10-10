@@ -7,6 +7,7 @@ from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
+from ....utils import resource_path
 from .memory import (
     coins,
     game_area,
@@ -58,12 +59,22 @@ class SuperMarioLand1Flatten(gym.Env):
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/mario/land_1/super_mario_land_1.gb",
-        init_state_path: str = "./gymboy/resources/states/mario/land_1/super_mario_land_1_1_1.state",
+        rom_path: str | None = None,
+        init_state_path: str | None = None,
         n_frameskip: int = 60,
         sound: bool = False,
         render_mode: str | None = None,
     ):
+        if rom_path is None:
+            rom_path = resource_path(
+                "resources/roms/mario/land_1/super_mario_land_1.gb"
+            )
+
+        if init_state_path is None:
+            init_state_path = resource_path(
+                "resources/states/mario/land_1/super_mario_land_1_1_1.state"
+            )
+
         self.rom_path = rom_path
         self.init_state_path = init_state_path
         self.sound = sound
@@ -202,12 +213,22 @@ class SuperMarioLand1Image(gym.Env):
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/mario/land_1/super_mario_land_1.gb",
-        init_state_path: str = "./gymboy/resources/states/mario/land_1/super_mario_land_1_1_1.state",
+        rom_path: str | None = None,
+        init_state_path: str | None = None,
         n_frameskip: int = 60,
         sound: bool = False,
         render_mode: str | None = None,
     ):
+        if rom_path is None:
+            rom_path = resource_path(
+                "resources/roms/mario/land_1/super_mario_land_1.gb"
+            )
+
+        if init_state_path is None:
+            init_state_path = resource_path(
+                "resources/states/mario/land_1/super_mario_land_1_1_1.state"
+            )
+
         self.rom_path = rom_path
         self.init_state_path = init_state_path
         self.sound = sound

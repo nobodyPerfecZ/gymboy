@@ -7,6 +7,7 @@ from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
+from .....utils import resource_path
 from ..constant import EVENT_FLAGS_END_ADDRESS, EVENT_FLAGS_START_ADDRESS
 from ..memory import (
     badges,
@@ -61,12 +62,20 @@ class PokemonRedFlatten(gym.Env):
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/pokemon/gen_1/red/pokemon_red.gb",
-        init_state_path: str = "./gymboy/resources/states/pokemon/gen_1/red/pokemon_red_after_intro.state",
+        rom_path: str | None = None,
+        init_state_path: str | None = None,
         n_frameskip: int = 60,
         sound: bool = False,
         render_mode: str | None = None,
     ):
+        if rom_path is None:
+            rom_path = resource_path("resources/roms/pokemon/gen_1/red/pokemon_red.gb")
+
+        if init_state_path is None:
+            init_state_path = resource_path(
+                "resources/states/pokemon/gen_1/red/pokemon_red_after_intro.state"
+            )
+
         self.rom_path = rom_path
         self.init_state_path = init_state_path
         self.sound = sound
@@ -208,12 +217,20 @@ class PokemonRedImage(gym.Env):
 
     def __init__(
         self,
-        rom_path: str = "./gymboy/resources/roms/pokemon/gen_1/red/pokemon_red.gb",
-        init_state_path: str = "./gymboy/resources/states/pokemon/gen_1/red/pokemon_red_after_intro.state",
+        rom_path: str | None = None,
+        init_state_path: str | None = None,
         n_frameskip: int = 60,
         sound: bool = False,
         render_mode: str | None = None,
     ):
+        if rom_path is None:
+            rom_path = resource_path("resources/roms/pokemon/gen_1/red/pokemon_red.gb")
+
+        if init_state_path is None:
+            init_state_path = resource_path(
+                "resources/states/pokemon/gen_1/red/pokemon_red_after_intro.state"
+            )
+
         self.rom_path = rom_path
         self.init_state_path = init_state_path
         self.sound = sound
