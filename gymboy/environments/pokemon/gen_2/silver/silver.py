@@ -1,4 +1,4 @@
-from typing import Any, Optional, SupportsFloat
+from typing import Any, SupportsFloat
 
 import cv2
 import gymnasium as gym
@@ -59,12 +59,10 @@ class PokemonSilverFlatten(gym.Env):
     def __init__(
         self,
         rom_path: str = "./gymboy/resources/roms/pokemon/gen_2/silver/pokemon_silver.gbc",
-        init_state_path: Optional[
-            str
-        ] = "./gymboy/resources/states/pokemon/gen_2/silver/pokemon_silver_after_intro.state",
+        init_state_path: str = "./gymboy/resources/states/pokemon/gen_2/silver/pokemon_silver_after_intro.state",
         sound: bool = False,
         n_frameskip: int = 60,
-        render_mode: Optional[str] = None,
+        render_mode: str | None = None,
     ):
         self.rom_path = rom_path
         self.init_state_path = init_state_path
@@ -200,12 +198,10 @@ class PokemonSilverImage(gym.Env):
     def __init__(
         self,
         rom_path: str = "./gymboy/resources/roms/pokemon/gen_2/silver/pokemon_silver.gbc",
-        init_state_path: Optional[
-            str
-        ] = "./gymboy/resources/states/pokemon/gen_2/silver/pokemon_silver_after_intro.state",
+        init_state_path: str = "./gymboy/resources/states/pokemon/gen_2/silver/pokemon_silver_after_intro.state",
         sound: bool = False,
         n_frameskip: int = 60,
-        render_mode: Optional[str] = None,
+        render_mode: str | None = None,
     ):
         self.rom_path = rom_path
         self.init_state_path = init_state_path

@@ -91,7 +91,7 @@ def make_vec(
         env_id (str):
             A string identifier for the environment
 
-        num_envs (int, optional):
+        num_envs (int):
             The number of environments
 
         vectorization_mode (str):

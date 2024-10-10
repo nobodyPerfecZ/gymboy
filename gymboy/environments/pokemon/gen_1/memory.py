@@ -68,7 +68,7 @@ def pokemon_ids(pyboy: PyBoy, yellow: bool = False) -> np.ndarray:
         pyboy (PyBoy):
             The game boy instance
 
-        yellow (bool, optional):
+        yellow (bool):
             The flag to indicate if the game is Pokemon Yellow
 
     Returns:

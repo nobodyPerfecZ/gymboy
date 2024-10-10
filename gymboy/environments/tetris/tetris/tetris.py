@@ -1,4 +1,4 @@
-from typing import Any, Optional, SupportsFloat
+from typing import Any, SupportsFloat
 
 import cv2
 import gymnasium as gym
@@ -44,12 +44,10 @@ class TetrisFlatten(gym.Env):
     def __init__(
         self,
         rom_path: str = "./gymboy/resources/roms/tetris/tetris/tetris.gb",
-        init_state_path: Optional[
-            str
-        ] = "./gymboy/resources/states/tetris/tetris/tetris_9.state",
+        init_state_path: str = "./gymboy/resources/states/tetris/tetris/tetris_9.state",
         n_frameskip: int = 60,
         sound: bool = False,
-        render_mode: Optional[str] = None,
+        render_mode: str | None = None,
     ):
         self.rom_path = rom_path
         self.init_state_path = init_state_path
@@ -176,12 +174,10 @@ class TetrisImage(gym.Env):
     def __init__(
         self,
         rom_path: str = "./gymboy/resources/roms/tetris/tetris/tetris.gb",
-        init_state_path: Optional[
-            str
-        ] = "./gymboy/resources/states/tetris/tetris/tetris_9.state",
+        init_state_path: str = "./gymboy/resources/states/tetris/tetris/tetris_9.state",
         n_frameskip: int = 60,
         sound: bool = False,
-        render_mode: Optional[str] = None,
+        render_mode: str | None = None,
     ):
         self.rom_path = rom_path
         self.init_state_path = init_state_path
