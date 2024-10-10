@@ -7,15 +7,22 @@ Gymboy supports a range of different RL environments from the Game Boy Color usi
 To use these environments, you need to manually install the specific game ROMs listed under `ROM Version`.
 
 ## Implemented Environments 🌍
-| Environment Name | ROM Version | Source |
-|----------|----------|----------|
-| `Tetris-v1`  | Tetris (JUE) (V1.1) [!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/tetris/tetris/tetris.py)   | 
-| `Super-Mario-Land-1-v1`  | Super Mario Land (JUE) (V1.1) [!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/mario/land_1/super_mario_land_1.py)   | 
-| `Pokemon-Blue-v1`   | Pokemon - Blue Version (UE)[!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/blue/blue.py)   |
-| `Pokemon-Red-v1`   | Pokemon - Red Version (UE)[!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/red/red.py)   |
-| `Pokemon-Yellow-v1`   | Pokemon - Yellow Version (UE) [C][!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/yellow/yellow.py)   |
-| `Pokemon-Gold-v1`   | Pokemon - Gold Version (UE) [C][!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_2/gold/gold.py)   |
-| `Pokemon-Silver-v1`   | Pokemon - Silver Version (UE) [C][!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_2/silver/silver.py)   |
+| Environment Name                | ROM Version                          | Source                                                                                                                   |
+|---------------------------------|--------------------------------------|--------------------------------------------------------------------------------------------------------------------------|
+| `Pokemon-Blue-flatten-v1`       | Pokemon - Blue Version (UE)[!]       | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/blue/blue.py#L26)          |
+| `Pokemon-Blue-image-v1`         | Pokemon - Blue Version (UE)[!]       | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/blue/blue.py#L189)         |
+| `Pokemon-Red-flatten-v1`        | Pokemon - Red Version (UE)[!]        | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/red/red.py#L26)            |
+| `Pokemon-Red-image-v1`          | Pokemon - Red Version (UE)[!]        | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/red/red.py#L187)           |
+| `Pokemon-Yellow-flatten-v1`     | Pokemon - Yellow Version (UE) [C][!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/yellow/yellow.py#L26)      |
+| `Pokemon-Yellow-image-v1`       | Pokemon - Yellow Version (UE) [C][!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_1/yellow/yellow.py#L196)     |
+| `Pokemon-Gold-flatten-v1`       | Pokemon - Gold Version (UE) [C][!]   | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_2/gold/gold.py#L24)          |
+| `Pokemon-Gold-image-v1`         | Pokemon - Gold Version (UE) [C][!]   | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_2/gold/gold.py#L179)         |
+| `Pokemon-Silver-flatten-v1`     | Pokemon - Silver Version (UE) [C][!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_2/silver/silver.py#L24)      |
+| `Pokemon-Silver-image-v1`       | Pokemon - Silver Version (UE) [C][!] | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/pokemon/gen_2/silver/silver.py#L179)     |
+| `Tetris-flatten-v1`             | Tetris (JUE) (V1.1) [!]              | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/tetris/tetris/tetris.py#L14)             |
+| `Tetris-image-v1`               | Tetris (JUE) (V1.1) [!]              | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/tetris/tetris/tetris.py#L155)            |
+| `Super-Mario-Land-1-flatten-v1` | Super Mario Land (JUE) (V1.1) [!]    | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/mario/land_1/super_mario_land_1.py#L24)  |
+| `Super-Mario-Land-1-image-v1`   | Super Mario Land (JUE) (V1.1) [!]    | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/mario/land_1/super_mario_land_1.py#L183) |
 
 ## Installation ⚙️
 TODO: Add text here
