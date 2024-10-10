@@ -107,6 +107,9 @@ class PokemonBlueFlatten(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        if self.pyboy.cartridge_title != "POKEMON BLUE":
+            raise ValueError("The ROM is not Pokemon Blue.")
+
     def step(
         self,
         action: ActType,
@@ -143,6 +146,10 @@ class PokemonBlueFlatten(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+
+        if self.pyboy.cartridge_title != "POKEMON BLUE":
+            raise ValueError("The ROM is not Pokemon Blue.")
+
         self.pyboy.tick(1)
 
         # Get the initial observation and info

@@ -104,6 +104,9 @@ class SuperMarioLand1Flatten(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        if self.pyboy.cartridge_title != "SUPER MARIOLAN":
+            raise ValueError("The ROM is not Super Mario Land 1.")
+
     def step(
         self,
         action: ActType,
@@ -140,6 +143,10 @@ class SuperMarioLand1Flatten(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+
+        if self.pyboy.cartridge_title != "SUPER MARIOLAN":
+            raise ValueError("The ROM is not Super Mario Land 1.")
+
         self.pyboy.tick(1)
 
         # Get the initial observation and info

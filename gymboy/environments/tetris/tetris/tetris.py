@@ -87,6 +87,9 @@ class TetrisFlatten(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        if self.pyboy.cartridge_title != "TETRIS":
+            raise ValueError("The ROM is not Tetris.")
+
     def step(
         self,
         action: ActType,
@@ -123,6 +126,10 @@ class TetrisFlatten(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+
+        if self.pyboy.cartridge_title != "TETRIS":
+            raise ValueError("The ROM is not Tetris.")
+
         self.pyboy.tick(1)
 
         # Get the initial observation and info
