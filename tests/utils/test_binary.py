@@ -1,3 +1,5 @@
+"""Tests utils/binary.py."""
+
 import unittest
 
 from gymboy.utils import (

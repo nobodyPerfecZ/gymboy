@@ -1,3 +1,5 @@
+"""Tests land_1/super_mario_land_1.py."""
+
 import unittest
 
 import numpy as np
@@ -9,9 +11,15 @@ class TestSuperMarioLand1Flatten(unittest.TestCase):
     """Tests the SuperMarioLand1Flatten class."""
 
     def setUp(self):
+        self.env_id = "Super-Mario-Land-1-flatten-v1"
+        self.init_state_path = (
+            "./gymboy/resources/states/mario/land_1/super_mario_land_1_test.state"
+        )
+        self.num_envs = 3
+        self.vectorization_mode = "sync"
         self.env = gymboy.make(
-            env_id="Super-Mario-Land-1-flatten-v1",
-            init_state_path="./tests/resources/states/mario/land_1/super_mario_land_1_1_1_end.state",
+            env_id=self.env_id,
+            init_state_path=self.init_state_path,
         )
         self.env.reset()
 
@@ -54,38 +62,41 @@ class TestSuperMarioLand1Flatten(unittest.TestCase):
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
-        num_envs = 3
         vectorized_env = gymboy.make_vec(
-            env_id="Super-Mario-Land-1-flatten-v1",
-            num_envs=num_envs,
-            vectorization_mode="sync",
-            init_state_path="./tests/resources/states/mario/land_1/super_mario_land_1_1_1_end.state",
+            env_id=self.env_id,
+            num_envs=self.num_envs,
+            vectorization_mode=self.vectorization_mode,
+            init_state_path=self.init_state_path,
         )
 
         obs, info = vectorized_env.reset()
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((num_envs, 324), obs.shape)
+        self.assertEqual((self.num_envs, 324), obs.shape)
 
-        obs, reward, terminated, truncated, info = vectorized_env.step([0] * num_envs)
+        obs, reward, terminated, truncated, info = vectorized_env.step(
+            [0] * self.num_envs
+        )
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((num_envs, 324), obs.shape)
+        self.assertEqual((self.num_envs, 324), obs.shape)
         self.assertIsInstance(reward, np.ndarray)
-        self.assertEqual((num_envs,), reward.shape)
+        self.assertEqual((self.num_envs,), reward.shape)
         self.assertIsInstance(terminated, np.ndarray)
-        self.assertEqual((num_envs,), terminated.shape)
+        self.assertEqual((self.num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
-        self.assertEqual((num_envs,), truncated.shape)
+        self.assertEqual((self.num_envs,), truncated.shape)
         self.assertIsInstance(info, dict)
 
-        obs, reward, terminated, truncated, info = vectorized_env.step([1] * num_envs)
+        obs, reward, terminated, truncated, info = vectorized_env.step(
+            [1] * self.num_envs
+        )
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((num_envs, 324), obs.shape)
+        self.assertEqual((self.num_envs, 324), obs.shape)
         self.assertIsInstance(reward, np.ndarray)
-        self.assertEqual((num_envs,), reward.shape)
+        self.assertEqual((self.num_envs,), reward.shape)
         self.assertIsInstance(terminated, np.ndarray)
-        self.assertEqual((num_envs,), terminated.shape)
+        self.assertEqual((self.num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
-        self.assertEqual((num_envs,), truncated.shape)
+        self.assertEqual((self.num_envs,), truncated.shape)
         self.assertIsInstance(info, dict)
 
         vectorized_env.close()
@@ -95,9 +106,15 @@ class TestSuperMarioLand1Image(unittest.TestCase):
     """Tests the SuperMarioLand1Image class."""
 
     def setUp(self):
+        self.env_id = "Super-Mario-Land-1-image-v1"
+        self.init_state_path = (
+            "./gymboy/resources/states/mario/land_1/super_mario_land_1_test.state"
+        )
+        self.num_envs = 3
+        self.vectorization_mode = "sync"
         self.env = gymboy.make(
-            env_id="Super-Mario-Land-1-image-v1",
-            init_state_path="./tests/resources/states/mario/land_1/super_mario_land_1_1_1_end.state",
+            env_id=self.env_id,
+            init_state_path=self.init_state_path,
         )
         self.env.reset()
 
@@ -140,38 +157,41 @@ class TestSuperMarioLand1Image(unittest.TestCase):
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
-        num_envs = 3
         vectorized_env = gymboy.make_vec(
-            env_id="Super-Mario-Land-1-image-v1",
-            num_envs=num_envs,
-            vectorization_mode="sync",
-            init_state_path="./tests/resources/states/mario/land_1/super_mario_land_1_1_1_end.state",
+            env_id=self.env_id,
+            num_envs=self.num_envs,
+            vectorization_mode=self.vectorization_mode,
+            init_state_path=self.init_state_path,
         )
 
         obs, info = vectorized_env.reset()
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((num_envs, 144, 160, 3), obs.shape)
+        self.assertEqual((self.num_envs, 144, 160, 3), obs.shape)
 
-        obs, reward, terminated, truncated, info = vectorized_env.step([0] * num_envs)
+        obs, reward, terminated, truncated, info = vectorized_env.step(
+            [0] * self.num_envs
+        )
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((num_envs, 144, 160, 3), obs.shape)
+        self.assertEqual((self.num_envs, 144, 160, 3), obs.shape)
         self.assertIsInstance(reward, np.ndarray)
-        self.assertEqual((num_envs,), reward.shape)
+        self.assertEqual((self.num_envs,), reward.shape)
         self.assertIsInstance(terminated, np.ndarray)
-        self.assertEqual((num_envs,), terminated.shape)
+        self.assertEqual((self.num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
-        self.assertEqual((num_envs,), truncated.shape)
+        self.assertEqual((self.num_envs,), truncated.shape)
         self.assertIsInstance(info, dict)
 
-        obs, reward, terminated, truncated, info = vectorized_env.step([1] * num_envs)
+        obs, reward, terminated, truncated, info = vectorized_env.step(
+            [1] * self.num_envs
+        )
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((num_envs, 144, 160, 3), obs.shape)
+        self.assertEqual((self.num_envs, 144, 160, 3), obs.shape)
         self.assertIsInstance(reward, np.ndarray)
-        self.assertEqual((num_envs,), reward.shape)
+        self.assertEqual((self.num_envs,), reward.shape)
         self.assertIsInstance(terminated, np.ndarray)
-        self.assertEqual((num_envs,), terminated.shape)
+        self.assertEqual((self.num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
-        self.assertEqual((num_envs,), truncated.shape)
+        self.assertEqual((self.num_envs,), truncated.shape)
         self.assertIsInstance(info, dict)
 
         vectorized_env.close()

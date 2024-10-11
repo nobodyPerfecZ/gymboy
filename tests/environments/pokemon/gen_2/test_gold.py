@@ -1,4 +1,4 @@
-"""Tests tetris/tetris.py."""
+"""Tests gen_2/gold.py."""
 
 import unittest
 
@@ -7,13 +7,13 @@ import numpy as np
 import gymboy
 
 
-class TestTetrisFlatten(unittest.TestCase):
-    """Tests the TetrisFlatten class."""
+class TestPokemonGoldFlatten(unittest.TestCase):
+    """Tests the PokemonGoldFlatten class."""
 
     def setUp(self):
-        self.env_id = "Tetris-flatten-v1"
+        self.env_id = "Pokemon-Gold-flatten-v1"
         self.init_state_path = (
-            "./gymboy/resources/states/tetris/tetris/tetris_9_during_game.state"
+            "./gymboy/resources/states/pokemon/gen_2/pokemon_gold_after_first_pokemon.state"
         )
         self.num_envs = 3
         self.vectorization_mode = "sync"
@@ -30,7 +30,7 @@ class TestTetrisFlatten(unittest.TestCase):
         """Tests the step() method."""
         obs, reward, terminated, truncated, info = self.env.step(0)
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((182,), obs.shape)
+        self.assertEqual((426,), obs.shape)
         self.assertIsInstance(reward, float)
         self.assertIsInstance(terminated, bool)
         self.assertIsInstance(truncated, bool)
@@ -38,7 +38,7 @@ class TestTetrisFlatten(unittest.TestCase):
 
         obs, reward, terminated, truncated, info = self.env.step(1)
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((182,), obs.shape)
+        self.assertEqual((426,), obs.shape)
         self.assertIsInstance(reward, float)
         self.assertIsInstance(terminated, bool)
         self.assertIsInstance(truncated, bool)
@@ -48,17 +48,17 @@ class TestTetrisFlatten(unittest.TestCase):
         """Tests the reset() method."""
         obs, _ = self.env.reset()
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((182,), obs.shape)
+        self.assertEqual((426,), obs.shape)
 
     def test_get_obs(self):
         """Tests the get_obs() method."""
         obs = self.env.get_obs()
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((182,), obs.shape)
+        self.assertEqual((426,), obs.shape)
 
     def test_get_reward(self):
         """Tests the get_reward() method."""
-        np.testing.assert_allclose(2.000002000002e-05, self.env.get_reward())
+        np.testing.assert_allclose(0.019301463823376174, self.env.get_reward())
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
@@ -71,13 +71,13 @@ class TestTetrisFlatten(unittest.TestCase):
 
         obs, info = vectorized_env.reset()
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((self.num_envs, 182), obs.shape)
+        self.assertEqual((self.num_envs, 426), obs.shape)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [0] * self.num_envs
         )
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((self.num_envs, 182), obs.shape)
+        self.assertEqual((self.num_envs, 426), obs.shape)
         self.assertIsInstance(reward, np.ndarray)
         self.assertEqual((self.num_envs,), reward.shape)
         self.assertIsInstance(terminated, np.ndarray)
@@ -90,7 +90,7 @@ class TestTetrisFlatten(unittest.TestCase):
             [1] * self.num_envs
         )
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((self.num_envs, 182), obs.shape)
+        self.assertEqual((self.num_envs, 426), obs.shape)
         self.assertIsInstance(reward, np.ndarray)
         self.assertEqual((self.num_envs,), reward.shape)
         self.assertIsInstance(terminated, np.ndarray)
@@ -102,17 +102,16 @@ class TestTetrisFlatten(unittest.TestCase):
         vectorized_env.close()
 
 
-class TestTetrisImage(unittest.TestCase):
-    """Tests the TetrisImage class."""
+class TestPokemonGoldImage(unittest.TestCase):
+    """Tests the PokemonGoldImage class."""
 
     def setUp(self):
-        self.env_id = "Tetris-image-v1"
+        self.env_id = "Pokemon-Gold-image-v1"
         self.init_state_path = (
-            "./gymboy/resources/states/tetris/tetris/tetris_9_during_game.state"
+            "./gymboy/resources/states/pokemon/gen_2/pokemon_gold_after_first_pokemon.state"
         )
         self.num_envs = 3
         self.vectorization_mode = "sync"
-
         self.env = gymboy.make(
             env_id=self.env_id,
             init_state_path=self.init_state_path,
@@ -154,7 +153,7 @@ class TestTetrisImage(unittest.TestCase):
 
     def test_get_reward(self):
         """Tests the get_reward() method."""
-        np.testing.assert_allclose(2.000002000002e-05, self.env.get_reward())
+        np.testing.assert_allclose(0.019301463823376174, self.env.get_reward())
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""

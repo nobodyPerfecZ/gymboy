@@ -1,14 +1,16 @@
+"""Tests tetris/_memory.py."""
+
 import unittest
 
 import numpy as np
 from pyboy import PyBoy
 
-from gymboy.environments.tetris.tetris.memory import (
-    game_area,
-    game_over,
-    level,
-    next_block,
-    score,
+from gymboy.environments.tetris.tetris._memory import (
+    _game_area,
+    _game_over,
+    _level,
+    _next_block,
+    _score,
 )
 
 
@@ -18,7 +20,7 @@ class TestMemory(unittest.TestCase):
     def setUp(self):
         self.pyboy = PyBoy(gamerom="./gymboy/resources/roms/tetris/tetris/tetris.gb")
         with open(
-            "./tests/resources/states/tetris/tetris/tetris_9.state",
+            "./gymboy/resources/states/tetris/tetris/tetris_9_during_game.state",
             "rb",
         ) as f:
             self.pyboy.load_state(f)
@@ -29,24 +31,24 @@ class TestMemory(unittest.TestCase):
 
     def test_score(self):
         """Tests the score() method."""
-        self.assertEqual(20, score(self.pyboy))
+        self.assertEqual(20, _score(self.pyboy))
 
     def test_level(self):
         """Tests the level() method."""
-        self.assertEqual(9, level(self.pyboy))
+        self.assertEqual(9, _level(self.pyboy))
 
     def test_next_block(self):
         """Tests the next_block() method."""
-        self.assertEqual(24, next_block(self.pyboy))
+        self.assertEqual(24, _next_block(self.pyboy))
 
     def test_game_over(self):
         """Tests the game_over() method."""
-        self.assertFalse(game_over(self.pyboy))
+        self.assertFalse(_game_over(self.pyboy))
 
     def test_game_area(self):
         """Tests the game_area() method."""
         np.testing.assert_allclose(
-            game_area(self.pyboy),
+            _game_area(self.pyboy),
             np.array(
                 [
                     [47, 47, 47, 47, 47, 47, 47, 47, 47, 47],

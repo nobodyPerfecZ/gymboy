@@ -1,14 +1,24 @@
+"""Tetris environments."""
+
 from typing import Any, SupportsFloat
 
-import cv2
+import skimage as ski
 import gymnasium as gym
 import numpy as np
 from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
 
-from ....utils import resource_path
-from .memory import game_area, game_over, level, next_block, score
+from gymboy.utils import (
+    check_action,
+    check_cartridge_title,
+    check_frameskip,
+    check_rom_file,
+    check_state_file,
+    resource_path,
+)
+
+from ._memory import _game_area, _game_over, _level, _next_block, _score
 
 
 class TetrisFlatten(gym.Env):
@@ -40,6 +50,26 @@ class TetrisFlatten(gym.Env):
 
     ## Version History
     - v1: Original version
+
+    Args:
+        rom_path (str | None):
+            The path to the ROM file.
+            If ``None``, ``resources/roms/tetris/tetris/tetris.gb`` will be used
+
+        init_state_path (str | None):
+            The path to the initial state file.
+            If ``None``, ``resources/states/tetris/tetris/tetris_9.state`` will be used
+
+        n_frameskip (int):
+            The number of frames to skip between each action
+
+        sound (bool):
+            The flag to dis-/enable the sound.
+            If ``True``, the sound will be played
+
+        render_mode (str | None):
+            The mode in which the game will be rendered.
+            If ``human``, the game will be rendered
     """
 
     def __init__(
@@ -56,8 +86,10 @@ class TetrisFlatten(gym.Env):
             init_state_path = resource_path(
                 "resources/states/tetris/tetris/tetris_9.state"
             )
-        if n_frameskip <= 0:
-            raise ValueError("n_frameskip must be greater than 0.")
+
+        check_rom_file(rom_path)
+        check_state_file(init_state_path)
+        check_frameskip(n_frameskip)
 
         self.rom_path = rom_path
         self.init_state_path = init_state_path
@@ -87,27 +119,26 @@ class TetrisFlatten(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
-        if self.pyboy.cartridge_title != "TETRIS":
-            raise ValueError("The ROM is not Tetris.")
+        check_cartridge_title(self.pyboy, "TETRIS")
 
     def step(
         self,
         action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
-        assert self.action_space.contains(
-            action
-        ), f"{action!r} ({type(action)}) invalid"
+        check_action(action, self.action_space)
 
         # Perform the action
         if action == 0:
             pass
         else:
             self.pyboy.button(self.actions[action])
+
+        # Progress the game
         self.pyboy.tick(self.n_frameskip)
 
         observation = self.get_obs()
         reward = self.get_reward()
-        terminated = game_over(self.pyboy)
+        terminated = _game_over(self.pyboy)
         truncated = False
         info = {}
 
@@ -130,6 +161,7 @@ class TetrisFlatten(gym.Env):
         if self.pyboy.cartridge_title != "TETRIS":
             raise ValueError("The ROM is not Tetris.")
 
+        # Progress the game
         self.pyboy.tick(1)
 
         # Get the initial observation and info
@@ -146,17 +178,17 @@ class TetrisFlatten(gym.Env):
 
     def get_obs(self) -> np.ndarray:
         """Returns the current observation."""
-        level_obs = np.array([level(self.pyboy)])
-        next_block_obs = np.array([next_block(self.pyboy)])
-        game_area_obs = game_area(self.pyboy).flatten()
+        level_obs = np.array([_level(self.pyboy)])
+        next_block_obs = np.array([_next_block(self.pyboy)])
+        game_area_obs = _game_area(self.pyboy).flatten()
         return np.concatenate((level_obs, next_block_obs, game_area_obs)).astype(
             np.float32
         )
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = score(self.pyboy) / 999999
-        game_over_reward = -1.0 if game_over(self.pyboy) else 0.0
+        score_reward = _score(self.pyboy) / 999999
+        game_over_reward = -1.0 if _game_over(self.pyboy) else 0.0
         return score_reward + game_over_reward
 
 
@@ -186,6 +218,26 @@ class TetrisImage(gym.Env):
 
     ## Version History
     - v1: Original version
+
+    Args:
+        rom_path (str | None):
+            The path to the ROM file.
+            If ``None``, ``resources/roms/tetris/tetris/tetris.gb`` will be used
+
+        init_state_path (str | None):
+            The path to the initial state file.
+            If ``None``, ``resources/states/tetris/tetris/tetris_9.state`` will be used
+
+        n_frameskip (int):
+            The number of frames to skip between each action
+
+        sound (bool):
+            The flag to dis-/enable the sound.
+            If ``True``, the sound will be played
+
+        render_mode (str | None):
+            The mode in which the game will be rendered.
+            If ``human``, the game will be rendered in normal speed
     """
 
     def __init__(
@@ -198,11 +250,14 @@ class TetrisImage(gym.Env):
     ):
         if rom_path is None:
             rom_path = resource_path("resources/roms/tetris/tetris/tetris.gb")
-
         if init_state_path is None:
             init_state_path = resource_path(
                 "resources/states/tetris/tetris/tetris_9.state"
             )
+
+        check_rom_file(rom_path)
+        check_state_file(init_state_path)
+        check_frameskip(n_frameskip)
 
         self.rom_path = rom_path
         self.init_state_path = init_state_path
@@ -232,24 +287,26 @@ class TetrisImage(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        check_cartridge_title(self.pyboy, "TETRIS")
+
     def step(
         self,
         action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
-        assert self.action_space.contains(
-            action
-        ), f"{action!r} ({type(action)}) invalid"
+        check_action(action, self.action_space)
 
         # Perform the action
         if action == 0:
             pass
         else:
             self.pyboy.button(self.actions[action])
+
+        # Progress the game
         self.pyboy.tick(self.n_frameskip)
 
         observation = self.get_obs()
         reward = self.get_reward()
-        terminated = game_over(self.pyboy)
+        terminated = _game_over(self.pyboy)
         truncated = False
         info = {}
 
@@ -268,6 +325,8 @@ class TetrisImage(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+
+        # Progress the game
         self.pyboy.tick(1)
 
         # Get the initial observation and info
@@ -284,10 +343,10 @@ class TetrisImage(gym.Env):
 
     def get_obs(self) -> np.ndarray:
         """Returns the current observation."""
-        return cv2.cvtColor(self.pyboy.screen.ndarray, cv2.COLOR_RGBA2RGB)
+        return ski.color.rgba2rgb(self.pyboy.screen.ndarray).astype(np.uint8)
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = score(self.pyboy) / 999999
-        game_over_reward = -1.0 if game_over(self.pyboy) else 0.0
+        score_reward = _score(self.pyboy) / 999999
+        game_over_reward = -1.0 if _game_over(self.pyboy) else 0.0
         return score_reward + game_over_reward

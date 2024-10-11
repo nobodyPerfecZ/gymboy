@@ -1,10 +1,10 @@
-"""Super Mario Land 1 environments."""
+"""Pokemon Yellow environments."""
 
 from typing import Any, SupportsFloat
 
+import skimage as ski
 import gymnasium as gym
 import numpy as np
-import skimage as ski
 from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
@@ -18,22 +18,24 @@ from gymboy.utils import (
     resource_path,
 )
 
+from ._constant import EVENT_FLAGS_END_ADDRESS, EVENT_FLAGS_START_ADDRESS
 from ._memory import (
-    _coins,
+    _badges,
+    _events,
     _game_area,
-    _game_over,
-    _level_finished,
-    _lives,
-    _score,
-    _time,
-    _time_over,
-    _world_level,
+    _hps,
+    _levels,
+    _money,
+    _moves,
+    _pokemon_ids,
+    _pps,
+    _seen_pokemons,
 )
 
 
-class SuperMarioLand1Flatten(gym.Env):
+class PokemonYellowFlatten(gym.Env):
     """
-    The Super Mario Land 1 environment.
+    The Pokemon Yellow environment.
 
     ## Action Space
     The action space consists of 9 discrete actions:
@@ -48,20 +50,21 @@ class SuperMarioLand1Flatten(gym.Env):
     - 8: Press Select
 
     ## Observation Space
-    The observation is an (324,) array that consists:
-    - [0]: The current world
-    - [1]: The current level
-    - [2]: The current lives
-    - [3]: The current time left
-    - [4:]: The simplified game area
+    The observation is an (426,) array that consists:
+    - [0:6]: The ids each pokemon in the team
+    - [6:12]: The levels of each pokemon in the team
+    - [12:18]: The hps of each pokemon in the team
+    - [18:42]: The ids of the moves of each pokemon in the team
+    - [42:66]: The pps of the moves of each pokemon in the team
+    - [66:]: The simplified game area
 
     ## Rewards
     The reward is the sum of:
-    - The normalized score
-    - The normalized number of coins
-    - -1.0 if the time is over
-    - 1.0 if the level is finished
-    - -1.0 if the game is over
+    - The normalized number of badges
+    - The normalized amount of money
+    - The normalized sum of the levels of the pokemons
+    - The normalized number of pokemons seen
+    - The normalized number of events
 
     ## Version History
     - v1: Original version
@@ -69,11 +72,11 @@ class SuperMarioLand1Flatten(gym.Env):
     Args:
         rom_path (str | None):
             The path to the ROM file.
-            If ``None``, ``resources/roms/mario/land_1/super_mario_land_1.gb`` will be used
+            If ``None``, ``resources/roms/pokemon/gen_1/pokemon_yellow.gbc`` will be used
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/mario/land_1/super_mario_land_1_1_1.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -96,12 +99,10 @@ class SuperMarioLand1Flatten(gym.Env):
         render_mode: str | None = None,
     ):
         if rom_path is None:
-            rom_path = resource_path(
-                "resources/roms/mario/land_1/super_mario_land_1.gb"
-            )
+            rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_yellow.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/mario/land_1/super_mario_land_1_1_1.state"
+                "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state"
             )
 
         check_rom_file(rom_path)
@@ -115,7 +116,7 @@ class SuperMarioLand1Flatten(gym.Env):
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
-        self.observation_shape = (324,)
+        self.observation_shape = (426,)
 
         # Create action and observation spaces
         self.action_space = spaces.Discrete(len(self.actions))
@@ -128,15 +129,22 @@ class SuperMarioLand1Flatten(gym.Env):
 
         # Create the environment
         if self.render_mode == "human":
-            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
+            self.pyboy = PyBoy(
+                gamerom=rom_path,
+                sound=self.sound,
+            )
             self.pyboy.set_emulation_speed(1)
             self.n_frameskip = 1
         else:
-            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound, window="null")
+            self.pyboy = PyBoy(
+                gamerom=rom_path,
+                sound=self.sound,
+                window="null",
+            )
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
-        check_cartridge_title(self.pyboy, "SUPER MARIOLAN")
+        check_cartridge_title(self.pyboy, "POKEMON YELLOW")
 
     def step(
         self,
@@ -155,7 +163,7 @@ class SuperMarioLand1Flatten(gym.Env):
 
         observation = self.get_obs()
         reward = self.get_reward()
-        terminated = _game_over(self.pyboy) or _level_finished(self.pyboy)
+        terminated = False
         truncated = False
         info = {}
 
@@ -175,8 +183,8 @@ class SuperMarioLand1Flatten(gym.Env):
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
 
-        if self.pyboy.cartridge_title != "SUPER MARIOLAN":
-            raise ValueError("The ROM is not Super Mario Land 1.")
+        if self.pyboy.cartridge_title != "POKEMON YELLOW":
+            raise ValueError("The ROM is not Pokemon Yellow.")
 
         # Progress the game
         self.pyboy.tick(1)
@@ -195,34 +203,37 @@ class SuperMarioLand1Flatten(gym.Env):
 
     def get_obs(self) -> np.ndarray:
         """Returns the current observation."""
-        world_obs, level_obs = _world_level(self.pyboy)
-        world_obs, level_obs = np.array([world_obs]), np.array([level_obs])
-        lives_obs = np.array([_lives(self.pyboy)])
-        time_obs = np.array([_time(self.pyboy)])
-        game_area_obs = _game_area(self.pyboy).flatten()
+        pokemon_ids_obs = _pokemon_ids(self.pyboy, yellow=True)
+        levels_obs = _levels(self.pyboy, yellow=True)
+        hps_obs = _hps(self.pyboy, yellow=True)
+        moves_obs = _moves(self.pyboy, yellow=True).flatten()
+        pps_obs = _pps(self.pyboy, yellow=True).flatten()
+        game_area_obs = _game_area(self.pyboy, yellow=True).flatten()
         return np.concatenate(
-            (world_obs, level_obs, lives_obs, time_obs, game_area_obs)
+            (pokemon_ids_obs, levels_obs, hps_obs, moves_obs, pps_obs, game_area_obs)
         )
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = _score(self.pyboy) / 999999
-        coin_reward = _coins(self.pyboy) / 99
-        time_over_reward = -1.0 if _time_over(self.pyboy) else 0.0
-        level_finished_reward = 1.0 if _level_finished(self.pyboy) else 0.0
-        game_over_reward = -1.0 if _game_over(self.pyboy) else 0.0
+        badges_reward = _badges(self.pyboy, yellow=True) / 8
+        money_reward = _money(self.pyboy, yellow=True) / 999999
+        pokemon_levels_reward = np.sum(_levels(self.pyboy, yellow=True)) / 600
+        pokemons_seen_reward = _seen_pokemons(self.pyboy, yellow=True) / 151
+        number_of_events_reward = _events(self.pyboy, yellow=True) / (
+            8 * (EVENT_FLAGS_END_ADDRESS - EVENT_FLAGS_START_ADDRESS)
+        )
         return (
-            score_reward
-            + coin_reward
-            + time_over_reward
-            + level_finished_reward
-            + game_over_reward
+            badges_reward
+            + money_reward
+            + pokemon_levels_reward
+            + pokemons_seen_reward
+            + number_of_events_reward
         )
 
 
-class SuperMarioLand1Image(gym.Env):
+class PokemonYellowImage(gym.Env):
     """
-    The Super Mario Land 1 environment.
+    The Pokemon Yellow environment.
 
     ## Action Space
     The action space consists of 9 discrete actions:
@@ -241,11 +252,11 @@ class SuperMarioLand1Image(gym.Env):
 
     ## Rewards
     The reward is the sum of:
-    - The normalized score
-    - The normalized number of coins
-    - -1.0 if the time is over
-    - 1.0 if the level is finished
-    - -1.0 if the game is over
+    - The normalized number of badges
+    - The normalized amount of money
+    - The normalized sum of the levels of the pokemons
+    - The normalized number of pokemons seen
+    - The normalized number of events
 
     ## Version History
     - v1: Original version
@@ -253,11 +264,11 @@ class SuperMarioLand1Image(gym.Env):
     Args:
         rom_path (str | None):
             The path to the ROM file.
-            If ``None``, ``resources/roms/mario/land_1/super_mario_land_1.gb`` will be used
+            If ``None``, ``resources/roms/pokemon/gen_1/pokemon_yellow.gbc`` will be used
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/mario/land_1/super_mario_land_1_1_1.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -280,12 +291,10 @@ class SuperMarioLand1Image(gym.Env):
         render_mode: str | None = None,
     ):
         if rom_path is None:
-            rom_path = resource_path(
-                "resources/roms/mario/land_1/super_mario_land_1.gb"
-            )
+            rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_yellow.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/mario/land_1/super_mario_land_1_1_1.state"
+                "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state"
             )
 
         check_rom_file(rom_path)
@@ -320,7 +329,7 @@ class SuperMarioLand1Image(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
-        check_cartridge_title(self.pyboy, "SUPER MARIOLAN")
+        check_cartridge_title(self.pyboy, "POKEMON YELLOW")
 
     def step(
         self,
@@ -339,7 +348,7 @@ class SuperMarioLand1Image(gym.Env):
 
         observation = self.get_obs()
         reward = self.get_reward()
-        terminated = _game_over(self.pyboy) or _level_finished(self.pyboy)
+        terminated = False
         truncated = False
         info = {}
 
@@ -380,15 +389,17 @@ class SuperMarioLand1Image(gym.Env):
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = _score(self.pyboy) / 999999
-        coin_reward = _coins(self.pyboy) / 99
-        time_over_reward = -1.0 if _time_over(self.pyboy) else 0.0
-        level_finished_reward = 1.0 if _level_finished(self.pyboy) else 0.0
-        game_over_reward = -1.0 if _game_over(self.pyboy) else 0.0
+        badges_reward = _badges(self.pyboy, yellow=True) / 8
+        money_reward = _money(self.pyboy, yellow=True) / 999999
+        pokemon_levels_reward = np.sum(_levels(self.pyboy, yellow=True)) / 600
+        pokemons_seen_reward = _seen_pokemons(self.pyboy, yellow=True) / 151
+        number_of_events_reward = _events(self.pyboy, yellow=True) / (
+            8 * (EVENT_FLAGS_END_ADDRESS - EVENT_FLAGS_START_ADDRESS)
+        )
         return (
-            score_reward
-            + coin_reward
-            + time_over_reward
-            + level_finished_reward
-            + game_over_reward
+            badges_reward
+            + money_reward
+            + pokemon_levels_reward
+            + pokemons_seen_reward
+            + number_of_events_reward
         )
