@@ -1,10 +1,15 @@
 """Mario environments."""
 
-from .land_1 import SuperMarioLand1Flatten, SuperMarioLand1Image
+from .land_1 import (
+    SuperMarioLand1Flatten,
+    SuperMarioLand1FullImage,
+    SuperMarioLand1MinimalImage,
+)
 
 __all__ = [
     "SuperMarioLand1Flatten",
-    "SuperMarioLand1Image",
+    "SuperMarioLand1FullImage",
+    "SuperMarioLand1MinimalImage",
 ]
 
 assert __all__ == sorted(__all__)

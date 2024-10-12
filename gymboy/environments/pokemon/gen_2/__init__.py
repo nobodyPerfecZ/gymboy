@@ -1,13 +1,19 @@
 """Pokemon Gen 2 environments."""
 
-from .gold import PokemonGoldFlatten, PokemonGoldImage
-from .silver import PokemonSilverFlatten, PokemonSilverImage
+from .gold import PokemonGoldFlatten, PokemonGoldFullImage, PokemonGoldMinimalImage
+from .silver import (
+    PokemonSilverFlatten,
+    PokemonSilverFullImage,
+    PokemonSilverMinimalImage,
+)
 
 __all__ = [
     "PokemonGoldFlatten",
-    "PokemonGoldImage",
+    "PokemonGoldFullImage",
+    "PokemonGoldMinimalImage",
     "PokemonSilverFlatten",
-    "PokemonSilverImage",
+    "PokemonSilverFullImage",
+    "PokemonSilverMinimalImage",
 ]
 
 assert __all__ == sorted(__all__)

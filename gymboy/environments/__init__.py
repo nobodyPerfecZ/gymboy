@@ -1,45 +1,66 @@
 """Gymboy environments."""
 
 # Kirby environments
-from .kirby import KirbyDreamLand1Flatten, KirbyDreamLand1Image
+from .kirby import (
+    KirbyDreamLand1Flatten,
+    KirbyDreamLand1FullImage,
+    KirbyDreamLand1MinimalImage,
+)
 
 # Mario environments
-from .mario import SuperMarioLand1Flatten, SuperMarioLand1Image
+from .mario import (
+    SuperMarioLand1Flatten,
+    SuperMarioLand1FullImage,
+    SuperMarioLand1MinimalImage,
+)
 
 # Pokemon environments
 from .pokemon import (
     PokemonBlueFlatten,
-    PokemonBlueImage,
+    PokemonBlueFullImage,
+    PokemonBlueMinimalImage,
     PokemonGoldFlatten,
-    PokemonGoldImage,
+    PokemonGoldFullImage,
+    PokemonGoldMinimalImage,
     PokemonRedFlatten,
-    PokemonRedImage,
+    PokemonRedFullImage,
+    PokemonRedMinimalImage,
     PokemonSilverFlatten,
-    PokemonSilverImage,
+    PokemonSilverFullImage,
+    PokemonSilverMinimalImage,
     PokemonYellowFlatten,
-    PokemonYellowImage,
+    PokemonYellowFullImage,
+    PokemonYellowMinimalImage,
 )
 
 # Tetris environments
-from .tetris import TetrisFlatten, TetrisImage
+from .tetris import TetrisFlatten, TetrisFullImage, TetrisMinimalImage
 
 __all__ = [
     "KirbyDreamLand1Flatten",
-    "KirbyDreamLand1Image",
+    "KirbyDreamLand1FullImage",
+    "KirbyDreamLand1MinimalImage",
     "PokemonBlueFlatten",
-    "PokemonBlueImage",
+    "PokemonBlueFullImage",
+    "PokemonBlueMinimalImage",
     "PokemonGoldFlatten",
-    "PokemonGoldImage",
+    "PokemonGoldFullImage",
+    "PokemonGoldMinimalImage",
     "PokemonRedFlatten",
-    "PokemonRedImage",
+    "PokemonRedFullImage",
+    "PokemonRedMinimalImage",
     "PokemonSilverFlatten",
-    "PokemonSilverImage",
+    "PokemonSilverFullImage",
+    "PokemonSilverMinimalImage",
     "PokemonYellowFlatten",
-    "PokemonYellowImage",
+    "PokemonYellowFullImage",
+    "PokemonYellowMinimalImage",
     "SuperMarioLand1Flatten",
-    "SuperMarioLand1Image",
+    "SuperMarioLand1FullImage",
+    "SuperMarioLand1MinimalImage",
     "TetrisFlatten",
-    "TetrisImage",
+    "TetrisFullImage",
+    "TetrisMinimalImage",
 ]
 
 assert __all__ == sorted(__all__)

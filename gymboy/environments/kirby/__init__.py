@@ -1,10 +1,15 @@
 """Kirby environments."""
 
-from .dream_land_1 import KirbyDreamLand1Flatten, KirbyDreamLand1Image
+from .dream_land_1 import (
+    KirbyDreamLand1Flatten,
+    KirbyDreamLand1FullImage,
+    KirbyDreamLand1MinimalImage,
+)
 
 __all__ = [
     "KirbyDreamLand1Flatten",
-    "KirbyDreamLand1Image",
+    "KirbyDreamLand1FullImage",
+    "KirbyDreamLand1MinimalImage",
 ]
 
 assert __all__ == sorted(__all__)

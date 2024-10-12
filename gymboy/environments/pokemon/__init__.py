@@ -2,30 +2,40 @@
 
 from .gen_1 import (
     PokemonBlueFlatten,
-    PokemonBlueImage,
+    PokemonBlueFullImage,
+    PokemonBlueMinimalImage,
     PokemonRedFlatten,
-    PokemonRedImage,
+    PokemonRedFullImage,
+    PokemonRedMinimalImage,
     PokemonYellowFlatten,
-    PokemonYellowImage,
+    PokemonYellowFullImage,
+    PokemonYellowMinimalImage,
 )
 from .gen_2 import (
     PokemonGoldFlatten,
-    PokemonGoldImage,
+    PokemonGoldFullImage,
+    PokemonGoldMinimalImage,
     PokemonSilverFlatten,
-    PokemonSilverImage,
+    PokemonSilverFullImage,
+    PokemonSilverMinimalImage,
 )
 
 __all__ = [
     "PokemonBlueFlatten",
-    "PokemonBlueImage",
+    "PokemonBlueFullImage",
+    "PokemonBlueMinimalImage",
     "PokemonGoldFlatten",
-    "PokemonGoldImage",
+    "PokemonGoldFullImage",
+    "PokemonGoldMinimalImage",
     "PokemonRedFlatten",
-    "PokemonRedImage",
+    "PokemonRedFullImage",
+    "PokemonRedMinimalImage",
     "PokemonSilverFlatten",
-    "PokemonSilverImage",
+    "PokemonSilverFullImage",
+    "PokemonSilverMinimalImage",
     "PokemonYellowFlatten",
-    "PokemonYellowImage",
+    "PokemonYellowFullImage",
+    "PokemonYellowMinimalImage",
 ]
 
 assert __all__ == sorted(__all__)
