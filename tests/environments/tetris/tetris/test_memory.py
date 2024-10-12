@@ -1,4 +1,4 @@
-"""Tests tetris/_memory.py."""
+"""Tests tetris/tetris/_memory.py."""
 
 import unittest
 
@@ -15,7 +15,7 @@ from gymboy.environments.tetris.tetris._memory import (
 
 
 class TestMemory(unittest.TestCase):
-    """Tests the methods under tetris/tetris/memory.py."""
+    """Tests the methods under tetris/tetris/_memory.py."""
 
     def setUp(self):
         self.pyboy = PyBoy(gamerom="./gymboy/resources/roms/tetris/tetris/tetris.gb")

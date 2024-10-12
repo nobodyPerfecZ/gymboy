@@ -1,4 +1,4 @@
-"""Tests land_1/super_mario_land_1.py."""
+"""Tests mario/land_1/super_mario_land_1.py."""
 
 import unittest
 

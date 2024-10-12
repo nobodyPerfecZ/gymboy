@@ -1,4 +1,4 @@
-"""Tests gen_2/_memory.py."""
+"""Tests pokemon/gen_2/_memory.py."""
 
 import unittest
 
@@ -23,7 +23,7 @@ from gymboy.environments.pokemon.gen_2._memory import (
 
 
 class TestMemory(unittest.TestCase):
-    """Tests the methods under the pokemon/gen_2/memory.py file."""
+    """Tests the methods under the pokemon/gen_2/_memory.py file."""
 
     def setUp(self):
         self.pyboy = PyBoy(

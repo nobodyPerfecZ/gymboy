@@ -1,4 +1,4 @@
-"""Tests tetris/tetris.py."""
+"""Tests tetris/tetris/tetris.py."""
 
 import unittest
 

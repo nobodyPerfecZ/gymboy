@@ -1,4 +1,4 @@
-"""Tests gen_2/gold.py."""
+"""Tests pokemon/gen_2/gold.py."""
 
 import unittest
 

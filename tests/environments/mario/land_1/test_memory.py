@@ -1,4 +1,4 @@
-"""Tests land_1/_memory.py."""
+"""Tests mario/land_1/_memory.py."""
 
 import unittest
 
@@ -19,7 +19,7 @@ from gymboy.environments.mario.land_1._memory import (
 
 
 class TestMemory(unittest.TestCase):
-    """Tests the methods under mario/land_1/memory.py."""
+    """Tests the methods under mario/land_1/_memory.py."""
 
     def setUp(self):
         self.pyboy = PyBoy("./gymboy/resources/roms/mario/land_1/super_mario_land_1.gb")

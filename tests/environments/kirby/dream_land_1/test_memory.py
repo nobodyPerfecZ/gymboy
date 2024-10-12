@@ -1,4 +1,4 @@
-"""Tests dream_land_1/_memory.py."""
+"""Tests kirby/dream_land_1/_memory.py."""
 
 import unittest
 import numpy as np
@@ -15,7 +15,7 @@ from gymboy.environments.kirby.dream_land_1._memory import (
 
 
 class TestMemory12(unittest.TestCase):
-    """Tests the methods under kirby/dream_land_1/memory.py."""
+    """Tests the methods under kirby/dream_land_1/_memory.py."""
 
     def setUp(self):
         self.pyboy = PyBoy(
