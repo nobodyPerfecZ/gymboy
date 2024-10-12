@@ -1,7 +1,7 @@
 # Memory ADRs:
 # https://datacrystal.tcrf.net/wiki/Kirby%27s_Dream_Land/RAM_map
 
-# (5 Bytes) Score
+# (4 Bytes) Score
 SCORE_ADDRESS = 0xD070
 
 # (1 Byte) Kirby Health

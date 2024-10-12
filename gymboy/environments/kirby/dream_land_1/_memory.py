@@ -23,7 +23,7 @@ def _score(pyboy: PyBoy) -> int:
         int:
             The current score of the game
     """
-    return reduced_bcds_to_integer(pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 5])
+    return 10 * reduced_bcds_to_integer(pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 4])
 
 
 def _kirby_health(pyboy: PyBoy) -> int:
