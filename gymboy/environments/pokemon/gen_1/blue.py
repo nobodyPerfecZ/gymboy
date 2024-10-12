@@ -107,6 +107,7 @@ class PokemonBlueFlatten(gym.Env):
                 "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state"
             )
 
+        # Checks
         check_rom_file(rom_path)
         check_state_file(init_state_path)
         check_frameskip(n_frameskip)
@@ -139,12 +140,14 @@ class PokemonBlueFlatten(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "POKEMON BLUE")
 
     def step(
         self,
         action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        # Check if the action is valid
         check_action(action, self.action_space)
 
         # Perform the action
@@ -172,14 +175,15 @@ class PokemonBlueFlatten(gym.Env):
     ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
         if self.init_state_path is None:
             # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game()
+            self.pyboy.game_wrapper.reset_game(seed)
         else:
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+                self.pyboy.game_wrapper._set_timer_div(seed) # pylint: disable=protected-access
 
-        if self.pyboy.cartridge_title != "POKEMON BLUE":
-            raise ValueError("The ROM is not Pokemon Blue.")
+        # Check if the cartridge title is correct
+        check_cartridge_title(self.pyboy, "POKEMON BLUE")
 
         # Progress the game
         self.pyboy.tick(1)
@@ -198,31 +202,31 @@ class PokemonBlueFlatten(gym.Env):
 
     def get_obs(self) -> np.ndarray:
         """Returns the current observation."""
-        pokemon_ids_obs = _pokemon_ids(self.pyboy, yellow=False)
-        levels_obs = _levels(self.pyboy, yellow=False)
-        hps_obs = _hps(self.pyboy, yellow=False)
-        moves_obs = _moves(self.pyboy, yellow=False).flatten()
-        pps_obs = _pps(self.pyboy, yellow=False).flatten()
-        game_area_obs = _game_area(self.pyboy, yellow=False).flatten()
+        pokemon_ids = _pokemon_ids(self.pyboy, yellow=False)
+        levels = _levels(self.pyboy, yellow=False)
+        hps = _hps(self.pyboy, yellow=False)
+        moves = _moves(self.pyboy, yellow=False).flatten()
+        pps = _pps(self.pyboy, yellow=False).flatten()
+        game_area = _game_area(self.pyboy, yellow=False).flatten()
         return np.concatenate(
-            (pokemon_ids_obs, levels_obs, hps_obs, moves_obs, pps_obs, game_area_obs)
+            (pokemon_ids, levels, hps, moves, pps, game_area)
         )
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        badges_reward = _badges(self.pyboy, yellow=False) / 8
-        money_reward = _money(self.pyboy, yellow=False) / 999999
-        pokemon_levels_reward = np.sum(_levels(self.pyboy, yellow=False)) / 600
-        pokemons_seen_reward = _seen_pokemons(self.pyboy, yellow=False) / 151
-        number_of_events_reward = _events(self.pyboy, yellow=False) / (
+        badges = _badges(self.pyboy, yellow=False) / 8
+        money = _money(self.pyboy, yellow=False) / 999999
+        pokemon_levels = np.sum(_levels(self.pyboy, yellow=False)) / 600
+        pokemons_seen = _seen_pokemons(self.pyboy, yellow=False) / 151
+        number_of_events = _events(self.pyboy, yellow=False) / (
             8 * (EVENT_FLAGS_END_ADDRESS - EVENT_FLAGS_START_ADDRESS)
         )
         return (
-            badges_reward
-            + money_reward
-            + pokemon_levels_reward
-            + pokemons_seen_reward
-            + number_of_events_reward
+            badges
+            + money
+            + pokemon_levels
+            + pokemons_seen
+            + number_of_events
         )
 
 
@@ -294,6 +298,7 @@ class PokemonBlueImage(gym.Env):
                 "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state"
             )
 
+        # Checks
         check_rom_file(rom_path)
         check_state_file(init_state_path)
         check_frameskip(n_frameskip)
@@ -326,12 +331,14 @@ class PokemonBlueImage(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "POKEMON BLUE")
 
     def step(
         self,
         action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        # Check if the action is valid
         check_action(action, self.action_space)
 
         # Perform the action
@@ -359,11 +366,15 @@ class PokemonBlueImage(gym.Env):
     ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
         if self.init_state_path is None:
             # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game()
+            self.pyboy.game_wrapper.reset_game(seed)
         else:
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+                self.pyboy.game_wrapper._set_timer_div(seed) # pylint: disable=protected-access
+
+        # Check if the cartridge title is correct
+        check_cartridge_title(self.pyboy, "POKEMON BLUE")
 
         # Progress the game
         self.pyboy.tick(1)
@@ -386,17 +397,17 @@ class PokemonBlueImage(gym.Env):
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        badges_reward = _badges(self.pyboy, yellow=False) / 8
-        money_reward = _money(self.pyboy, yellow=False) / 999999
-        pokemon_levels_reward = np.sum(_levels(self.pyboy, yellow=False)) / 600
-        pokemons_seen_reward = _seen_pokemons(self.pyboy, yellow=False) / 151
-        number_of_events_reward = _events(self.pyboy, yellow=False) / (
+        badges = _badges(self.pyboy, yellow=False) / 8
+        money = _money(self.pyboy, yellow=False) / 999999
+        pokemon_levels = np.sum(_levels(self.pyboy, yellow=False)) / 600
+        pokemons_seen = _seen_pokemons(self.pyboy, yellow=False) / 151
+        number_of_events = _events(self.pyboy, yellow=False) / (
             8 * (EVENT_FLAGS_END_ADDRESS - EVENT_FLAGS_START_ADDRESS)
         )
         return (
-            badges_reward
-            + money_reward
-            + pokemon_levels_reward
-            + pokemons_seen_reward
-            + number_of_events_reward
+            badges
+            + money
+            + pokemon_levels
+            + pokemons_seen
+            + number_of_events
         )

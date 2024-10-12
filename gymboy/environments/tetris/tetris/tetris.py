@@ -2,9 +2,9 @@
 
 from typing import Any, SupportsFloat
 
-import skimage as ski
 import gymnasium as gym
 import numpy as np
+import skimage as ski
 from gymnasium import spaces
 from gymnasium.core import ActType, ObsType, RenderFrame
 from pyboy import PyBoy
@@ -87,6 +87,7 @@ class TetrisFlatten(gym.Env):
                 "resources/states/tetris/tetris/tetris_9.state"
             )
 
+        # Checks
         check_rom_file(rom_path)
         check_state_file(init_state_path)
         check_frameskip(n_frameskip)
@@ -119,12 +120,14 @@ class TetrisFlatten(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "TETRIS")
 
     def step(
         self,
         action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        # Check if the action is valid
         check_action(action, self.action_space)
 
         # Perform the action
@@ -152,14 +155,15 @@ class TetrisFlatten(gym.Env):
     ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
         if self.init_state_path is None:
             # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game()
+            self.pyboy.game_wrapper.reset_game(seed)
         else:
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+                self.pyboy.game_wrapper._set_timer_div(seed)  # pylint: disable=protected-access
 
-        if self.pyboy.cartridge_title != "TETRIS":
-            raise ValueError("The ROM is not Tetris.")
+        # Check if the cartridge title is correct
+        check_cartridge_title(self.pyboy, "TETRIS")
 
         # Progress the game
         self.pyboy.tick(1)
@@ -178,18 +182,16 @@ class TetrisFlatten(gym.Env):
 
     def get_obs(self) -> np.ndarray:
         """Returns the current observation."""
-        level_obs = np.array([_level(self.pyboy)])
-        next_block_obs = np.array([_next_block(self.pyboy)])
-        game_area_obs = _game_area(self.pyboy).flatten()
-        return np.concatenate((level_obs, next_block_obs, game_area_obs)).astype(
-            np.float32
-        )
+        level = np.array([_level(self.pyboy)])
+        next_block = np.array([_next_block(self.pyboy)])
+        game_area = _game_area(self.pyboy).flatten()
+        return np.concatenate((level, next_block, game_area)).astype(np.float32)
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = _score(self.pyboy) / 999999
-        game_over_reward = -1.0 if _game_over(self.pyboy) else 0.0
-        return score_reward + game_over_reward
+        score = _score(self.pyboy) / 999999
+        game_over = -1.0 if _game_over(self.pyboy) else 0.0
+        return score + game_over
 
 
 class TetrisImage(gym.Env):
@@ -255,6 +257,7 @@ class TetrisImage(gym.Env):
                 "resources/states/tetris/tetris/tetris_9.state"
             )
 
+        # Checks
         check_rom_file(rom_path)
         check_state_file(init_state_path)
         check_frameskip(n_frameskip)
@@ -287,12 +290,14 @@ class TetrisImage(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "TETRIS")
 
     def step(
         self,
         action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        # Check if the action is valid
         check_action(action, self.action_space)
 
         # Perform the action
@@ -320,11 +325,15 @@ class TetrisImage(gym.Env):
     ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
         if self.init_state_path is None:
             # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game()
+            self.pyboy.game_wrapper.reset_game(seed)
         else:
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+                self.pyboy.game_wrapper._set_timer_div(seed)  # pylint: disable=protected-access
+
+        # Check if the cartridge title is correct
+        check_cartridge_title(self.pyboy, "TETRIS")
 
         # Progress the game
         self.pyboy.tick(1)
@@ -347,6 +356,6 @@ class TetrisImage(gym.Env):
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = _score(self.pyboy) / 999999
-        game_over_reward = -1.0 if _game_over(self.pyboy) else 0.0
-        return score_reward + game_over_reward
+        score = _score(self.pyboy) / 999999
+        game_over = -1.0 if _game_over(self.pyboy) else 0.0
+        return score + game_over

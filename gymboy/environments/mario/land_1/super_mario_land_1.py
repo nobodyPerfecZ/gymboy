@@ -104,6 +104,7 @@ class SuperMarioLand1Flatten(gym.Env):
                 "resources/states/mario/land_1/super_mario_land_1_1_1.state"
             )
 
+        # Checks
         check_rom_file(rom_path)
         check_state_file(init_state_path)
         check_frameskip(n_frameskip)
@@ -136,12 +137,14 @@ class SuperMarioLand1Flatten(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "SUPER MARIOLAN")
 
     def step(
         self,
         action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        # Check if the action is valid
         check_action(action, self.action_space)
 
         # Perform the action
@@ -169,14 +172,15 @@ class SuperMarioLand1Flatten(gym.Env):
     ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
         if self.init_state_path is None:
             # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game()
+            self.pyboy.game_wrapper.reset_game(seed)
         else:
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+                self.pyboy.game_wrapper._set_timer_div(seed)  # pylint: disable=protected-access
 
-        if self.pyboy.cartridge_title != "SUPER MARIOLAN":
-            raise ValueError("The ROM is not Super Mario Land 1.")
+        # Check if the cartridge title is correct
+        check_cartridge_title(self.pyboy, "SUPER MARIOLAN")
 
         # Progress the game
         self.pyboy.tick(1)
@@ -195,29 +199,21 @@ class SuperMarioLand1Flatten(gym.Env):
 
     def get_obs(self) -> np.ndarray:
         """Returns the current observation."""
-        world_obs, level_obs = _world_level(self.pyboy)
-        world_obs, level_obs = np.array([world_obs]), np.array([level_obs])
-        lives_obs = np.array([_lives(self.pyboy)])
-        time_obs = np.array([_time(self.pyboy)])
-        game_area_obs = _game_area(self.pyboy).flatten()
-        return np.concatenate(
-            (world_obs, level_obs, lives_obs, time_obs, game_area_obs)
-        )
+        world, level = _world_level(self.pyboy)
+        world, level = np.array([world]), np.array([level])
+        lives = np.array([_lives(self.pyboy)])
+        time = np.array([_time(self.pyboy)])
+        game_area = _game_area(self.pyboy).flatten()
+        return np.concatenate((world, level, lives, time, game_area))
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = _score(self.pyboy) / 999999
-        coin_reward = _coins(self.pyboy) / 99
-        time_over_reward = -1.0 if _time_over(self.pyboy) else 0.0
-        level_finished_reward = 1.0 if _level_finished(self.pyboy) else 0.0
-        game_over_reward = -1.0 if _game_over(self.pyboy) else 0.0
-        return (
-            score_reward
-            + coin_reward
-            + time_over_reward
-            + level_finished_reward
-            + game_over_reward
-        )
+        score = _score(self.pyboy) / 999999
+        coin = _coins(self.pyboy) / 99
+        time_over = -1.0 if _time_over(self.pyboy) else 0.0
+        level_finished = 1.0 if _level_finished(self.pyboy) else 0.0
+        game_over = -1.0 if _game_over(self.pyboy) else 0.0
+        return score + coin + time_over + level_finished + game_over
 
 
 class SuperMarioLand1Image(gym.Env):
@@ -288,6 +284,7 @@ class SuperMarioLand1Image(gym.Env):
                 "resources/states/mario/land_1/super_mario_land_1_1_1.state"
             )
 
+        # Checks
         check_rom_file(rom_path)
         check_state_file(init_state_path)
         check_frameskip(n_frameskip)
@@ -320,12 +317,14 @@ class SuperMarioLand1Image(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "SUPER MARIOLAN")
 
     def step(
         self,
         action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        # Check if the action is valid
         check_action(action, self.action_space)
 
         # Perform the action
@@ -353,11 +352,15 @@ class SuperMarioLand1Image(gym.Env):
     ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
         if self.init_state_path is None:
             # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game()
+            self.pyboy.game_wrapper.reset_game(seed)
         else:
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+                self.pyboy.game_wrapper._set_timer_div(seed)  # pylint: disable=protected-access
+
+        # Check if the cartridge title is correct
+        check_cartridge_title(self.pyboy, "SUPER MARIOLAN")
 
         # Progress the game
         self.pyboy.tick(1)
@@ -380,15 +383,9 @@ class SuperMarioLand1Image(gym.Env):
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        score_reward = _score(self.pyboy) / 999999
-        coin_reward = _coins(self.pyboy) / 99
-        time_over_reward = -1.0 if _time_over(self.pyboy) else 0.0
-        level_finished_reward = 1.0 if _level_finished(self.pyboy) else 0.0
-        game_over_reward = -1.0 if _game_over(self.pyboy) else 0.0
-        return (
-            score_reward
-            + coin_reward
-            + time_over_reward
-            + level_finished_reward
-            + game_over_reward
-        )
+        score = _score(self.pyboy) / 999999
+        coin = _coins(self.pyboy) / 99
+        time_over = -1.0 if _time_over(self.pyboy) else 0.0
+        level_finished = 1.0 if _level_finished(self.pyboy) else 0.0
+        game_over = -1.0 if _game_over(self.pyboy) else 0.0
+        return score + coin + time_over + level_finished + game_over

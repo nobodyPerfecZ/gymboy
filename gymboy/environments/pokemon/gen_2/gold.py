@@ -102,6 +102,7 @@ class PokemonGoldFlatten(gym.Env):
                 "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state"
             )
 
+        # Checks
         check_rom_file(rom_path)
         check_state_file(init_state_path)
         check_frameskip(n_frameskip)
@@ -134,12 +135,14 @@ class PokemonGoldFlatten(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "POKEMON_GLDAAU")
 
     def step(
         self,
         action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        # Check if the action is valid
         check_action(action, self.action_space)
 
         # Perform the action
@@ -167,14 +170,15 @@ class PokemonGoldFlatten(gym.Env):
     ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
         if self.init_state_path is None:
             # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game()
+            self.pyboy.game_wrapper.reset_game(seed)
         else:
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+                self.pyboy.game_wrapper._set_timer_div(seed)  # pylint: disable=protected-access
 
-        if self.pyboy.cartridge_title != "POKEMON_GLDAAU":
-            raise ValueError("The ROM is not Pokemon Gold.")
+        # Check if the cartridge title is correct
+        check_cartridge_title(self.pyboy, "POKEMON_GLDAAU")
 
         # Progress the game
         self.pyboy.tick(1)
@@ -193,25 +197,21 @@ class PokemonGoldFlatten(gym.Env):
 
     def get_obs(self) -> np.ndarray:
         """Returns the current observation."""
-        pokemon_ids_obs = _pokemon_ids(self.pyboy)
-        levels_obs = _levels(self.pyboy)
-        hps_obs = _hps(self.pyboy)
-        moves_obs = _moves(self.pyboy).flatten()
-        pps_obs = _pps(self.pyboy).flatten()
-        game_area_obs = _game_area(self.pyboy).flatten()
-        return np.concatenate(
-            (pokemon_ids_obs, levels_obs, hps_obs, moves_obs, pps_obs, game_area_obs)
-        )
+        pokemon_ids = _pokemon_ids(self.pyboy)
+        levels = _levels(self.pyboy)
+        hps = _hps(self.pyboy)
+        moves = _moves(self.pyboy).flatten()
+        pps = _pps(self.pyboy).flatten()
+        game_area = _game_area(self.pyboy).flatten()
+        return np.concatenate((pokemon_ids, levels, hps, moves, pps, game_area))
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        badges_reward = _badges(self.pyboy) / 16
-        money_reward = _money(self.pyboy) / 999999
-        pokemon_levels_reward = np.sum(_levels(self.pyboy)) / 600
-        pokemons_seen_reward = _seen_pokemons(self.pyboy) / 251
-        return (
-            badges_reward + money_reward + pokemon_levels_reward + pokemons_seen_reward
-        )
+        badges = _badges(self.pyboy) / 16
+        money = _money(self.pyboy) / 999999
+        pokemon_levels = np.sum(_levels(self.pyboy)) / 600
+        pokemons_seen = _seen_pokemons(self.pyboy) / 251
+        return badges + money + pokemon_levels + pokemons_seen
 
 
 class PokemonGoldImage(gym.Env):
@@ -279,6 +279,7 @@ class PokemonGoldImage(gym.Env):
                 "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state"
             )
 
+        # Checks
         check_rom_file(rom_path)
         check_state_file(init_state_path)
         check_frameskip(n_frameskip)
@@ -311,12 +312,14 @@ class PokemonGoldImage(gym.Env):
             self.pyboy.set_emulation_speed(0)
             self.n_frameskip = n_frameskip
 
+        # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "POKEMON_GLDAAU")
 
     def step(
         self,
         action: ActType,
     ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
+        # Check if the action is valid
         check_action(action, self.action_space)
 
         # Perform the action
@@ -344,11 +347,15 @@ class PokemonGoldImage(gym.Env):
     ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
         if self.init_state_path is None:
             # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game()
+            self.pyboy.game_wrapper.reset_game(seed)
         else:
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
+                self.pyboy.game_wrapper._set_timer_div(seed)  # pylint: disable=protected-access
+
+        # Check if the cartridge title is correct
+        check_cartridge_title(self.pyboy, "POKEMON_GLDAAU")
 
         # Progress the game
         self.pyboy.tick(1)
@@ -371,10 +378,8 @@ class PokemonGoldImage(gym.Env):
 
     def get_reward(self) -> SupportsFloat:
         """Returns the current reward."""
-        badges_reward = _badges(self.pyboy) / 16
-        money_reward = _money(self.pyboy) / 999999
-        pokemon_levels_reward = np.sum(_levels(self.pyboy)) / 600
-        pokemons_seen_reward = _seen_pokemons(self.pyboy) / 251
-        return (
-            badges_reward + money_reward + pokemon_levels_reward + pokemons_seen_reward
-        )
+        badges = _badges(self.pyboy) / 16
+        money = _money(self.pyboy) / 999999
+        pokemon_levels = np.sum(_levels(self.pyboy)) / 600
+        pokemons_seen = _seen_pokemons(self.pyboy) / 251
+        return badges + money + pokemon_levels + pokemons_seen
