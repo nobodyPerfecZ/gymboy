@@ -1,5 +1,8 @@
 """Gymboy environments."""
 
+# Kirby environments
+from .kirby import KirbyDreamLand1Flatten, KirbyDreamLand1Image
+
 # Mario environments
 from .mario import SuperMarioLand1Flatten, SuperMarioLand1Image
 
@@ -21,6 +24,8 @@ from .pokemon import (
 from .tetris import TetrisFlatten, TetrisImage
 
 __all__ = [
+    "KirbyDreamLand1Flatten",
+    "KirbyDreamLand1Image",
     "PokemonBlueFlatten",
     "PokemonBlueImage",
     "PokemonGoldFlatten",

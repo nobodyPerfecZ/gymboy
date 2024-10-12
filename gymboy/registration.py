@@ -5,6 +5,8 @@ from typing import Callable
 import gymnasium as gym
 
 from .environments import (
+    KirbyDreamLand1Flatten,
+    KirbyDreamLand1Image,
     PokemonBlueFlatten,
     PokemonBlueImage,
     PokemonGoldFlatten,
@@ -73,6 +75,12 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
         env = PokemonSilverFlatten(**env_kwargs)
     elif env_id == "Pokemon-Silver-image-v1":
         env = PokemonSilverImage(**env_kwargs)
+
+    # 4. Kirby environments
+    elif env_id == "Kirby-Dream-Land-1-flatten-v1":
+        env = KirbyDreamLand1Flatten(**env_kwargs)
+    elif env_id == "Kirby-Dream-Land-1-image-v1":
+        env = KirbyDreamLand1Image(**env_kwargs)
     else:
         raise ValueError("Environment ID is not registered.")
     return env
@@ -122,6 +130,8 @@ def make_vec(
 
 
 registered_envs = [
+    "Kirby-Dream-Land-1-flatten-v1",
+    "Kirby-Dream-Land-1-image-v1",
     "Pokemon-Blue-flatten-v1",
     "Pokemon-Blue-image-v1",
     "Pokemon-Gold-flatten-v1",
