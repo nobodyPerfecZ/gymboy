@@ -18,37 +18,65 @@ class TestMemory(unittest.TestCase):
     """Tests the methods under tetris/tetris/_memory.py."""
 
     def setUp(self):
-        self.pyboy = PyBoy(gamerom="./gymboy/resources/roms/tetris/tetris/tetris.gb")
-        with open(
-            "./gymboy/resources/states/tetris/tetris/tetris_test.state",
-            "rb",
-        ) as f:
-            self.pyboy.load_state(f)
-        self.pyboy.tick(1)
+        self.rom_path = "./gymboy/resources/roms/tetris/tetris/tetris.gb"
+        self.init_state_path1 = (
+            "./gymboy/resources/states/tetris/tetris/tetris_test_1.state"
+        )
+        self.init_state_path2 = (
+            "./gymboy/resources/states/tetris/tetris/tetris_test_2.state"
+        )
+        self.init_state_path3 = (
+            "./gymboy/resources/states/tetris/tetris/tetris_test_3.state"
+        )
+
+        self.pyboy1 = PyBoy(self.rom_path)
+        with open(self.init_state_path1, "rb") as f:
+            self.pyboy1.load_state(f)
+        self.pyboy1.tick(1)
+
+        self.pyboy2 = PyBoy(self.rom_path)
+        with open(self.init_state_path2, "rb") as f:
+            self.pyboy2.load_state(f)
+        self.pyboy2.tick(1)
+
+        self.pyboy3 = PyBoy(self.rom_path)
+        with open(self.init_state_path3, "rb") as f:
+            self.pyboy3.load_state(f)
+        self.pyboy3.tick(1)
 
     def tearDown(self):
-        self.pyboy.stop()
+        self.pyboy1.stop()
+        self.pyboy2.stop()
+        self.pyboy3.stop()
 
     def test_score(self):
         """Tests the score() method."""
-        self.assertEqual(20, _score(self.pyboy))
+        self.assertEqual(20, _score(self.pyboy1))
+        self.assertEqual(182, _score(self.pyboy2))
+        self.assertEqual(2293, _score(self.pyboy3))
 
     def test_level(self):
         """Tests the level() method."""
-        self.assertEqual(9, _level(self.pyboy))
+        self.assertEqual(9, _level(self.pyboy1))
+        self.assertEqual(0, _level(self.pyboy2))
+        self.assertEqual(2, _level(self.pyboy3))
 
     def test_next_block(self):
         """Tests the next_block() method."""
-        self.assertEqual(24, _next_block(self.pyboy))
+        self.assertEqual(24, _next_block(self.pyboy1))
+        self.assertEqual(20, _next_block(self.pyboy2))
+        self.assertEqual(24, _next_block(self.pyboy3))
 
     def test_game_over(self):
         """Tests the game_over() method."""
-        self.assertFalse(_game_over(self.pyboy))
+        self.assertFalse(_game_over(self.pyboy1))
+        self.assertFalse(_game_over(self.pyboy2))
+        self.assertTrue(_game_over(self.pyboy3))
 
     def test_game_area(self):
         """Tests the game_area() method."""
         np.testing.assert_allclose(
-            _game_area(self.pyboy),
+            _game_area(self.pyboy1),
             np.array(
                 [
                     [47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
@@ -69,6 +97,56 @@ class TestMemory(unittest.TestCase):
                     [134, 134, 47, 134, 133, 132, 132, 132, 47, 47],
                     [47, 134, 134, 134, 134, 132, 131, 131, 131, 131],
                     [134, 134, 47, 47, 134, 47, 131, 131, 131, 131],
+                ]
+            ),
+        )
+        np.testing.assert_allclose(
+            _game_area(self.pyboy2),
+            np.array(
+                [
+                    [47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
+                    [47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
+                    [47, 47, 128, 47, 47, 47, 47, 47, 47, 47],
+                    [47, 47, 136, 47, 47, 47, 47, 47, 47, 47],
+                    [47, 47, 136, 47, 47, 47, 47, 47, 47, 47],
+                    [128, 47, 137, 47, 47, 47, 47, 47, 47, 47],
+                    [136, 129, 129, 129, 129, 129, 47, 132, 132, 132],
+                    [136, 129, 47, 129, 47, 129, 47, 132, 47, 47],
+                    [137, 129, 47, 129, 47, 47, 47, 47, 47, 133],
+                    [129, 129, 129, 129, 47, 47, 47, 47, 133, 133],
+                    [129, 47, 134, 134, 47, 47, 47, 47, 132, 133],
+                    [129, 134, 134, 47, 47, 47, 47, 47, 132, 47],
+                    [131, 131, 131, 131, 47, 130, 47, 128, 132, 132],
+                    [131, 131, 131, 131, 130, 130, 47, 136, 132, 132],
+                    [47, 130, 130, 130, 130, 130, 130, 136, 132, 132],
+                    [133, 133, 133, 133, 133, 133, 133, 133, 47, 128],
+                    [133, 133, 133, 133, 133, 133, 133, 134, 47, 136],
+                    [134, 134, 134, 134, 134, 134, 47, 47, 134, 137],
+                ]
+            ),
+        )
+        np.testing.assert_allclose(
+            _game_area(self.pyboy3),
+            np.array(
+                [
+                    [47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
+                    [47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
+                    [47, 97, 98, 98, 98, 98, 98, 98, 99, 47],
+                    [47, 100, 47, 47, 47, 47, 47, 47, 101, 47],
+                    [47, 100, 47, 16, 10, 22, 14, 47, 101, 47],
+                    [47, 100, 47, 173, 173, 173, 173, 47, 101, 47],
+                    [47, 100, 47, 24, 31, 14, 27, 47, 101, 47],
+                    [47, 100, 47, 173, 173, 173, 173, 47, 101, 47],
+                    [47, 102, 105, 105, 105, 105, 105, 105, 106, 47],
+                    [47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
+                    [47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
+                    [47, 47, 47, 47, 47, 47, 47, 47, 47, 47],
+                    [47, 25, 21, 14, 10, 28, 14, 47, 47, 47],
+                    [47, 41, 41, 41, 41, 41, 41, 47, 47, 47],
+                    [47, 47, 29, 27, 34, 47, 47, 47, 47, 47],
+                    [47, 47, 41, 41, 41, 47, 47, 47, 47, 47],
+                    [47, 47, 47, 10, 16, 10, 18, 23, 39, 47],
+                    [47, 47, 47, 41, 41, 41, 41, 41, 47, 47],
                 ]
             ),
         )
