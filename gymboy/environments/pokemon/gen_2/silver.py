@@ -1,5 +1,6 @@
 """Pokemon Silver environments."""
 
+# pylint: disable=protected-access
 from typing import Any, SupportsFloat
 
 import gymnasium as gym
@@ -154,6 +155,7 @@ class PokemonSilverFlatten(gym.Env):
         # Progress the game
         self.pyboy.tick(self.n_frameskip)
 
+        # Get the observation, reward, done and info
         observation = self.get_obs()
         reward = self.get_reward()
         terminated = False
@@ -175,9 +177,7 @@ class PokemonSilverFlatten(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
-                self.pyboy.game_wrapper._set_timer_div(
-                    seed
-                )  # pylint: disable=protected-access
+                self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "POKEMON_SLVAAX")
@@ -335,6 +335,7 @@ class PokemonSilverFullImage(gym.Env):
         # Progress the game
         self.pyboy.tick(self.n_frameskip)
 
+        # Get the observation, reward, done and info
         observation = self.get_obs()
         reward = self.get_reward()
         terminated = False
@@ -357,9 +358,7 @@ class PokemonSilverFullImage(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
-                self.pyboy.game_wrapper._set_timer_div(
-                    seed
-                )  # pylint: disable=protected-access
+                self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "POKEMON_SLVAAX")
@@ -509,6 +508,7 @@ class PokemonSilverMinimalImage(gym.Env):
         # Progress the game
         self.pyboy.tick(self.n_frameskip)
 
+        # Get the observation, reward, done and info
         observation = self.get_obs()
         reward = self.get_reward()
         terminated = False
@@ -530,9 +530,7 @@ class PokemonSilverMinimalImage(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
-                self.pyboy.game_wrapper._set_timer_div(
-                    seed
-                )  # pylint: disable=protected-access
+                self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "POKEMON_SLVAAX")

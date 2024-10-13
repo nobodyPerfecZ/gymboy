@@ -1,5 +1,6 @@
 """Tetris environments."""
 
+# pylint: disable=protected-access
 from typing import Any, SupportsFloat
 
 import gymnasium as gym
@@ -139,6 +140,7 @@ class TetrisFlatten(gym.Env):
         # Progress the game
         self.pyboy.tick(self.n_frameskip)
 
+        # Get the observation, reward, done and info
         observation = self.get_obs()
         reward = self.get_reward()
         terminated = _game_over(self.pyboy)
@@ -160,9 +162,7 @@ class TetrisFlatten(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
-                self.pyboy.game_wrapper._set_timer_div(
-                    seed
-                )  # pylint: disable=protected-access
+                self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "TETRIS")
@@ -311,6 +311,7 @@ class TetrisFullImage(gym.Env):
         # Progress the game
         self.pyboy.tick(self.n_frameskip)
 
+        # Get the observation, reward, done and info
         observation = self.get_obs()
         reward = self.get_reward()
         terminated = _game_over(self.pyboy)
@@ -332,9 +333,7 @@ class TetrisFullImage(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
-                self.pyboy.game_wrapper._set_timer_div(
-                    seed
-                )  # pylint: disable=protected-access
+                self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "TETRIS")
@@ -480,6 +479,7 @@ class TetrisMinimalImage(gym.Env):
         # Progress the game
         self.pyboy.tick(self.n_frameskip)
 
+        # Get the observation, reward, done and info
         observation = self.get_obs()
         reward = self.get_reward()
         terminated = _game_over(self.pyboy)
@@ -501,9 +501,7 @@ class TetrisMinimalImage(gym.Env):
             # Case: Load the initial game state
             with open(self.init_state_path, "rb") as f:
                 self.pyboy.load_state(f)
-                self.pyboy.game_wrapper._set_timer_div(
-                    seed
-                )  # pylint: disable=protected-access
+                self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
         check_cartridge_title(self.pyboy, "TETRIS")
