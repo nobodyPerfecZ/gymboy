@@ -13,7 +13,7 @@ class TestTetrisFlatten(unittest.TestCase):
     def setUp(self):
         self.env_id = "Tetris-flatten-v1"
         self.init_state_path = (
-            "./gymboy/resources/states/tetris/tetris/tetris_9_during_game.state"
+            "./gymboy/resources/states/tetris/tetris/tetris_test.state"
         )
         self.num_envs = 3
         self.vectorization_mode = "sync"
@@ -108,7 +108,7 @@ class TestTetrisFullImage(unittest.TestCase):
     def setUp(self):
         self.env_id = "Tetris-full-image-v1"
         self.init_state_path = (
-            "./gymboy/resources/states/tetris/tetris/tetris_9_during_game.state"
+            "./gymboy/resources/states/tetris/tetris/tetris_test.state"
         )
         self.num_envs = 3
         self.vectorization_mode = "sync"
@@ -204,7 +204,7 @@ class TestTetrisMinimalImage(unittest.TestCase):
     def setUp(self):
         self.env_id = "Tetris-minimal-image-v1"
         self.init_state_path = (
-            "./gymboy/resources/states/tetris/tetris/tetris_9_during_game.state"
+            "./gymboy/resources/states/tetris/tetris/tetris_test.state"
         )
         self.num_envs = 3
         self.vectorization_mode = "sync"

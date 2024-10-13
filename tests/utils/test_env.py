@@ -28,12 +28,12 @@ class TestEnv(unittest.TestCase):
     def test_check_state_file(self):
         """Tests the check_state_file() method."""
         with self.assertRaises(ValueError):
-            check_state_file("gymboy/resources/states/tetris/tetris/tetris_9.txt")
+            check_state_file("gymboy/resources/states/tetris/tetris/tetris.txt")
 
         with self.assertRaises(FileNotFoundError):
             check_state_file("gymboy/resources/states/tetris/tetris/invalid.state")
 
-        check_state_file("gymboy/resources/states/tetris/tetris/tetris_9.state")
+        check_state_file("gymboy/resources/states/tetris/tetris/tetris.state")
 
     def test_check_cartridge_title(self):
         """Tests the check_cartridge_title() method."""

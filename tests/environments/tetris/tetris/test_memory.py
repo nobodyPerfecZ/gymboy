@@ -20,7 +20,7 @@ class TestMemory(unittest.TestCase):
     def setUp(self):
         self.pyboy = PyBoy(gamerom="./gymboy/resources/roms/tetris/tetris/tetris.gb")
         with open(
-            "./gymboy/resources/states/tetris/tetris/tetris_9_during_game.state",
+            "./gymboy/resources/states/tetris/tetris/tetris_test.state",
             "rb",
         ) as f:
             self.pyboy.load_state(f)

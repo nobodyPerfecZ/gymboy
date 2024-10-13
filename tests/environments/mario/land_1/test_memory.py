@@ -24,7 +24,7 @@ class TestMemory(unittest.TestCase):
     def setUp(self):
         self.pyboy = PyBoy("./gymboy/resources/roms/mario/land_1/super_mario_land_1.gb")
         with open(
-            "./gymboy/resources/states/mario/land_1/super_mario_land_1_test.state",
+            "./gymboy/resources/states/mario/land_1/super_mario_land_1_1_1_test.state",
             "rb",
         ) as f:
             self.pyboy.load_state(f)

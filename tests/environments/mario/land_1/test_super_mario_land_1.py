@@ -13,7 +13,7 @@ class TestSuperMarioLand1Flatten(unittest.TestCase):
     def setUp(self):
         self.env_id = "Super-Mario-Land-1-flatten-v1"
         self.init_state_path = (
-            "./gymboy/resources/states/mario/land_1/super_mario_land_1_test.state"
+            "./gymboy/resources/states/mario/land_1/super_mario_land_1_1_1_test.state"
         )
         self.num_envs = 3
         self.vectorization_mode = "sync"
@@ -108,7 +108,7 @@ class TestSuperMarioLand1FullImage(unittest.TestCase):
     def setUp(self):
         self.env_id = "Super-Mario-Land-1-full-image-v1"
         self.init_state_path = (
-            "./gymboy/resources/states/mario/land_1/super_mario_land_1_test.state"
+            "./gymboy/resources/states/mario/land_1/super_mario_land_1_1_1_test.state"
         )
         self.num_envs = 3
         self.vectorization_mode = "sync"
@@ -203,7 +203,7 @@ class TestSuperMarioLand1MinimalImage(unittest.TestCase):
     def setUp(self):
         self.env_id = "Super-Mario-Land-1-minimal-image-v1"
         self.init_state_path = (
-            "./gymboy/resources/states/mario/land_1/super_mario_land_1_test.state"
+            "./gymboy/resources/states/mario/land_1/super_mario_land_1_1_1_test.state"
         )
         self.num_envs = 3
         self.vectorization_mode = "sync"

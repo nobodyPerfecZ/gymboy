@@ -21,7 +21,7 @@ class TestResource(unittest.TestCase):
         )
         self.assertTrue(os.path.isfile(path2))
 
-        path3 = resource_path("resources/states/tetris/tetris/tetris_9.state")
+        path3 = resource_path("resources/states/tetris/tetris/tetris.state")
         self.assertTrue(os.path.isfile(path3))
 
 

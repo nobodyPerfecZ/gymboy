@@ -58,7 +58,7 @@ class TetrisFlatten(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/tetris/tetris/tetris_9.state`` will be used
+            If ``None``, ``resources/states/tetris/tetris/tetris.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -84,7 +84,7 @@ class TetrisFlatten(gym.Env):
             rom_path = resource_path("resources/roms/tetris/tetris/tetris.gb")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/tetris/tetris/tetris_9.state"
+                "resources/states/tetris/tetris/tetris.state"
             )
 
         # Checks
@@ -230,7 +230,7 @@ class TetrisFullImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/tetris/tetris/tetris_9.state`` will be used
+            If ``None``, ``resources/states/tetris/tetris/tetris.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -256,7 +256,7 @@ class TetrisFullImage(gym.Env):
             rom_path = resource_path("resources/roms/tetris/tetris/tetris.gb")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/tetris/tetris/tetris_9.state"
+                "resources/states/tetris/tetris/tetris.state"
             )
 
         # Checks
@@ -399,7 +399,7 @@ class TetrisMinimalImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/tetris/tetris/tetris_9.state`` will be used
+            If ``None``, ``resources/states/tetris/tetris/tetris.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -425,7 +425,7 @@ class TetrisMinimalImage(gym.Env):
             rom_path = resource_path("resources/roms/tetris/tetris/tetris.gb")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/tetris/tetris/tetris_9.state"
+                "resources/states/tetris/tetris/tetris.state"
             )
 
         # Checks
