@@ -27,7 +27,7 @@ def _score(pyboy: PyBoy) -> int:
         int:
             The current score of the game
     """
-    return bcds_to_integer(pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3])
+    return bcds_to_integer(reversed(pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3]))
 
 
 def _world_level(pyboy: PyBoy) -> tuple[int, int]:
