@@ -14,7 +14,7 @@ from gymboy.environments.kirby.dream_land_1._memory import (
 )
 
 
-class TestMemory12(unittest.TestCase):
+class TestMemory(unittest.TestCase):
     """Tests the methods under kirby/dream_land_1/_memory.py."""
 
     def setUp(self):
