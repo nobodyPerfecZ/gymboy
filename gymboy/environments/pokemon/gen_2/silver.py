@@ -112,6 +112,7 @@ class PokemonSilverFlatten(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+        self.cartridge_title = "POKEMON_SLVAAX"
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -137,7 +138,7 @@ class PokemonSilverFlatten(gym.Env):
             self.n_frameskip = n_frameskip
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON_SLVAAX")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
     def step(
         self,
@@ -180,7 +181,7 @@ class PokemonSilverFlatten(gym.Env):
                 self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON_SLVAAX")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
         # Progress the game
         self.pyboy.tick(1)
@@ -292,6 +293,7 @@ class PokemonSilverFullImage(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+        self.cartridge_title = "POKEMON_SLVAAX"
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -317,7 +319,7 @@ class PokemonSilverFullImage(gym.Env):
             self.n_frameskip = n_frameskip
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON_SLVAAX")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
     def step(
         self,
@@ -361,7 +363,7 @@ class PokemonSilverFullImage(gym.Env):
                 self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON_SLVAAX")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
         # Progress the game
         self.pyboy.tick(1)
@@ -465,6 +467,7 @@ class PokemonSilverMinimalImage(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+        self.cartridge_title = "POKEMON_SLVAAX"
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -490,7 +493,7 @@ class PokemonSilverMinimalImage(gym.Env):
             self.n_frameskip = n_frameskip
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON_SLVAAX")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
     def step(
         self,
@@ -533,7 +536,7 @@ class PokemonSilverMinimalImage(gym.Env):
                 self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON_SLVAAX")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
         # Progress the game
         self.pyboy.tick(1)

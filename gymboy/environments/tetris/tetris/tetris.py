@@ -97,6 +97,7 @@ class TetrisFlatten(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+        self.cartridge_title = "TETRIS"
 
         # Default actions
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -122,7 +123,7 @@ class TetrisFlatten(gym.Env):
             self.n_frameskip = n_frameskip
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "TETRIS")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
     def step(
         self,
@@ -165,7 +166,7 @@ class TetrisFlatten(gym.Env):
                 self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "TETRIS")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
         # Progress the game
         self.pyboy.tick(1)
@@ -268,6 +269,7 @@ class TetrisFullImage(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+        self.cartridge_title = "TETRIS"
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -293,7 +295,7 @@ class TetrisFullImage(gym.Env):
             self.n_frameskip = n_frameskip
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "TETRIS")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
     def step(
         self,
@@ -336,7 +338,7 @@ class TetrisFullImage(gym.Env):
                 self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "TETRIS")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
         # Progress the game
         self.pyboy.tick(1)
@@ -436,6 +438,7 @@ class TetrisMinimalImage(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+        self.cartridge_title = "TETRIS"
 
         # Default actions
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -461,7 +464,7 @@ class TetrisMinimalImage(gym.Env):
             self.n_frameskip = n_frameskip
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "TETRIS")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
     def step(
         self,
@@ -504,7 +507,7 @@ class TetrisMinimalImage(gym.Env):
                 self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "TETRIS")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
         # Progress the game
         self.pyboy.tick(1)

@@ -115,6 +115,7 @@ class PokemonYellowFlatten(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+        self.cartridge_title = "POKEMON YELLOW"
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -147,7 +148,7 @@ class PokemonYellowFlatten(gym.Env):
             self.n_frameskip = n_frameskip
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON YELLOW")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
     def step(
         self,
@@ -190,7 +191,7 @@ class PokemonYellowFlatten(gym.Env):
                 self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON YELLOW")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
         # Progress the game
         self.pyboy.tick(1)
@@ -306,6 +307,7 @@ class PokemonYellowFullImage(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+        self.cartridge_title = "POKEMON YELLOW"
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -331,7 +333,7 @@ class PokemonYellowFullImage(gym.Env):
             self.n_frameskip = n_frameskip
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON YELLOW")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
     def step(
         self,
@@ -374,7 +376,7 @@ class PokemonYellowFullImage(gym.Env):
                 self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON YELLOW")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
         # Progress the game
         self.pyboy.tick(1)
@@ -482,6 +484,7 @@ class PokemonYellowMinimalImage(gym.Env):
         self.init_state_path = init_state_path
         self.sound = sound
         self.render_mode = render_mode
+        self.cartridge_title = "POKEMON YELLOW"
 
         # Default actions and observation shape
         self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
@@ -514,7 +517,7 @@ class PokemonYellowMinimalImage(gym.Env):
             self.n_frameskip = n_frameskip
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON YELLOW")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
     def step(
         self,
@@ -557,7 +560,7 @@ class PokemonYellowMinimalImage(gym.Env):
                 self.pyboy.game_wrapper._set_timer_div(seed)
 
         # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, "POKEMON YELLOW")
+        check_cartridge_title(self.pyboy, self.cartridge_title)
 
         # Progress the game
         self.pyboy.tick(1)
