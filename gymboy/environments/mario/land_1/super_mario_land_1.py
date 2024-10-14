@@ -74,7 +74,7 @@ class SuperMarioLand1Flatten(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/mario/land_1/super_mario_land_1_1_1.state`` will be used
+            If ``None``, ``resources/states/mario/land_1/super_mario_land_1.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -102,7 +102,7 @@ class SuperMarioLand1Flatten(gym.Env):
             )
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/mario/land_1/super_mario_land_1_1_1.state"
+                "resources/states/mario/land_1/super_mario_land_1.state"
             )
 
         # Checks
@@ -161,7 +161,7 @@ class SuperMarioLand1Flatten(gym.Env):
         # Get the observation, reward, done and info
         observation = self.get_obs()
         reward = self.get_reward()
-        terminated = _game_over(self.pyboy) or _level_finished(self.pyboy)
+        terminated = _game_over(self.pyboy)
         truncated = False
         info = {}
 
@@ -256,7 +256,7 @@ class SuperMarioLand1FullImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/mario/land_1/super_mario_land_1_1_1.state`` will be used
+            If ``None``, ``resources/states/mario/land_1/super_mario_land_1.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -284,7 +284,7 @@ class SuperMarioLand1FullImage(gym.Env):
             )
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/mario/land_1/super_mario_land_1_1_1.state"
+                "resources/states/mario/land_1/super_mario_land_1.state"
             )
 
         # Checks
@@ -343,7 +343,7 @@ class SuperMarioLand1FullImage(gym.Env):
         # Get the observation, reward, done and info
         observation = self.get_obs()
         reward = self.get_reward()
-        terminated = _game_over(self.pyboy) or _level_finished(self.pyboy)
+        terminated = _game_over(self.pyboy)
         truncated = False
         info = {}
 
@@ -433,7 +433,7 @@ class SuperMarioLand1MinimalImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/mario/land_1/super_mario_land_1_1_1.state`` will be used
+            If ``None``, ``resources/states/mario/land_1/super_mario_land_1.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -461,7 +461,7 @@ class SuperMarioLand1MinimalImage(gym.Env):
             )
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/mario/land_1/super_mario_land_1_1_1.state"
+                "resources/states/mario/land_1/super_mario_land_1.state"
             )
 
         # Checks
@@ -520,7 +520,7 @@ class SuperMarioLand1MinimalImage(gym.Env):
         # Get the observation, reward, done and info
         observation = self.get_obs()
         reward = self.get_reward()
-        terminated = _game_over(self.pyboy) or _level_finished(self.pyboy)
+        terminated = _game_over(self.pyboy)
         truncated = False
         info = {}
 

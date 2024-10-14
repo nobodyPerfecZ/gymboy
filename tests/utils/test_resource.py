@@ -12,7 +12,7 @@ class TestResource(unittest.TestCase):
     def test_resource_path(self):
         """Tests the resource_path() method."""
         path1 = resource_path(
-            "resources/states/mario/land_1/super_mario_land_1_1_1.state"
+            "resources/states/mario/land_1/super_mario_land_1.state"
         )
         self.assertTrue(os.path.isfile(path1))
 
