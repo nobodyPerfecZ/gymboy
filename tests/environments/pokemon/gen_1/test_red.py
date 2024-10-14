@@ -12,7 +12,7 @@ class TestPokemonRedFlatten(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Red-flatten-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_red_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_red_test_1.state"
         self.num_envs = 3
         self.vectorized_mode = "sync"
         self.env = gymboy.make(
@@ -105,7 +105,7 @@ class TestPokemonRedFullImage(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Red-full-image-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_red_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_red_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(
@@ -198,7 +198,7 @@ class TestPokemonRedMinimalImage(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Red-minimal-image-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_red_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_red_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(

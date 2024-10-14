@@ -17,7 +17,7 @@ class TestResource(unittest.TestCase):
         self.assertTrue(os.path.isfile(path1))
 
         path2 = resource_path(
-            "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state"
+            "resources/states/pokemon/gen_1/pokemon_blue.state"
         )
         self.assertTrue(os.path.isfile(path2))
 

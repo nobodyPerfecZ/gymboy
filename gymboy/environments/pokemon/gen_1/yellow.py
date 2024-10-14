@@ -77,7 +77,7 @@ class PokemonYellowFlatten(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_yellow.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -103,7 +103,7 @@ class PokemonYellowFlatten(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_yellow.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state"
+                "resources/states/pokemon/gen_1/pokemon_yellow.state"
             )
 
         # Checks
@@ -269,7 +269,7 @@ class PokemonYellowFullImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_yellow.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -295,7 +295,7 @@ class PokemonYellowFullImage(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_yellow.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state"
+                "resources/states/pokemon/gen_1/pokemon_yellow.state"
             )
 
         # Checks
@@ -446,7 +446,7 @@ class PokemonYellowMinimalImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_yellow.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -472,7 +472,7 @@ class PokemonYellowMinimalImage(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_yellow.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state"
+                "resources/states/pokemon/gen_1/pokemon_yellow.state"
             )
 
         # Checks

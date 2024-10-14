@@ -12,7 +12,7 @@ class TestPokemonSilverFlatten(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Silver-flatten-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_silver_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_silver_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(env_id=self.env_id, init_state_path=self.init_state_path)
@@ -102,7 +102,7 @@ class TestPokemonSilverFullImage(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Silver-full-image-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_silver_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_silver_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(
@@ -195,7 +195,7 @@ class TestPokemonSilverMinimalImage(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Silver-minimal-image-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_silver_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_silver_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(

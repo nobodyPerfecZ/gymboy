@@ -74,7 +74,7 @@ class PokemonSilverFlatten(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_2/pokemon_silver_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_2/pokemon_silver.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -100,7 +100,7 @@ class PokemonSilverFlatten(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_2/pokemon_silver.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_2/pokemon_silver_after_intro.state"
+                "resources/states/pokemon/gen_2/pokemon_silver.state"
             )
 
         # Checks
@@ -255,7 +255,7 @@ class PokemonSilverFullImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_2/pokemon_silver_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_2/pokemon_silver.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -281,7 +281,7 @@ class PokemonSilverFullImage(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_2/pokemon_silver.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_2/pokemon_silver_after_intro.state"
+                "resources/states/pokemon/gen_2/pokemon_silver.state"
             )
 
         # Checks
@@ -429,7 +429,7 @@ class PokemonSilverMinimalImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_2/pokemon_silver_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_2/pokemon_silver.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -455,7 +455,7 @@ class PokemonSilverMinimalImage(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_2/pokemon_silver.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_2/pokemon_silver_after_intro.state"
+                "resources/states/pokemon/gen_2/pokemon_silver.state"
             )
 
         # Checks

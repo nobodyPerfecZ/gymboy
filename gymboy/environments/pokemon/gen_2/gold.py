@@ -74,7 +74,7 @@ class PokemonGoldFlatten(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_2/pokemon_gold_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_2/pokemon_gold.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -100,7 +100,7 @@ class PokemonGoldFlatten(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_2/pokemon_gold.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state"
+                "resources/states/pokemon/gen_2/pokemon_gold.state"
             )
 
         # Checks
@@ -255,7 +255,7 @@ class PokemonGoldFullImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_2/pokemon_gold_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_2/pokemon_gold.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -281,7 +281,7 @@ class PokemonGoldFullImage(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_2/pokemon_gold.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state"
+                "resources/states/pokemon/gen_2/pokemon_gold.state"
             )
 
         # Checks
@@ -428,7 +428,7 @@ class PokemonGoldMinimalImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_2/pokemon_gold_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_2/pokemon_gold.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -454,7 +454,7 @@ class PokemonGoldMinimalImage(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_2/pokemon_gold.gbc")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state"
+                "resources/states/pokemon/gen_2/pokemon_gold.state"
             )
 
         # Checks

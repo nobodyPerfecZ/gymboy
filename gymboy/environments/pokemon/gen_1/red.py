@@ -77,7 +77,7 @@ class PokemonRedFlatten(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_red_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_red.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -104,7 +104,7 @@ class PokemonRedFlatten(gym.Env):
 
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_red_after_intro.state"
+                "resources/states/pokemon/gen_1/pokemon_red.state"
             )
 
         # Checks
@@ -263,7 +263,7 @@ class PokemonRedFullImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_red_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_red.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -289,7 +289,7 @@ class PokemonRedFullImage(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_red.gb")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_red_after_intro.state"
+                "resources/states/pokemon/gen_1/pokemon_red.state"
             )
 
         # Checks
@@ -440,7 +440,7 @@ class PokemonRedMinimalImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_red_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_red.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -467,7 +467,7 @@ class PokemonRedMinimalImage(gym.Env):
 
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_red_after_intro.state"
+                "resources/states/pokemon/gen_1/pokemon_red.state"
             )
 
         # Checks

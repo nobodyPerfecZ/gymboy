@@ -31,7 +31,7 @@ class TestMemory(unittest.TestCase):
             gamerom="./gymboy/resources/roms/pokemon/gen_1/pokemon_blue.gb"
         )
         with open(
-            "./gymboy/resources/states/pokemon/gen_1/pokemon_blue_after_first_pokemon.state",
+            "./gymboy/resources/states/pokemon/gen_1/pokemon_blue_test_1.state",
             "rb",
         ) as f:
             self.pyboy.load_state(f)

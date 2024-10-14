@@ -77,7 +77,7 @@ class PokemonBlueFlatten(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_blue_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_blue.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -103,7 +103,7 @@ class PokemonBlueFlatten(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_blue.gb")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state"
+                "resources/states/pokemon/gen_1/pokemon_blue.state"
             )
 
         # Checks
@@ -262,7 +262,7 @@ class PokemonBlueFullImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_blue_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_blue.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -288,7 +288,7 @@ class PokemonBlueFullImage(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_blue.gb")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state"
+                "resources/states/pokemon/gen_1/pokemon_blue.state"
             )
 
         # Checks
@@ -439,7 +439,7 @@ class PokemonBlueMinimalImage(gym.Env):
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_blue_after_intro.state`` will be used
+            If ``None``, ``resources/states/pokemon/gen_1/pokemon_blue.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
@@ -465,7 +465,7 @@ class PokemonBlueMinimalImage(gym.Env):
             rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_blue.gb")
         if init_state_path is None:
             init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state"
+                "resources/states/pokemon/gen_1/pokemon_blue.state"
             )
 
         # Checks

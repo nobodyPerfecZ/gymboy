@@ -12,7 +12,7 @@ class TestPokemonGoldFlatten(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Gold-flatten-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_gold_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_gold_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(
@@ -105,7 +105,7 @@ class TestPokemonGoldFullImage(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Gold-full-image-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_gold_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_gold_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(
@@ -198,7 +198,7 @@ class TestPokemonGoldMinimalImage(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Gold-minimal-image-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_gold_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_gold_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(

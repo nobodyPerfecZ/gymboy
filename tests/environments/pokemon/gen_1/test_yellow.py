@@ -12,7 +12,7 @@ class TestPokemonYellowFlatten(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Yellow-flatten-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_yellow_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_yellow_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(
@@ -105,7 +105,7 @@ class TestPokemonYellowFullImage(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Yellow-full-image-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_yellow_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_yellow_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(
@@ -198,7 +198,7 @@ class TestPokemonYellowMinimalImage(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Yellow-minimal-image-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_yellow_after_first_pokemon.state"
+        self.init_state_path = "./gymboy/resources/states/pokemon/gen_1/pokemon_yellow_test_1.state"
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(
