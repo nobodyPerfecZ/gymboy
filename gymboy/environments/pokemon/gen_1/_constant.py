@@ -33,6 +33,10 @@ MOVE_ADDRESSES = [0xD173, 0xD19F, 0xD1CB, 0xD1F7, 0xD223, 0xD24F]
 # (4 Bytes) Pokemon PPs of each attack of each team member
 PP_ADDRESSES = [0xD188, 0xD1B4, 0xD1E0, 0xD20C, 0xD238, 0xD264]
 
+# (X Bytes) Pokemon owned in the pokedex
+POKEDEX_OWNED_START_ADDRESS = 0xD2F7
+POKEDEX_OWNED_END_ADDRESS = 0xD30A
+
 # (X Bytes) Pokemons seen in the pokedex
 POKEDEX_SEEN_START_ADDRESS = 0xD30A
 POKEDEX_SEEN_END_ADDRESS = 0xD31D
@@ -189,11 +193,11 @@ MOVES_TO_MAX_PP = {
     0x8A: 15,  # DREAM_EATER
     0x8B: 40,  # POISON_GAS
     0x8C: 20,  # BARRAGE
-    0x8D: 10,  # LEECH_LIFE
+    0x8D: 15,  # LEECH_LIFE
     0x8E: 10,  # LOVELY_KISS
     0x8F: 5,  # SKY_ATTACK
     0x90: 10,  # TRANSFORM
-    0x91: 20,  # BUBBLE
+    0x91: 30,  # BUBBLE
     0x92: 10,  # DIZZY_PUNCH
     0x93: 15,  # SPORE
     0x94: 20,  # FLASH

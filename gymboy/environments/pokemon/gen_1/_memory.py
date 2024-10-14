@@ -14,6 +14,8 @@ from ._constant import (
     MONEY_ADDRESS,
     MOVE_ADDRESSES,
     MOVES_TO_MAX_PP,
+    POKEDEX_OWNED_END_ADDRESS,
+    POKEDEX_OWNED_START_ADDRESS,
     POKEDEX_SEEN_END_ADDRESS,
     POKEDEX_SEEN_START_ADDRESS,
     POKEMON_IDS_ADDRESSES,
@@ -286,6 +288,30 @@ def _seen_pokemons(pyboy: PyBoy, yellow: bool = False) -> int:
         pyboy.memory[
             POKEDEX_SEEN_START_ADDRESS
             - int(yellow) : POKEDEX_SEEN_END_ADDRESS
+            - int(yellow)
+        ]
+    )
+
+
+def _owned_pokemons(pyboy: PyBoy, yellow: bool = False) -> int:
+    """
+    Returns the current number of owned pokemons.
+
+    Args:
+        pyboy (PyBoy):
+            The game boy instance
+
+        yellow (bool):
+            The flag to indicate if the game is Pokemon Yellow
+
+    Returns:
+        int:
+            The current number of owned pokemons.
+    """
+    return bytes_bit_count(
+        pyboy.memory[
+            POKEDEX_OWNED_START_ADDRESS
+            - int(yellow) : POKEDEX_OWNED_END_ADDRESS
             - int(yellow)
         ]
     )
