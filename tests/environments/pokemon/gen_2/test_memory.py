@@ -7,19 +7,21 @@ from pyboy import PyBoy
 
 from gymboy.environments.pokemon.gen_2._memory import (
     _badges,
-    _money,
-    _pokemon_ids,
-    _team_size,
-    _levels,
-    _hps,
-    _max_hps,
     _exps,
-    _moves,
-    _pps,
-    _max_pps,
-    _seen_pokemons,
     _game_area,
+    _hps,
+    _levels,
+    _max_hps,
+    _max_pps,
+    _money,
+    _mother_money,
+    _moves,
+    _own_money,
     _owned_pokemons,
+    _pokemon_ids,
+    _pps,
+    _seen_pokemons,
+    _team_size,
 )
 
 
@@ -64,16 +66,30 @@ class TestMemory(unittest.TestCase):
         self.assertEqual(1, _badges(self.pyboy2))
         self.assertEqual(0, _badges(self.pyboy3))
 
+    def test_own_money(self):
+        """Tests the own_money() method."""
+        self.assertEqual(12165, _own_money(self.pyboy1))
+        self.assertEqual(6008, _own_money(self.pyboy2))
+        self.assertEqual(3000, _own_money(self.pyboy3))
+
+    def test_mother_money(self):
+        """Tests the mother_money() method."""
+        self.assertEqual(2355, _mother_money(self.pyboy1))
+        self.assertEqual(0, _mother_money(self.pyboy2))
+        self.assertEqual(0, _mother_money(self.pyboy3))
+
     def test_money(self):
         """Tests the money() method."""
-        self.assertEqual(12165, _money(self.pyboy1))
+        self.assertEqual(14520, _money(self.pyboy1))
         self.assertEqual(6008, _money(self.pyboy2))
         self.assertEqual(3000, _money(self.pyboy3))
 
     def test_pokemon_ids(self):
         """Tests the pokemon_ids() method."""
-        np.testing.assert_allclose([153, 17, 27, 180, 175, 79], _pokemon_ids(self.pyboy1))
-        np.testing.assert_allclose([156, 161,  74, 0, 0, 0], _pokemon_ids(self.pyboy2))
+        np.testing.assert_allclose(
+            [153, 17, 27, 180, 175, 79], _pokemon_ids(self.pyboy1)
+        )
+        np.testing.assert_allclose([156, 161, 74, 0, 0, 0], _pokemon_ids(self.pyboy2))
         np.testing.assert_allclose([158, 0, 0, 0, 0, 0], _pokemon_ids(self.pyboy3))
 
     def test_team_size(self):
@@ -102,7 +118,9 @@ class TestMemory(unittest.TestCase):
 
     def test_exps(self):
         """Tests the exps() method."""
-        np.testing.assert_allclose([8046, 5056, 6164, 2191, 2118, 593], _exps(self.pyboy1))
+        np.testing.assert_allclose(
+            [8046, 5056, 6164, 2191, 2118, 593], _exps(self.pyboy1)
+        )
         np.testing.assert_allclose([2343, 2503, 353, 0, 0, 0], _exps(self.pyboy2))
         np.testing.assert_allclose([135, 0, 0, 0, 0, 0], _exps(self.pyboy3))
 
@@ -297,7 +315,6 @@ class TestMemory(unittest.TestCase):
                 [262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 262, 350, 351, 262, 262, 262, 262, 262, 262],
             ])
         )
-
 
 if __name__ == "__main__":
     unittest.main()

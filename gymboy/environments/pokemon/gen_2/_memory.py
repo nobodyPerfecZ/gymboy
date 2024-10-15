@@ -10,8 +10,9 @@ from ._constant import (
     KANTO_BADGE_COUNT_ADDRESS,
     LEVELS_ADDRESSES,
     MAX_HP_ADDRESSES,
-    MONEY_ADDRESS,
+    OWN_MONEY_ADDRESS,
     MOVE_ADDRESSES,
+    MOTHER_MONEY_ADDRESS,
     MOVES_TO_MAX_PP,
     POKEDEX_OWNED_END_ADDRESS,
     POKEDEX_OWNED_START_ADDRESS,
@@ -43,9 +44,9 @@ def _badges(pyboy: PyBoy) -> int:
     )
 
 
-def _money(pyboy: PyBoy) -> int:
+def _own_money(pyboy: PyBoy) -> int:
     """
-    Returns the current money.
+    Returns the current money in your pocket.
 
     Args:
         pyboy (PyBoy):
@@ -53,9 +54,39 @@ def _money(pyboy: PyBoy) -> int:
 
     Returns:
         int:
-            The current money
+            The current money in your pocket
     """
-    return bytes_to_int(pyboy.memory[MONEY_ADDRESS : MONEY_ADDRESS + 3])
+    return bytes_to_int(pyboy.memory[OWN_MONEY_ADDRESS : OWN_MONEY_ADDRESS + 3])
+
+
+def _mother_money(pyboy: PyBoy) -> int:
+    """
+    Returns the current money in your mother's bank.
+
+    Args:
+        pyboy (PyBoy):
+            The game boy instance
+
+    Returns:
+        int:
+            The current money in your pocket
+    """
+    return bytes_to_int(pyboy.memory[MOTHER_MONEY_ADDRESS : MOTHER_MONEY_ADDRESS + 3])
+
+
+def _money(pyboy: PyBoy) -> int:
+    """
+    Returns the current complete money (yours + mothers).
+
+    Args:
+        pyboy (PyBoy):
+            The game boy instance
+
+    Returns:
+        int:
+            The current complete money (yours + mothers)
+    """
+    return _own_money(pyboy) + _mother_money(pyboy)
 
 
 def _pokemon_ids(pyboy: PyBoy) -> np.ndarray:

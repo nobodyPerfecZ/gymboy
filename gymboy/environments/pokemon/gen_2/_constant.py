@@ -11,8 +11,11 @@ JOHTO_BADGE_COUNT_ADDRESS = 0xD57C
 # (1 Byte) Number of badges obtained (Kanto)
 KANTO_BADGE_COUNT_ADDRESS = 0xD57D
 
-# (3 Bytes) Current money
-MONEY_ADDRESS = 0xD573
+# (3 Bytes) Current money (yourself)
+OWN_MONEY_ADDRESS = 0xD573
+
+# (3 Bytes) Current money (in mother's bank)
+MOTHER_MONEY_ADDRESS = 0xD576
 
 # (1 Byte) Pokemon IDs of each team member
 POKEMON_IDS_ADDRESSES = [0xDA2A, 0xDA5A, 0xDA8A, 0xDABA, 0xDAEA, 0xDB1A]
