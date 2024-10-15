@@ -1,4 +1,4 @@
-name: Run Unittests (Ubuntu)
+name: Run Unittests
 
 on:
     push:
@@ -16,8 +16,7 @@ jobs:
     steps:
       - name: Setup the repository
         uses: actions/checkout@v4
-      - name: Setup ROMs
-        uses: ./.github/workflows/download-roms-ubuntu.yml
+      - uses: ./.github/workflows/download-roms-ubuntu.yml
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:

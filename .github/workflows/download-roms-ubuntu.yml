@@ -1,7 +1,6 @@
-name: Download ROMs (Ubuntu)
+name: Download ROMs
 
-on:
-    workflow_call:
+on: [ workflow_call ]
 
 jobs:
   download-roms-ubuntu:
