@@ -15,11 +15,11 @@ jobs:
         python-version: [ "3.10", "3.11", "3.12" ]
     name: ${{ matrix.os }} python-${{ matrix.python-version }}
     steps:
-      - name: Setup the repository
+      - name: Set up the repository
         uses: actions/checkout@v4
-      - name: Setup ROMs
+      - name: Set up ROMs
         uses: ./.github/actions/download-and-setup-roms
-      - name: Setup Python ${{ matrix.python-version }}
+      - name: Set up Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
