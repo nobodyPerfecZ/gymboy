@@ -30,5 +30,6 @@ jobs:
         with:
           path: "requirements.txt"
       - name: Run Unittests
+        working-directory: ./gymboy
         run: |
           python -m unittest
