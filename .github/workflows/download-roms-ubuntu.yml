@@ -18,18 +18,18 @@ jobs:
           rm roms.zip
       - name: Make directories for ROMs
         run: |
-          mkdir -p resources/roms/kirby/dream_land_1
-          mkdir -p resources/roms/mario/land_1
-          mkdir -p resources/roms/pokemon/gen_1
-          mkdir -p resources/roms/pokemon/gen_2
-          mkdir -p resources/roms/tetris/tetris
+          mkdir -p gymboy/resources/roms/kirby/dream_land_1
+          mkdir -p gymboy/resources/roms/mario/land_1
+          mkdir -p gymboy/resources/roms/pokemon/gen_1
+          mkdir -p gymboy/resources/roms/pokemon/gen_2
+          mkdir -p gymboy/resources/roms/tetris/tetris
       - name: Move ROMs to directories
         run: |
-          mv kirby_dream_land_1.gb resources/roms/kirby/dream_land_1
-          mv super_mario_land_1.gb resources/roms/mario/land_1
-          mv pokemon_blue.gb resources/roms/pokemon/gen_1
-          mv pokemon_red.gb resources/roms/pokemon/gen_1
-          mv pokemon_yellow.gbc resources/roms/pokemon/gen_1
-          mv pokemon_gold.gbc resources/roms/pokemon/gen_2
-          mv pokemon_silver.gbc resources/roms/pokemon/gen_2
-          mv tetris.gb resources/roms/tetris/tetris
+          mv kirby_dream_land_1.gb gymboy/resources/roms/kirby/dream_land_1
+          mv super_mario_land_1.gb gymboy/resources/roms/mario/land_1
+          mv pokemon_blue.gb gymboy/resources/roms/pokemon/gen_1
+          mv pokemon_red.gb gymboy/resources/roms/pokemon/gen_1
+          mv pokemon_yellow.gbc gymboy/resources/roms/pokemon/gen_1
+          mv pokemon_gold.gbc gymboy/resources/roms/pokemon/gen_2
+          mv pokemon_silver.gbc gymboy/resources/roms/pokemon/gen_2
+          mv tetris.gb gymboy/resources/roms/tetris/tetris
