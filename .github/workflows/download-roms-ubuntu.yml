@@ -1,24 +1,18 @@
 name: Download ROMs (Ubuntu)
 
 on:
-    push:
-        branches:
-        - master
-        - main
+    workflow_call:
 
 jobs:
   download-roms-ubuntu:
     runs-on: ubuntu-latest
-
     steps:
       - name: Download & Unzip ROMs
-        working-directory: ./gymboy
         run: |
           wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL" -O roms.zip
           unzip roms.zip
           rm roms.zip
       - name: Make directories for ROMs
-        working-directory: ./gymboy
         run: |
           mkdir -p gymboy/resources/roms/kirby/dream_land_1
           mkdir -p gymboy/resources/roms/mario/land_1
@@ -26,7 +20,6 @@ jobs:
           mkdir -p gymboy/resources/roms/pokemon/gen_2
           mkdir -p gymboy/resources/roms/tetris/tetris
       - name: Move ROMs to directories
-        working-directory: ./gymboy
         run: |
           mv kirby_dream_land_1.gb gymboy/resources/roms/kirby/dream_land_1
           mv super_mario_land_1.gb gymboy/resources/roms/mario/land_1
