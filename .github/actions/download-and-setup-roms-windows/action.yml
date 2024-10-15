@@ -1,0 +1,30 @@
+name: "Setup ROMs"
+description: "This action downloads the ROMs required for the unittests of the Gymboy project."
+runs:
+  using: "composite"
+  steps:
+    - name: Download & Unzip ROMs
+      run: |
+        Invoke-WebRequest -Uri "https://docs.google.com/uc?export=download&id=1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL" -OutFile "roms.zip"
+        Expand-Archive -Path "roms.zip" -DestinationPath "."
+        Remove-Item -Path "roms.zip"
+      shell: pwsh
+    - name: Make directories
+      run: |
+        New-Item -ItemType Directory -Force -Path "gymboy/resources/roms/kirby/dream_land_1"
+        New-Item -ItemType Directory -Force -Path "gymboy/resources/roms/mario/land_1"
+        New-Item -ItemType Directory -Force -Path "gymboy/resources/roms/pokemon/gen_1"
+        New-Item -ItemType Directory -Force -Path "gymboy/resources/roms/pokemon/gen_2"
+        New-Item -ItemType Directory -Force -Path "gymboy/resources/roms/tetris/tetris"
+      shell: pwsh
+    - name: Move ROMs to directories
+      run: |
+        Move-Item -Force -Path "kirby_dream_land_1.gb" -Destination "gymboy/resources/roms/kirby/dream_land_1"
+        Move-Item -Force -Path "super_mario_land_1.gb" -Destination "gymboy/resources/roms/mario/land_1"
+        Move-Item -Force -Path "pokemon_blue.gb" -Destination "gymboy/resources/roms/pokemon/gen_1"
+        Move-Item -Force -Path "pokemon_red.gb" -Destination "gymboy/resources/roms/pokemon/gen_1"
+        Move-Item -Force -Path "pokemon_yellow.gbc" -Destination "gymboy/resources/roms/pokemon/gen_1"
+        Move-Item -Force -Path "pokemon_gold.gbc" -Destination "gymboy/resources/roms/pokemon/gen_2"
+        Move-Item -Force -Path "pokemon_silver.gbc" -Destination "gymboy/resources/roms/pokemon/gen_2"
+        Move-Item -Force -Path "tetris.gb" -Destination "gymboy/resources/roms/tetris/tetris"
+      shell: pwsh
