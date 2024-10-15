@@ -14,10 +14,10 @@ jobs:
         python-version: [ "3.10", "3.11", "3.12" ]
     name: ubuntu-latest python-${{ matrix.python-version }}
     steps:
-      - name: Setup ROMs
-        uses: ./.github/workflows/download-roms-ubuntu.yml
       - name: Setup the repository
         uses: actions/checkout@v4
+      - name: Setup ROMs
+        uses: ./.github/workflows/download-roms-ubuntu.yml
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
