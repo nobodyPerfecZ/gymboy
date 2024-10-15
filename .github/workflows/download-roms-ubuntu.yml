@@ -15,6 +15,7 @@ jobs:
         run: |
           wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL" -O roms.zip
           unzip roms.zip
+          rm roms.zip
       - name: Make directories for ROMs
         run: |
           mkdir -p resources/roms/kirby/dream_land_1
@@ -25,7 +26,7 @@ jobs:
       - name: Move ROMs to directories
         run: |
           mv kirby_dream_land_1.gb resources/roms/kirby/dream_land_1
-          mv mario_land_1.gb resources/roms/mario/land_1
+          mv super_mario_land_1.gb resources/roms/mario/land_1
           mv pokemon_blue.gb resources/roms/pokemon/gen_1
           mv pokemon_red.gb resources/roms/pokemon/gen_1
           mv pokemon_yellow.gbc resources/roms/pokemon/gen_1
