@@ -17,7 +17,7 @@ jobs:
       - name: Setup the repository
         uses: actions/checkout@v4
       - name: Setup ROMs
-        uses: ./.github/actions/download-and-setup-roms-ubuntu.yml
+        uses: ./.github/actions/download-and-setup-roms-ubuntu
       - name: Setup Python ${{ matrix.python-version }}
         uses: actions/setup-python@v4
         with:
