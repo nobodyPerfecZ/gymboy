@@ -1,0 +1,34 @@
+name: Download ROMs (Ubuntu)
+
+on:
+    push:
+        branches:
+        - master
+        - main
+
+jobs:
+  download-roms-ubuntu:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download & Unzip ROMs
+        run: |
+          wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL" -O roms.zip
+          unzip roms.zip
+      - name: Make directories for ROMs
+        run: |
+          mkdir -p resources/roms/kirby/dream_land_1
+          mkdir -p resources/roms/mario/land_1
+          mkdir -p resources/roms/pokemon/gen_1
+          mkdir -p resources/roms/pokemon/gen_2
+          mkdir -p resources/roms/tetris/tetris
+      - name: Move ROMs to directories
+        run: |
+          mv kirby_dream_land_1.gb resources/roms/kirby/dream_land_1
+          mv mario_land_1.gb resources/roms/mario/land_1
+          mv pokemon_blue.gb resources/roms/pokemon/gen_1
+          mv pokemon_red.gb resources/roms/pokemon/gen_1
+          mv pokemon_yellow.gbc resources/roms/pokemon/gen_1
+          mv pokemon_gold.gbc resources/roms/pokemon/gen_2
+          mv pokemon_silver.gbc resources/roms/pokemon/gen_2
+          mv tetris.gb resources/roms/tetris/tetris
