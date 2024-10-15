@@ -2,6 +2,10 @@
 # https://datacrystal.romhacking.net/wiki/Pok%C3%A9mon_Red/Blue:RAM_map
 # Memory Values:
 # https://github.com/pret/pokered/blob/91dc3c9f9c8fd529bb6e8307b58b96efa0bec67e/constants/event_constants.asm
+# Index Number of Pokemons:
+# https://bulbapedia.bulbagarden.net/wiki/Index_number
+# Index Number of Moves:
+# https://bulbapedia.bulbagarden.net/wiki/List_of_moves
 
 # (1 Byte) Number of pokemons in team
 TEAM_SIZE_ADDRESS = 0xD163

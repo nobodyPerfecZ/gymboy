@@ -1,5 +1,9 @@
 # Memory ADRs:
 # https://datacrystal.tcrf.net/wiki/Pok%C3%A9mon_Gold_and_Silver/RAM_map
+# Index Number of Pokemons:
+# https://bulbapedia.bulbagarden.net/wiki/Index_number
+# Index Number of Moves:
+# https://bulbapedia.bulbagarden.net/wiki/List_of_moves
 
 # (1 Byte) Number of badges obtained (Johto)
 JOHTO_BADGE_COUNT_ADDRESS = 0xD57C
@@ -34,8 +38,12 @@ MOVE_ADDRESSES = [0xDA2C, 0xDA5C, 0xDA8C, 0xDABC, 0xDAEC, 0xDB1C]
 # (4 Bytes) Pokemon PPs of each attack of each team member
 PP_ADDRESSES = [0xDA41, 0xDA71, 0xDAA1, 0xDAD1, 0xDB01, 0xDB31]
 
+# (X Bytes) Pokemons owned in the pokedex
+POKEDEX_OWNED_START_ADDRESS = 0xDBE4
+POKEDEX_OWNED_END_ADDRESS = 0xDC04
+
 # (X Bytes) Pokemons seen in the pokedex
-POKEDEX_SEEN_START_ADDRESS = 0xDBE4
+POKEDEX_SEEN_START_ADDRESS = 0xDC04
 POKEDEX_SEEN_END_ADDRESS = 0xDC24
 
 
@@ -185,11 +193,11 @@ MOVES_TO_MAX_PP = {
     0x8A: 15,   # DREAM_EATER
     0x8B: 40,   # POISON_GAS
     0x8C: 20,   # BARRAGE
-    0x8D: 10,   # LEECH_LIFE
+    0x8D: 15,   # LEECH_LIFE
     0x8E: 10,   # LOVELY_KISS
     0x8F: 5,    # SKY_ATTACK
     0x90: 10,   # TRANSFORM
-    0x91: 20,   # BUBBLE
+    0x91: 30,   # BUBBLE
     0x92: 10,   # DIZZY_PUNCH
     0x93: 15,   # SPORE
     0x94: 20,   # FLASH

@@ -62,13 +62,13 @@ class TestMemory(unittest.TestCase):
     def test_badges(self):
         """Tests the badges() method."""
         self.assertEqual(2, _badges(self.pyboy1, yellow=False))
-        self.assertEqual(0, _badges(self.pyboy2, yellow=False))
-        self.assertEqual(0, _badges(self.pyboy2, yellow=False))
+        self.assertEqual(1, _badges(self.pyboy2, yellow=False))
+        self.assertEqual(0, _badges(self.pyboy3, yellow=False))
 
     def test_money(self):
         """Tests the money() method."""
         self.assertEqual(7542, _money(self.pyboy1, yellow=False))
-        self.assertEqual(3000, _money(self.pyboy2, yellow=False))
+        self.assertEqual(3106, _money(self.pyboy2, yellow=False))
         self.assertEqual(3175, _money(self.pyboy3, yellow=False))
 
     def test_pokemon_ids(self):
@@ -77,7 +77,7 @@ class TestMemory(unittest.TestCase):
             [179, 36, 15, 142, 107, 3], _pokemon_ids(self.pyboy1, yellow=False)
         )
         np.testing.assert_allclose(
-            [176, 0, 0, 0, 0, 0], _pokemon_ids(self.pyboy2, yellow=False)
+            [114, 178, 124, 0, 0, 0], _pokemon_ids(self.pyboy2, yellow=False)
         )
         np.testing.assert_allclose(
             [153, 0, 0, 0, 0, 0], _pokemon_ids(self.pyboy3, yellow=False)
@@ -86,7 +86,7 @@ class TestMemory(unittest.TestCase):
     def test_team_size(self):
         """Tests the team_size() method."""
         self.assertEqual(6, _team_size(self.pyboy1, yellow=False))
-        self.assertEqual(1, _team_size(self.pyboy2, yellow=False))
+        self.assertEqual(3, _team_size(self.pyboy2, yellow=False))
         self.assertEqual(1, _team_size(self.pyboy3, yellow=False))
 
     def test_levels(self):
@@ -95,7 +95,7 @@ class TestMemory(unittest.TestCase):
             [23, 16, 11, 9, 9, 3], _levels(self.pyboy1, yellow=False)
         )
         np.testing.assert_allclose(
-            [5, 0, 0, 0, 0, 0], _levels(self.pyboy2, yellow=False)
+            [10, 19, 5, 0, 0, 0], _levels(self.pyboy2, yellow=False)
         )
         np.testing.assert_allclose(
             [6, 0, 0, 0, 0, 0], _levels(self.pyboy3, yellow=False)
@@ -106,7 +106,7 @@ class TestMemory(unittest.TestCase):
         np.testing.assert_allclose(
             [64, 43, 34, 38, 28, 16], _hps(self.pyboy1, yellow=False)
         )
-        np.testing.assert_allclose([19, 0, 0, 0, 0, 0], _hps(self.pyboy2, yellow=False))
+        np.testing.assert_allclose([36, 54, 20, 0, 0, 0], _hps(self.pyboy2, yellow=False))
         np.testing.assert_allclose([21, 0, 0, 0, 0, 0], _hps(self.pyboy3, yellow=False))
 
     def test_max_hps(self):
@@ -115,7 +115,7 @@ class TestMemory(unittest.TestCase):
             [64, 43, 34, 38, 28, 16], _max_hps(self.pyboy1, yellow=False)
         )
         np.testing.assert_allclose(
-            [19, 0, 0, 0, 0, 0], _max_hps(self.pyboy2, yellow=False)
+            [36, 54, 20, 0, 0, 0], _max_hps(self.pyboy2, yellow=False)
         )
         np.testing.assert_allclose(
             [21, 0, 0, 0, 0, 0], _max_hps(self.pyboy3, yellow=False)
@@ -127,7 +127,7 @@ class TestMemory(unittest.TestCase):
             [10062, 2795, 775, 738, 729, 57], _exps(self.pyboy1, yellow=False)
         )
         np.testing.assert_allclose(
-            [135, 0, 0, 0, 0, 0], _exps(self.pyboy2, yellow=False)
+            [1001, 4847, 125, 0, 0, 0], _exps(self.pyboy2, yellow=False)
         )
         np.testing.assert_allclose(
             [204, 0, 0, 0, 0, 0], _exps(self.pyboy3, yellow=False)
@@ -148,9 +148,9 @@ class TestMemory(unittest.TestCase):
         )
         np.testing.assert_allclose(
             [
-                [10, 45, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
+                [106, 0, 0, 0],
+                [10, 45, 52, 43],
+                [106, 0, 0, 0],
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
@@ -184,9 +184,9 @@ class TestMemory(unittest.TestCase):
         )
         np.testing.assert_allclose(
             [
-                [35, 40, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
+                [30, 0, 0, 0],
+                [35, 40, 25, 30],
+                [30, 0, 0, 0],
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
@@ -220,9 +220,9 @@ class TestMemory(unittest.TestCase):
         )
         np.testing.assert_allclose(
             [
-                [35, 40, 0, 0],
-                [0, 0, 0, 0],
-                [0, 0, 0, 0],
+                [30, 0, 0, 0],
+                [35, 40, 25, 30],
+                [30, 0, 0, 0],
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
                 [0, 0, 0, 0],
@@ -244,19 +244,19 @@ class TestMemory(unittest.TestCase):
     def test_seen_pokemons(self):
         """Tests the seen_pokemons() method."""
         self.assertEqual(30, _seen_pokemons(self.pyboy1, yellow=False))
-        self.assertEqual(2, _seen_pokemons(self.pyboy2, yellow=False))
+        self.assertEqual(18, _seen_pokemons(self.pyboy2, yellow=False))
         self.assertEqual(2, _seen_pokemons(self.pyboy3, yellow=False))
 
     def test_owned_pokemons(self):
         """Tests the owned_pokemons() method."""
         self.assertEqual(8, _owned_pokemons(self.pyboy1, yellow=False))
-        self.assertEqual(1, _owned_pokemons(self.pyboy2, yellow=False))
+        self.assertEqual(5, _owned_pokemons(self.pyboy2, yellow=False))
         self.assertEqual(1, _owned_pokemons(self.pyboy3, yellow=False))
 
     def test_events(self):
         """Tests the events() method."""
         self.assertEqual(37, _events(self.pyboy1, yellow=False))
-        self.assertEqual(6, _events(self.pyboy2, yellow=False))
+        self.assertEqual(16, _events(self.pyboy2, yellow=False))
         self.assertEqual(6, _events(self.pyboy3, yellow=False))
 
     def test_game_area(self):
@@ -287,24 +287,24 @@ class TestMemory(unittest.TestCase):
         np.testing.assert_allclose(
             _game_area(self.pyboy2),
             np.array([
-                [300, 300, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291],
-                [300, 300, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291],
-                [300, 300, 291, 291, 291, 291, 261, 262, 263, 263, 263, 263, 264, 265, 291, 291, 291, 291, 291, 291],
-                [300, 300, 291, 291, 313, 291, 277, 278, 279, 279, 279, 279, 280, 281, 291, 291, 313, 291, 291, 291],
-                [300, 300, 313, 313, 313, 313, 293, 294, 266, 290, 266, 266, 296, 297, 291, 291, 291, 291, 313, 313],
-                [300, 300, 313, 313, 313, 313, 348, 279, 279, 279, 279, 279, 279, 349, 313, 291, 291, 291, 313, 313],
-                [300, 300, 313, 313, 326, 327, 271, 290, 267, 268, 266, 266, 290, 287, 291, 291, 291, 291, 313, 313],
-                [300, 300, 313, 313, 342, 343, 334, 282,   0,   1, 282, 282, 282, 335, 291, 291, 313, 291, 313, 313],
-                [300, 300, 291, 291, 291, 291, 291, 291,   2,   3, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291],
-                [300, 300, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291],
-                [300, 300, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291],
-                [300, 300, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291],
-                [300, 300, 291, 291, 291, 291, 313, 313, 313, 313, 313, 313, 313, 313, 291, 291, 291, 291, 261, 262],
-                [300, 300, 313, 291, 291, 291, 313, 313, 313, 313, 313, 313, 313, 313, 313, 291, 291, 291, 277, 312],
-                [300, 300, 291, 291, 291, 291, 270, 270, 270, 270, 270, 270, 326, 327, 291, 291, 291, 291, 277, 312],
-                [300, 300, 291, 291,  36,  37, 341, 341, 341, 341, 341, 341, 342, 343, 291, 291, 313, 291, 277, 278],
-                [300, 300, 291, 291,  38,  39, 300, 300, 300, 300, 300, 300, 300, 300, 291, 291, 291, 291, 293, 294],
-                [300, 300, 313, 291, 291, 291, 300, 259, 300, 259, 300, 259, 300, 259, 313, 291, 291, 291, 271, 290],
+                [291, 291, 291, 291, 291, 291, 332, 339, 339, 339, 339, 339, 339, 333, 291, 291, 291, 291, 291, 291],
+                [291, 291, 313, 291, 291, 291, 346, 274, 274, 274, 274, 274, 274, 346, 313, 291, 291, 291, 313, 291],
+                [291, 291, 291, 291, 291, 291, 346, 274, 274, 274, 274, 274, 274, 346, 291, 291, 291, 291, 291, 291],
+                [313, 291, 291, 291, 313, 291, 348, 279, 279, 279, 279, 279, 279, 349, 291, 291, 313, 291, 291, 291],
+                [300, 300, 300, 300, 300, 300, 271, 266, 266, 266, 266, 266, 266, 287, 300, 300, 300, 300, 291, 291],
+                [300, 300, 300, 300, 300, 300, 271, 331, 331, 331, 331, 331, 331, 287, 300, 259, 108, 109, 313, 291],
+                [300, 300, 300, 300, 300, 300, 271, 331, 267, 268, 322, 323, 331, 287, 259, 300, 110, 111, 291, 291],
+                [300, 300, 300, 300, 300, 300, 334, 282,   0,   1, 330, 330, 282, 335, 300, 300, 300, 300, 291, 291],
+                [291, 291, 291, 291, 291, 291, 291, 291,   2,   3, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291],
+                [291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291],
+                [291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291],
+                [313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291],
+                [264, 265, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 313, 313],
+                [280, 281, 300, 259, 300, 259, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 313, 313],
+                [296, 297, 259, 300, 259, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 313, 313],
+                [282, 335, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 300, 313, 313],
+                [291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291, 291],
+                [291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291, 291, 291, 313, 291],
             ])
         )
         np.testing.assert_allclose(

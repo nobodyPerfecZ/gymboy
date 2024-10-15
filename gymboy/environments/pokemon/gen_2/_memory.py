@@ -13,6 +13,8 @@ from ._constant import (
     MONEY_ADDRESS,
     MOVE_ADDRESSES,
     MOVES_TO_MAX_PP,
+    POKEDEX_OWNED_END_ADDRESS,
+    POKEDEX_OWNED_START_ADDRESS,
     POKEDEX_SEEN_END_ADDRESS,
     POKEDEX_SEEN_START_ADDRESS,
     POKEMON_IDS_ADDRESSES,
@@ -232,6 +234,23 @@ def _seen_pokemons(pyboy: PyBoy) -> int:
     """
     return bytes_bit_count(
         pyboy.memory[POKEDEX_SEEN_START_ADDRESS:POKEDEX_SEEN_END_ADDRESS]
+    )
+
+
+def _owned_pokemons(pyboy: PyBoy) -> int:
+    """
+    Returns the current number of owned pokemons.
+
+    Args:
+        pyboy (PyBoy):
+            The game boy instance
+
+    Returns:
+        int:
+            The current number of owned pokemons.
+    """
+    return bytes_bit_count(
+        pyboy.memory[POKEDEX_OWNED_START_ADDRESS:POKEDEX_OWNED_END_ADDRESS]
     )
 
 

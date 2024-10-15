@@ -56,7 +56,7 @@ class TestPokemonGoldFlatten(unittest.TestCase):
 
     def test_get_reward(self):
         """Tests the get_reward() method."""
-        np.testing.assert_allclose(0.019301463823376174, self.env.get_reward())
+        np.testing.assert_allclose(0.4548608952991423, self.env.get_reward())
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
@@ -149,7 +149,7 @@ class TestPokemonGoldFullImage(unittest.TestCase):
 
     def test_get_reward(self):
         """Tests the get_reward() method."""
-        np.testing.assert_allclose(0.019301463823376174, self.env.get_reward())
+        np.testing.assert_allclose(0.4548608952991423, self.env.get_reward())
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
@@ -242,7 +242,7 @@ class TestPokemonGoldMinimalImage(unittest.TestCase):
 
     def test_get_reward(self):
         """Tests the get_reward() method."""
-        np.testing.assert_allclose(0.019301463823376174, self.env.get_reward())
+        np.testing.assert_allclose(0.4548608952991423, self.env.get_reward())
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
