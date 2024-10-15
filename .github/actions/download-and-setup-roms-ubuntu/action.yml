@@ -8,6 +8,7 @@ runs:
         wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL" -O roms.zip
         unzip roms.zip
         rm roms.zip
+      shell: bash
     - name: Make directories
       run: |
         mkdir -p gymboy/resources/roms/kirby/dream_land_1
@@ -15,6 +16,7 @@ runs:
         mkdir -p gymboy/resources/roms/pokemon/gen_1
         mkdir -p gymboy/resources/roms/pokemon/gen_2
         mkdir -p gymboy/resources/roms/tetris/tetris
+      shell: bash
     - name: Move ROMs to directories
       run: |
         mv kirby_dream_land_1.gb gymboy/resources/roms/kirby/dream_land_1
@@ -25,3 +27,4 @@ runs:
         mv pokemon_gold.gbc gymboy/resources/roms/pokemon/gen_2
         mv pokemon_silver.gbc gymboy/resources/roms/pokemon/gen_2
         mv tetris.gb gymboy/resources/roms/tetris/tetris
+      shell: bash
