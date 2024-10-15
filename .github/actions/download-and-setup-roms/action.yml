@@ -3,13 +3,44 @@ description: "This action downloads the ROMs required for the unittests of the G
 runs:
   using: "composite"
   steps:
-    - name: Download & Unzip ROMs
+    - name: Download & Unzip ROMs (Ubuntu)
+      if: runner.os == "Linux"
+      run: |
+        wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL" -O roms.zip
+        unzip roms.zip
+        rm roms.zip
+      shell: bash
+    - name: Make directories (Ubuntu)
+      if: runner.os == "Linux"
+      run: |
+        mkdir -p gymboy/resources/roms/kirby/dream_land_1
+        mkdir -p gymboy/resources/roms/mario/land_1
+        mkdir -p gymboy/resources/roms/pokemon/gen_1
+        mkdir -p gymboy/resources/roms/pokemon/gen_2
+        mkdir -p gymboy/resources/roms/tetris/tetris
+      shell: bash
+    - name: Move ROMs to directories (Ubuntu)
+      if: runner.os == "Linux"
+      run: |
+        mv kirby_dream_land_1.gb gymboy/resources/roms/kirby/dream_land_1
+        mv super_mario_land_1.gb gymboy/resources/roms/mario/land_1
+        mv pokemon_blue.gb gymboy/resources/roms/pokemon/gen_1
+        mv pokemon_red.gb gymboy/resources/roms/pokemon/gen_1
+        mv pokemon_yellow.gbc gymboy/resources/roms/pokemon/gen_1
+        mv pokemon_gold.gbc gymboy/resources/roms/pokemon/gen_2
+        mv pokemon_silver.gbc gymboy/resources/roms/pokemon/gen_2
+        mv tetris.gb gymboy/resources/roms/tetris/tetris
+      shell: bash
+    
+    - name: Download & Unzip ROMs (Windows)
+      if: runner.os == "Windows"
       run: |
         Invoke-WebRequest -Uri "https://docs.google.com/uc?export=download&id=1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL" -OutFile "roms.zip"
         Expand-Archive -Path "roms.zip" -DestinationPath "."
         Remove-Item -Path "roms.zip"
       shell: pwsh
-    - name: Make directories
+    - name: Make directories (Windows)
+      if: runner.os == "Windows"
       run: |
         New-Item -ItemType Directory -Force -Path "gymboy/resources/roms/kirby/dream_land_1"
         New-Item -ItemType Directory -Force -Path "gymboy/resources/roms/mario/land_1"
@@ -17,7 +48,8 @@ runs:
         New-Item -ItemType Directory -Force -Path "gymboy/resources/roms/pokemon/gen_2"
         New-Item -ItemType Directory -Force -Path "gymboy/resources/roms/tetris/tetris"
       shell: pwsh
-    - name: Move ROMs to directories
+    - name: Move ROMs to directories (Windows)
+      if: runner.os == "Windows"
       run: |
         Move-Item -Force -Path "kirby_dream_land_1.gb" -Destination "gymboy/resources/roms/kirby/dream_land_1"
         Move-Item -Force -Path "super_mario_land_1.gb" -Destination "gymboy/resources/roms/mario/land_1"
@@ -28,3 +60,4 @@ runs:
         Move-Item -Force -Path "pokemon_silver.gbc" -Destination "gymboy/resources/roms/pokemon/gen_2"
         Move-Item -Force -Path "tetris.gb" -Destination "gymboy/resources/roms/tetris/tetris"
       shell: pwsh
+    

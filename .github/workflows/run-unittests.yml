@@ -1,25 +1,26 @@
 name: Run Unittests
 
 on:
-    push:
-        branches:
-        - master
-        - main
+  push:
+      branches:
+      - master
+      - main
 
 jobs:
-  run-unittests-ubuntu:
-    runs-on: windows-latest
+  run-unittests:
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
+        os: [ "ubuntu-latest", "windows-latest" ]
         python-version: [ "3.10", "3.11", "3.12" ]
-    name: windows-latest python-${{ matrix.python-version }}
+    name: ${{ matrix.os }} python-${{ matrix.python-version }}
     steps:
       - name: Setup the repository
         uses: actions/checkout@v4
       - name: Setup ROMs
-        uses: ./.github/actions/download-and-setup-roms-windows
+        uses: ./.github/actions/download-and-setup-roms
       - name: Setup Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v4
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install Python dependencies
