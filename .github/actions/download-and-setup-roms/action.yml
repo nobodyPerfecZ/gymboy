@@ -6,7 +6,7 @@ runs:
     - name: Download & Unzip ROMs (Ubuntu)
       if: runner.os == 'Linux'
       run: |
-        wget --no-check-certificate "${{ env.ROM_DOWNLOAD_URL }}" -O roms.zip
+        wget --no-check-certificate "${{ vars.ROM_DOWNLOAD_URL }}" -O roms.zip
         unzip roms.zip
         rm roms.zip
       shell: bash
@@ -19,7 +19,7 @@ runs:
     - name: Download & Unzip ROMs (Windows)
       if: runner.os == 'Windows'
       run: |
-        Invoke-WebRequest -Uri "${{ env.ROM_DOWNLOAD_URL }}" -OutFile "roms.zip"
+        Invoke-WebRequest -Uri "${{ vars.ROM_DOWNLOAD_URL }}" -OutFile "roms.zip"
         Expand-Archive -Path "roms.zip" -DestinationPath "."
         Remove-Item -Path "roms.zip"
       shell: pwsh
