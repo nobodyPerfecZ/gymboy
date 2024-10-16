@@ -5,7 +5,7 @@
 <p align="center">
   <img src="docs/kirby_dream_land_1.gif" alt="Kirby Dream Land 1" width="200" />
   <img src="docs/pokemon_blue.gif" alt="Pokemon Blue" width="200" />
-  <img src="docs/pokemon_yellow.gif" alt="Pokemon Yellow" width="200" />
+  <img src="docs/pokemon_gold.gif" alt="Pokemon Gold" width="200" />
   <img src="docs/super_mario_land_1.gif" alt="Super Mario Land 1" width="200" />
 </p>
 
