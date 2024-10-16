@@ -28,4 +28,3 @@ runs:
       run: |
         Move-Item -Force -Path "roms" -Destination "gymboy/resources"
       shell: pwsh
-    

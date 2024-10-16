@@ -2,5 +2,5 @@ include README.md
 include LICENSE
 include MANIFEST.in
 include pyproject.toml
-recursive-include docs *.png
-recursive-include gymboy/resources *.gb *.gbc *.state
+recursive-include docs *.png *.gif
+recursive-include gymboy/resources *.state
