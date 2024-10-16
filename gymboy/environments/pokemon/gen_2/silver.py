@@ -93,7 +93,7 @@ class PokemonSilverFlatten(gym.Env):
         rom_path: str | None = None,
         init_state_path: str | None = None,
         sound: bool = False,
-        n_frameskip: int = 60,
+        n_frameskip: int = 1,
         render_mode: str | None = None,
     ):
         if rom_path is None:
@@ -274,7 +274,7 @@ class PokemonSilverFullImage(gym.Env):
         rom_path: str | None = None,
         init_state_path: str | None = None,
         sound: bool = False,
-        n_frameskip: int = 60,
+        n_frameskip: int = 1,
         render_mode: str | None = None,
     ):
         if rom_path is None:
@@ -448,7 +448,7 @@ class PokemonSilverMinimalImage(gym.Env):
         rom_path: str | None = None,
         init_state_path: str | None = None,
         sound: bool = False,
-        n_frameskip: int = 60,
+        n_frameskip: int = 1,
         render_mode: str | None = None,
     ):
         if rom_path is None:

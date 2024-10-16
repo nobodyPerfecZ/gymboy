@@ -92,7 +92,7 @@ class PokemonGoldFlatten(gym.Env):
         self,
         rom_path: str | None = None,
         init_state_path: str | None = None,
-        n_frameskip: int = 60,
+        n_frameskip: int = 1,
         sound: bool = False,
         render_mode: str | None = None,
     ):
@@ -273,7 +273,7 @@ class PokemonGoldFullImage(gym.Env):
         self,
         rom_path: str | None = None,
         init_state_path: str | None = None,
-        n_frameskip: int = 60,
+        n_frameskip: int = 1,
         sound: bool = False,
         render_mode: str | None = None,
     ):
@@ -446,7 +446,7 @@ class PokemonGoldMinimalImage(gym.Env):
         self,
         rom_path: str | None = None,
         init_state_path: str | None = None,
-        n_frameskip: int = 60,
+        n_frameskip: int = 1,
         sound: bool = False,
         render_mode: str | None = None,
     ):
