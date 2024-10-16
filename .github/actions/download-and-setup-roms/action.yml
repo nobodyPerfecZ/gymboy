@@ -1,7 +1,7 @@
 name: "Setup ROMs"
 description: "This action downloads the ROMs required for the unittests of the Gymboy project."
 env:
-  ROM_DOWNLOAD_URL: ${{ vars.ROM_DOWNLOAD_URL }}
+  ROM_DOWNLOAD_URL: https://docs.google.com/uc?export=download&id=1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL
 runs:
   using: "composite"
   steps:
