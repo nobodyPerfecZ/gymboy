@@ -50,15 +50,47 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
     if env_id not in registered_envs:
         raise ValueError(f"{env_id} is not in registered gymboy environments.")
 
-    # 1. Tetris environments
-    if env_id == "Tetris-flatten-v1":
-        env = TetrisFlatten(**env_kwargs)
-    elif env_id == "Tetris-full-image-v1":
-        env = TetrisFullImage(**env_kwargs)
-    elif env_id == "Tetris-minimal-image-v1":
-        env = TetrisMinimalImage(**env_kwargs)
+    # 1. Kirby environments
+    if env_id == "Kirby-Dream-Land-1-flatten-v1":
+        env = KirbyDreamLand1Flatten(**env_kwargs)
+    elif env_id == "Kirby-Dream-Land-1-full-image-v1":
+        env = KirbyDreamLand1FullImage(**env_kwargs)
+    elif env_id == "Kirby-Dream-Land-1-minimal-image-v1":
+        env = KirbyDreamLand1MinimalImage(**env_kwargs)
 
-    # 2. Mario environments
+    # 2. Pokemon environments
+    elif env_id == "Pokemon-Blue-flatten-v1":
+        env = PokemonBlueFlatten(**env_kwargs)
+    elif env_id == "Pokemon-Blue-full-image-v1":
+        env = PokemonBlueFullImage(**env_kwargs)
+    elif env_id == "Pokemon-Blue-minimal-image-v1":
+        env = PokemonBlueMinimalImage(**env_kwargs)
+    elif env_id == "Pokemon-Gold-flatten-v1":
+        env = PokemonGoldFlatten(**env_kwargs)
+    elif env_id == "Pokemon-Gold-full-image-v1":
+        env = PokemonGoldFullImage(**env_kwargs)
+    elif env_id == "Pokemon-Gold-minimal-image-v1":
+        env = PokemonGoldMinimalImage(**env_kwargs)
+    elif env_id == "Pokemon-Red-flatten-v1":
+        env = PokemonRedFlatten(**env_kwargs)
+    elif env_id == "Pokemon-Red-full-image-v1":
+        env = PokemonRedFullImage(**env_kwargs)
+    elif env_id == "Pokemon-Red-minimal-image-v1":
+        env = PokemonRedMinimalImage(**env_kwargs)
+    elif env_id == "Pokemon-Silver-flatten-v1":
+        env = PokemonSilverFlatten(**env_kwargs)
+    elif env_id == "Pokemon-Silver-full-image-v1":
+        env = PokemonSilverFullImage(**env_kwargs)
+    elif env_id == "Pokemon-Silver-minimal-image-v1":
+        env = PokemonSilverMinimalImage(**env_kwargs)
+    elif env_id == "Pokemon-Yellow-flatten-v1":
+        env = PokemonYellowFlatten(**env_kwargs)
+    elif env_id == "Pokemon-Yellow-full-image-v1":
+        env = PokemonYellowFullImage(**env_kwargs)
+    elif env_id == "Pokemon-Yellow-minimal-image-v1":
+        env = PokemonYellowMinimalImage(**env_kwargs)
+
+    # 3. Mario environments
     elif env_id == "Super-Mario-Land-1-flatten-v1":
         env = SuperMarioLand1Flatten(**env_kwargs)
     elif env_id == "Super-Mario-Land-1-full-image-v1":
@@ -66,45 +98,13 @@ def make(env_id: str, **env_kwargs) -> gym.Env:
     elif env_id == "Super-Mario-Land-1-minimal-image-v1":
         env = SuperMarioLand1MinimalImage(**env_kwargs)
 
-    # 3. Pokemon environments
-    elif env_id == "Pokemon-Blue-flatten-v1":
-        env = PokemonBlueFlatten(**env_kwargs)
-    elif env_id == "Pokemon-Blue-full-image-v1":
-        env = PokemonBlueFullImage(**env_kwargs)
-    elif env_id == "Pokemon-Blue-minimal-image-v1":
-        env = PokemonBlueMinimalImage(**env_kwargs)
-    elif env_id == "Pokemon-Red-flatten-v1":
-        env = PokemonRedFlatten(**env_kwargs)
-    elif env_id == "Pokemon-Red-full-image-v1":
-        env = PokemonRedFullImage(**env_kwargs)
-    elif env_id == "Pokemon-Red-minimal-image-v1":
-        env = PokemonRedMinimalImage(**env_kwargs)
-    elif env_id == "Pokemon-Yellow-flatten-v1":
-        env = PokemonYellowFlatten(**env_kwargs)
-    elif env_id == "Pokemon-Yellow-full-image-v1":
-        env = PokemonYellowFullImage(**env_kwargs)
-    elif env_id == "Pokemon-Yellow-minimal-image-v1":
-        env = PokemonYellowMinimalImage(**env_kwargs)
-    elif env_id == "Pokemon-Gold-flatten-v1":
-        env = PokemonGoldFlatten(**env_kwargs)
-    elif env_id == "Pokemon-Gold-full-image-v1":
-        env = PokemonGoldFullImage(**env_kwargs)
-    elif env_id == "Pokemon-Gold-minimal-image-v1":
-        env = PokemonGoldMinimalImage(**env_kwargs)
-    elif env_id == "Pokemon-Silver-flatten-v1":
-        env = PokemonSilverFlatten(**env_kwargs)
-    elif env_id == "Pokemon-Silver-full-image-v1":
-        env = PokemonSilverFullImage(**env_kwargs)
-    elif env_id == "Pokemon-Silver-minimal-image-v1":
-        env = PokemonSilverMinimalImage(**env_kwargs)
-
-    # 4. Kirby environments
-    elif env_id == "Kirby-Dream-Land-1-flatten-v1":
-        env = KirbyDreamLand1Flatten(**env_kwargs)
-    elif env_id == "Kirby-Dream-Land-1-full-image-v1":
-        env = KirbyDreamLand1FullImage(**env_kwargs)
-    elif env_id == "Kirby-Dream-Land-1-minimal-image-v1":
-        env = KirbyDreamLand1MinimalImage(**env_kwargs)
+    # 4. Tetris environments
+    elif env_id == "Tetris-flatten-v1":
+        env = TetrisFlatten(**env_kwargs)
+    elif env_id == "Tetris-full-image-v1":
+        env = TetrisFullImage(**env_kwargs)
+    elif env_id == "Tetris-minimal-image-v1":
+        env = TetrisMinimalImage(**env_kwargs)
     else:
         raise ValueError("Environment ID is not registered.")
     return env
