@@ -28,4 +28,4 @@ __all__ = [
     "resource_path",
 ]
 
-assert __all__ == sorted(__all__)
+assert __all__ == sorted(__all__), f"__all__ needs to be sorted into {sorted(__all__)}!"

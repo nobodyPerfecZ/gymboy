@@ -1,19 +1,39 @@
-<p align="center"><img src="docs/logo_curved.png" alt="Logo"></p>
-
-<h1 align="center">Gameboy (Color) Environments in Gymnasium 🤖</h1>
-
-<p align="center">
+<div align="middle">
+  <h1>
+    <p>
+      <img src="docs/logo.png" alt="Logo" height="300" />
+    </p>
+    Gymboy 🤖
+    <br>
+    <span style="font-size: large">
+      Gameboy Color Environments in Gymnasium 
+    </span>
+    <br>
+      <a href="https://github.com/psf/black">
+        <img src="https://img.shields.io/badge/code%20style-black-000000.svg">
+      </a>
+      <a>
+        <img src="https://img.shields.io/badge/python-3.10-blue">
+      </a>
+      <a>
+        <img src="https://img.shields.io/badge/tests-passed-brightgreen">
+      </a>
+      <a>
+        <img src="https://img.shields.io/badge/coverage-98%25-brightgreen">
+      </a>
+  </h1>
   <img src="docs/kirby_dream_land_1.gif" alt="Kirby Dream Land 1" width="200" />
   <img src="docs/pokemon_blue.gif" alt="Pokemon Blue" width="200" />
   <img src="docs/pokemon_gold.gif" alt="Pokemon Gold" width="200" />
   <img src="docs/super_mario_land_1.gif" alt="Super Mario Land 1" width="200" />
-</p>
+</div>
 
 Gymboy supports a range of different RL environments from the Game Boy Color using the Gymnasium API.
 
 ## Implemented Environments 🌍
+
 | Environment Name                      | Python Source                                                                                                             |
-|---------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
 | `Kirby-Dream-Land-1-flatten-v1`       | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/kirby/dream_land_1/kirby_dream_land_1.py) |
 | `Kirby-Dream-Land-1-minimal-image-v1` | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/kirby/dream_land_1/kirby_dream_land_1.py) |
 | `Kirby-Dream-Land-1-full-image-v1`    | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/kirby/dream_land_1/kirby_dream_land_1.py) |
@@ -40,7 +60,9 @@ Gymboy supports a range of different RL environments from the Game Boy Color usi
 | `Tetris-full-image-v1`                | [Click](https://github.com/nobodyPerfecZ/gymboy/blob/master/gymboy/environments/tetris/tetris/tetris.py)                  |
 
 ## Installation ⚙️
+
 You can install the package using pip:
+
 ```bash
 pip install gymboy
 ```
@@ -49,8 +71,9 @@ To use the environments from gymboy, you need to manually install the required R
 
 For more information about the naming conventions of the ROM files refer to this [example](https://drive.google.com/file/d/1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL/view).
 
-## Minimal Example 📟
-The following code demonstrates how to execute a random policy in Pokemon Blue:
+## Usage 🚀
+
+Here's a quick example of how to use a gymboy environment:
 
 ```python
 import gymboy
@@ -80,10 +103,8 @@ for i in range(num_steps):
 env.close()
 ```
 
-## TODOs ⛏
-- Add environment version for JAX
-
 ## Development 🔧
+
 Contributions are welcome!
 
 Please fork the repository and submit a pull request.

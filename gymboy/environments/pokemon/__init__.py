@@ -38,4 +38,4 @@ __all__ = [
     "PokemonYellowMinimalImage",
 ]
 
-assert __all__ == sorted(__all__)
+assert __all__ == sorted(__all__), f"__all__ needs to be sorted into {sorted(__all__)}!"
