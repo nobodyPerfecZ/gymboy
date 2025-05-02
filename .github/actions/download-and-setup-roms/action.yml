@@ -6,25 +6,15 @@ runs:
     - name: Download & Unzip ROMs (Ubuntu)
       if: runner.os == 'Linux'
       run: |
-        wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL" -O roms.zip
-        unzip roms.zip
-        rm roms.zip
+        wget --no-check-certificate "https://docs.google.com/uc?export=download&id=1pcr0nTKKyPyabXCx_oCl50t7mmSIgrFP" -O resources.zip
+        unzip resources.zip
+        rm resources.zip
       shell: bash
-    - name: Move ROMs to directories (Ubuntu)
-      if: runner.os == 'Linux'
-      run: |
-        mv roms gymboy/resources
-      shell: bash
-    
+
     - name: Download & Unzip ROMs (Windows)
       if: runner.os == 'Windows'
       run: |
-        Invoke-WebRequest -Uri "https://docs.google.com/uc?export=download&id=1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL" -OutFile "roms.zip"
-        Expand-Archive -Path "roms.zip" -DestinationPath "."
-        Remove-Item -Path "roms.zip"
-      shell: pwsh
-    - name: Move ROMs to directories (Windows)
-      if: runner.os == 'Windows'
-      run: |
-        Move-Item -Force -Path "roms" -Destination "gymboy/resources"
+        Invoke-WebRequest -Uri "https://docs.google.com/uc?export=download&id=1pcr0nTKKyPyabXCx_oCl50t7mmSIgrFP" -OutFile "resources.zip"
+        Expand-Archive -Path "resources.zip" -DestinationPath "."
+        Remove-Item -Path "resources.zip"
       shell: pwsh

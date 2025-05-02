@@ -1,23 +1,12 @@
 """Pokemon Blue environments."""
 
-# pylint: disable=protected-access
-from typing import Any, SupportsFloat
+from abc import ABC
 
-import skimage as ski
-import gymnasium as gym
 import numpy as np
+import skimage as ski
 from gymnasium import spaces
-from gymnasium.core import ActType, ObsType, RenderFrame
-from pyboy import PyBoy
 
-from gymboy.utils import (
-    check_action,
-    check_cartridge_title,
-    check_frameskip,
-    check_rom_file,
-    check_state_file,
-    resource_path,
-)
+from gymboy.environments.env import PyBoyEnv
 
 from ._constant import EVENT_FLAGS_END_ADDRESS, EVENT_FLAGS_START_ADDRESS
 from ._memory import (
@@ -34,7 +23,44 @@ from ._memory import (
 )
 
 
-class PokemonBlueFlatten(gym.Env):
+class PokemonBlue(PyBoyEnv, ABC):
+    """Abstract class for the Pokemon Blue environment."""
+
+    def __init__(
+        self,
+        rom_path: str,
+        init_state_path: str | None = None,
+        n_frameskip: int = 1,
+        sound: bool = False,
+        render_mode: str | None = None,
+    ):
+        super().__init__(
+            cartridge_title="POKEMON BLUE",
+            rom_path=rom_path,
+            init_state_path=init_state_path,
+            n_frameskip=n_frameskip,
+            sound=sound,
+            render_mode=render_mode,
+        )
+
+    def reward(self) -> float:
+        badges = _badges(self.pyboy, yellow=False) / 8
+        money = _money(self.pyboy, yellow=False) / 999999
+        pokemon_levels = np.sum(_levels(self.pyboy, yellow=False)) / 600
+        pokemons_seen = _seen_pokemons(self.pyboy, yellow=False) / 151
+        number_of_events = _events(self.pyboy, yellow=False) / (
+            8 * (EVENT_FLAGS_END_ADDRESS - EVENT_FLAGS_START_ADDRESS)
+        )
+        return badges + money + pokemon_levels + pokemons_seen + number_of_events
+
+    def terminated(self) -> bool:
+        return False
+
+    def truncated(self) -> bool:
+        return False
+
+
+class PokemonBlueFlatten(PokemonBlue):
     """
     The Pokemon Blue environment.
 
@@ -73,136 +99,30 @@ class PokemonBlueFlatten(gym.Env):
     Args:
         rom_path (str | None):
             The path to the ROM file.
-            If ``None``, ``resources/roms/pokemon/gen_1/pokemon_blue.gb`` will be used
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_blue.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
 
         sound (bool):
             The flag to dis-/enable the sound.
-            If ``True``, the sound will be played
 
         render_mode (str | None):
             The mode in which the game will be rendered.
-            If ``human``, the game will be rendered
     """
 
-    def __init__(
-        self,
-        rom_path: str | None = None,
-        init_state_path: str | None = None,
-        n_frameskip: int = 1,
-        sound: bool = False,
-        render_mode: str | None = None,
-    ):
-        if rom_path is None:
-            rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_blue.gb")
-        if init_state_path is None:
-            init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_blue.state"
-            )
-
-        # Checks
-        check_rom_file(rom_path)
-        check_state_file(init_state_path)
-        check_frameskip(n_frameskip)
-
-        self.rom_path = rom_path
-        self.init_state_path = init_state_path
-        self.sound = sound
-        self.render_mode = render_mode
-        self.cartridge_title = "POKEMON BLUE"
-
-        # Default actions and observation shape
-        self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
-        self.observation_shape = (426,)
-
-        # Create action and observation spaces
-        self.action_space = spaces.Discrete(len(self.actions))
-        self.observation_space = spaces.Box(
+    @property
+    def observation_space(self) -> spaces.Space:
+        return spaces.Box(
             low=-np.inf,
             high=np.inf,
-            shape=self.observation_shape,
+            shape=(426,),
             dtype=np.float32,
         )
 
-        # Create the environment
-        if self.render_mode == "human":
-            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
-            self.pyboy.set_emulation_speed(1)
-            self.n_frameskip = 1
-        else:
-            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound, window="null")
-            self.pyboy.set_emulation_speed(0)
-            self.n_frameskip = n_frameskip
-
-        # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, self.cartridge_title)
-
-    def step(
-        self,
-        action: ActType,
-    ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
-        # Check if the action is valid
-        check_action(action, self.action_space)
-
-        # Perform the action
-        if action == 0:
-            pass
-        else:
-            self.pyboy.button(self.actions[action])
-
-        # Progress the game
-        self.pyboy.tick(self.n_frameskip)
-
-        # Get the observation, reward, done and info
-        observation = self.get_obs()
-        reward = self.get_reward()
-        terminated = False
-        truncated = False
-        info = {}
-
-        return observation, reward, terminated, truncated, info
-
-    def reset(
-        self,
-        *,
-        seed: int | None = None,
-        options: dict[str, Any] | None = None,
-    ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
-        if self.init_state_path is None:
-            # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game(seed)
-        else:
-            # Case: Load the initial game state
-            with open(self.init_state_path, "rb") as f:
-                self.pyboy.load_state(f)
-                self.pyboy.game_wrapper._set_timer_div(seed)
-
-        # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, self.cartridge_title)
-
-        # Progress the game
-        self.pyboy.tick(1)
-
-        # Get the initial observation and info
-        observation = self.get_obs()
-        info = {}
-
-        return observation, info
-
-    def render(self) -> RenderFrame | list[RenderFrame] | None:
-        return None
-
-    def close(self):
-        self.pyboy.stop()
-
-    def get_obs(self) -> np.ndarray:
-        """Returns the current observation."""
+    def obs(self) -> np.ndarray:
         pokemon_ids = _pokemon_ids(self.pyboy, yellow=False)
         levels = _levels(self.pyboy, yellow=False)
         hps = _hps(self.pyboy, yellow=False)
@@ -213,19 +133,8 @@ class PokemonBlueFlatten(gym.Env):
             np.float32
         )
 
-    def get_reward(self) -> SupportsFloat:
-        """Returns the current reward."""
-        badges = _badges(self.pyboy, yellow=False) / 8
-        money = _money(self.pyboy, yellow=False) / 999999
-        pokemon_levels = np.sum(_levels(self.pyboy, yellow=False)) / 600
-        pokemons_seen = _seen_pokemons(self.pyboy, yellow=False) / 151
-        number_of_events = _events(self.pyboy, yellow=False) / (
-            8 * (EVENT_FLAGS_END_ADDRESS - EVENT_FLAGS_START_ADDRESS)
-        )
-        return badges + money + pokemon_levels + pokemons_seen + number_of_events
 
-
-class PokemonBlueFullImage(gym.Env):
+class PokemonBlueFullImage(PokemonBlue):
     """
     The Pokemon Blue environment.
 
@@ -242,7 +151,8 @@ class PokemonBlueFullImage(gym.Env):
     - 8: Press Select
 
     ## Observation Space
-    The observation is an (144, 160, 3) array representing the RGB image of the game screen.
+    The observation is an (144, 160, 3) array representing the RGB image of the game
+    screen.
 
     ## Rewards
     The reward is the sum of:
@@ -258,151 +168,34 @@ class PokemonBlueFullImage(gym.Env):
     Args:
         rom_path (str | None):
             The path to the ROM file.
-            If ``None``, ``resources/roms/pokemon/gen_1/pokemon_blue.gb`` will be used
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_blue.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
 
         sound (bool):
             The flag to dis-/enable the sound.
-            If ``True``, the sound will be played
 
         render_mode (str | None):
             The mode in which the game will be rendered.
-            If ``human``, the game will be rendered in normal speed
     """
 
-    def __init__(
-        self,
-        rom_path: str | None = None,
-        init_state_path: str | None = None,
-        n_frameskip: int = 1,
-        sound: bool = False,
-        render_mode: str | None = None,
-    ):
-        if rom_path is None:
-            rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_blue.gb")
-        if init_state_path is None:
-            init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_blue.state"
-            )
-
-        # Checks
-        check_rom_file(rom_path)
-        check_state_file(init_state_path)
-        check_frameskip(n_frameskip)
-
-        self.rom_path = rom_path
-        self.init_state_path = init_state_path
-        self.sound = sound
-        self.render_mode = render_mode
-        self.cartridge_title = "POKEMON BLUE"
-
-        # Default actions and observation shape
-        self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
-        self.observation_shape = (144, 160, 3)
-
-        # Create action and observation spaces
-        self.action_space = spaces.Discrete(len(self.actions))
-        self.observation_space = spaces.Box(
+    @property
+    def observation_space(self) -> spaces.Space:
+        return spaces.Box(
             low=0,
             high=255,
-            shape=self.observation_shape,
+            shape=(144, 160, 3),
             dtype=np.uint8,
         )
 
-        # Create the environment
-        if self.render_mode == "human":
-            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
-            self.pyboy.set_emulation_speed(1)
-            self.n_frameskip = 1
-        else:
-            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
-            self.pyboy.set_emulation_speed(0)
-            self.n_frameskip = n_frameskip
-
-        # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, self.cartridge_title)
-
-    def step(
-        self,
-        action: ActType,
-    ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
-        # Check if the action is valid
-        check_action(action, self.action_space)
-
-        # Perform the action
-        if action == 0:
-            pass
-        else:
-            self.pyboy.button(self.actions[action])
-
-        # Progress the game
-        self.pyboy.tick(self.n_frameskip)
-
-        # Get the observation, reward, done and info
-        observation = self.get_obs()
-        reward = self.get_reward()
-        terminated = False
-        truncated = False
-        info = {}
-
-        return observation, reward, terminated, truncated, info
-
-    def reset(
-        self,
-        *,
-        seed: int | None = None,
-        options: dict[str, Any] | None = None,
-    ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
-        if self.init_state_path is None:
-            # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game(seed)
-        else:
-            # Case: Load the initial game state
-            with open(self.init_state_path, "rb") as f:
-                self.pyboy.load_state(f)
-                self.pyboy.game_wrapper._set_timer_div(seed)
-
-        # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, self.cartridge_title)
-
-        # Progress the game
-        self.pyboy.tick(1)
-
-        # Get the initial observation and info
-        observation = self.get_obs()
-        info = {}
-
-        return observation, info
-
-    def render(self) -> RenderFrame | list[RenderFrame] | None:
-        return None
-
-    def close(self):
-        self.pyboy.stop()
-
-    def get_obs(self) -> np.ndarray:
-        """Returns the current observation."""
+    def obs(self) -> np.ndarray:
         return ski.color.rgba2rgb(self.pyboy.screen.ndarray).astype(np.uint8)
 
-    def get_reward(self) -> SupportsFloat:
-        """Returns the current reward."""
-        badges = _badges(self.pyboy, yellow=False) / 8
-        money = _money(self.pyboy, yellow=False) / 999999
-        pokemon_levels = np.sum(_levels(self.pyboy, yellow=False)) / 600
-        pokemons_seen = _seen_pokemons(self.pyboy, yellow=False) / 151
-        number_of_events = _events(self.pyboy, yellow=False) / (
-            8 * (EVENT_FLAGS_END_ADDRESS - EVENT_FLAGS_START_ADDRESS)
-        )
-        return badges + money + pokemon_levels + pokemons_seen + number_of_events
 
-
-class PokemonBlueMinimalImage(gym.Env):
+class PokemonBlueMinimalImage(PokemonBlue):
     """
     The Pokemon Blue environment.
 
@@ -419,7 +212,8 @@ class PokemonBlueMinimalImage(gym.Env):
     - 8: Press Select
 
     ## Observation Space
-    The observation is an (18, 20) array representing a simplified view of the game screen.
+    The observation is an (18, 20) array representing a simplified view of the game
+    screen.
 
     ## Rewards
     The reward is the sum of:
@@ -435,145 +229,28 @@ class PokemonBlueMinimalImage(gym.Env):
     Args:
         rom_path (str | None):
             The path to the ROM file.
-            If ``None``, ``resources/roms/pokemon/gen_1/pokemon_blue.gb`` will be used
 
         init_state_path (str | None):
             The path to the initial state file.
-            If ``None``, ``resources/states/pokemon/gen_1/pokemon_blue.state`` will be used
 
         n_frameskip (int):
             The number of frames to skip between each action
 
         sound (bool):
             The flag to dis-/enable the sound.
-            If ``True``, the sound will be played
 
         render_mode (str | None):
             The mode in which the game will be rendered.
-            If ``human``, the game will be rendered
     """
 
-    def __init__(
-        self,
-        rom_path: str | None = None,
-        init_state_path: str | None = None,
-        n_frameskip: int = 1,
-        sound: bool = False,
-        render_mode: str | None = None,
-    ):
-        if rom_path is None:
-            rom_path = resource_path("resources/roms/pokemon/gen_1/pokemon_blue.gb")
-        if init_state_path is None:
-            init_state_path = resource_path(
-                "resources/states/pokemon/gen_1/pokemon_blue.state"
-            )
-
-        # Checks
-        check_rom_file(rom_path)
-        check_state_file(init_state_path)
-        check_frameskip(n_frameskip)
-
-        self.rom_path = rom_path
-        self.init_state_path = init_state_path
-        self.sound = sound
-        self.render_mode = render_mode
-        self.cartridge_title = "POKEMON BLUE"
-
-        # Default actions and observation shape
-        self.actions = ["", "a", "b", "left", "right", "up", "down", "start", "select"]
-        self.observation_shape = (18, 20)
-
-        # Create action and observation spaces
-        self.action_space = spaces.Discrete(len(self.actions))
-        self.observation_space = spaces.Box(
+    @property
+    def observation_space(self) -> spaces.Space:
+        return spaces.Box(
             low=-np.inf,
             high=np.inf,
-            shape=self.observation_shape,
+            shape=(18, 20),
             dtype=np.float32,
         )
 
-        # Create the environment
-        if self.render_mode == "human":
-            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound)
-            self.pyboy.set_emulation_speed(1)
-            self.n_frameskip = 1
-        else:
-            self.pyboy = PyBoy(gamerom=rom_path, sound=self.sound, window="null")
-            self.pyboy.set_emulation_speed(0)
-            self.n_frameskip = n_frameskip
-
-        # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, self.cartridge_title)
-
-    def step(
-        self,
-        action: ActType,
-    ) -> tuple[ObsType, SupportsFloat, bool, bool, dict[str, Any]]:
-        # Check if the action is valid
-        check_action(action, self.action_space)
-
-        # Perform the action
-        if action == 0:
-            pass
-        else:
-            self.pyboy.button(self.actions[action])
-
-        # Progress the game
-        self.pyboy.tick(self.n_frameskip)
-
-        # Get the observation, reward, done and info
-        observation = self.get_obs()
-        reward = self.get_reward()
-        terminated = False
-        truncated = False
-        info = {}
-
-        return observation, reward, terminated, truncated, info
-
-    def reset(
-        self,
-        *,
-        seed: int | None = None,
-        options: dict[str, Any] | None = None,
-    ) -> tuple[ObsType, dict[str, Any]]:  # type: ignore
-        if self.init_state_path is None:
-            # Case: Reset the game
-            self.pyboy.game_wrapper.reset_game(seed)
-        else:
-            # Case: Load the initial game state
-            with open(self.init_state_path, "rb") as f:
-                self.pyboy.load_state(f)
-                self.pyboy.game_wrapper._set_timer_div(seed)
-
-        # Check if the cartridge title is correct
-        check_cartridge_title(self.pyboy, self.cartridge_title)
-
-        # Progress the game
-        self.pyboy.tick(1)
-
-        # Get the initial observation and info
-        observation = self.get_obs()
-        info = {}
-
-        return observation, info
-
-    def render(self) -> RenderFrame | list[RenderFrame] | None:
-        return None
-
-    def close(self):
-        self.pyboy.stop()
-
-    def get_obs(self) -> np.ndarray:
-        """Returns the current observation."""
+    def obs(self) -> np.ndarray:
         return _game_area(self.pyboy, yellow=False).astype(np.float32)
-
-    def get_reward(self) -> SupportsFloat:
-        """Returns the current reward."""
-        badges = _badges(self.pyboy, yellow=False) / 8
-        money = _money(self.pyboy, yellow=False) / 999999
-        pokemon_levels = np.sum(_levels(self.pyboy, yellow=False)) / 600
-        pokemons_seen = _seen_pokemons(self.pyboy, yellow=False) / 151
-        number_of_events = _events(self.pyboy, yellow=False) / (
-            8 * (EVENT_FLAGS_END_ADDRESS - EVENT_FLAGS_START_ADDRESS)
-        )
-        return badges + money + pokemon_levels + pokemons_seen + number_of_events

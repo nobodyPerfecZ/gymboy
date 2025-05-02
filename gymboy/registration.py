@@ -32,79 +32,129 @@ from .environments import (
 )
 
 
-def make(env_id: str, **env_kwargs) -> gym.Env:
+def make(
+    env_id: str, rom_path: str, init_state_path: str | None = None, **env_kwargs
+) -> gym.Env:
     """
     A self-version of OpenAI's infamous env.make(env_name).
 
     Args:
         env_id (str):
-            A string identifier for the environment
+            A string identifier for the environment.
 
         **env_kwargs:
-            Keyword arguments to pass to the environment
+            Keyword arguments to pass to the environment.
 
     Returns:
         gym.Env:
-            The environment
+            The Gymboy environment
     """
     if env_id not in registered_envs:
         raise ValueError(f"{env_id} is not in registered gymboy environments.")
 
     # 1. Kirby environments
     if env_id == "Kirby-Dream-Land-1-flatten-v1":
-        env = KirbyDreamLand1Flatten(**env_kwargs)
+        env = KirbyDreamLand1Flatten(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Kirby-Dream-Land-1-full-image-v1":
-        env = KirbyDreamLand1FullImage(**env_kwargs)
+        env = KirbyDreamLand1FullImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Kirby-Dream-Land-1-minimal-image-v1":
-        env = KirbyDreamLand1MinimalImage(**env_kwargs)
+        env = KirbyDreamLand1MinimalImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
 
     # 2. Pokemon environments
     elif env_id == "Pokemon-Blue-flatten-v1":
-        env = PokemonBlueFlatten(**env_kwargs)
+        env = PokemonBlueFlatten(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Blue-full-image-v1":
-        env = PokemonBlueFullImage(**env_kwargs)
+        env = PokemonBlueFullImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Blue-minimal-image-v1":
-        env = PokemonBlueMinimalImage(**env_kwargs)
+        env = PokemonBlueMinimalImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Gold-flatten-v1":
-        env = PokemonGoldFlatten(**env_kwargs)
+        env = PokemonGoldFlatten(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Gold-full-image-v1":
-        env = PokemonGoldFullImage(**env_kwargs)
+        env = PokemonGoldFullImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Gold-minimal-image-v1":
-        env = PokemonGoldMinimalImage(**env_kwargs)
+        env = PokemonGoldMinimalImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Red-flatten-v1":
-        env = PokemonRedFlatten(**env_kwargs)
+        env = PokemonRedFlatten(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Red-full-image-v1":
-        env = PokemonRedFullImage(**env_kwargs)
+        env = PokemonRedFullImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Red-minimal-image-v1":
-        env = PokemonRedMinimalImage(**env_kwargs)
+        env = PokemonRedMinimalImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Silver-flatten-v1":
-        env = PokemonSilverFlatten(**env_kwargs)
+        env = PokemonSilverFlatten(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Silver-full-image-v1":
-        env = PokemonSilverFullImage(**env_kwargs)
+        env = PokemonSilverFullImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Silver-minimal-image-v1":
-        env = PokemonSilverMinimalImage(**env_kwargs)
+        env = PokemonSilverMinimalImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Yellow-flatten-v1":
-        env = PokemonYellowFlatten(**env_kwargs)
+        env = PokemonYellowFlatten(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Yellow-full-image-v1":
-        env = PokemonYellowFullImage(**env_kwargs)
+        env = PokemonYellowFullImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Pokemon-Yellow-minimal-image-v1":
-        env = PokemonYellowMinimalImage(**env_kwargs)
+        env = PokemonYellowMinimalImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
 
     # 3. Mario environments
     elif env_id == "Super-Mario-Land-1-flatten-v1":
-        env = SuperMarioLand1Flatten(**env_kwargs)
+        env = SuperMarioLand1Flatten(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Super-Mario-Land-1-full-image-v1":
-        env = SuperMarioLand1FullImage(**env_kwargs)
+        env = SuperMarioLand1FullImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Super-Mario-Land-1-minimal-image-v1":
-        env = SuperMarioLand1MinimalImage(**env_kwargs)
+        env = SuperMarioLand1MinimalImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
 
     # 4. Tetris environments
     elif env_id == "Tetris-flatten-v1":
-        env = TetrisFlatten(**env_kwargs)
+        env = TetrisFlatten(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Tetris-full-image-v1":
-        env = TetrisFullImage(**env_kwargs)
+        env = TetrisFullImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     elif env_id == "Tetris-minimal-image-v1":
-        env = TetrisMinimalImage(**env_kwargs)
+        env = TetrisMinimalImage(
+            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
+        )
     else:
         raise ValueError("Environment ID is not registered.")
     return env

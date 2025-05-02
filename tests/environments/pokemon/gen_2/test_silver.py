@@ -1,6 +1,7 @@
 """Tests pokemon/gen_2/silver.py."""
 
 import unittest
+from typing import Dict
 
 import numpy as np
 
@@ -12,10 +13,17 @@ class TestPokemonSilverFlatten(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Silver-flatten-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_silver_test_1.state"
+        self.rom_path = "./resources/roms/pokemon/gen_2/pokemon_silver.gbc"
+        self.init_state_path = (
+            "./resources/states/pokemon/gen_2/pokemon_silver_after_first_pokemon.state"
+        )
         self.num_envs = 3
         self.vectorization_mode = "sync"
-        self.env = gymboy.make(env_id=self.env_id, init_state_path=self.init_state_path)
+        self.env = gymboy.make(
+            env_id=self.env_id,
+            rom_path=self.rom_path,
+            init_state_path=self.init_state_path,
+        )
         self.env.reset()
 
     def tearDown(self):
@@ -29,7 +37,7 @@ class TestPokemonSilverFlatten(unittest.TestCase):
         self.assertIsInstance(reward, float)
         self.assertIsInstance(terminated, bool)
         self.assertIsInstance(truncated, bool)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
         obs, reward, terminated, truncated, info = self.env.step(1)
         self.assertIsInstance(obs, np.ndarray)
@@ -37,7 +45,7 @@ class TestPokemonSilverFlatten(unittest.TestCase):
         self.assertIsInstance(reward, float)
         self.assertIsInstance(terminated, bool)
         self.assertIsInstance(truncated, bool)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
     def test_reset(self):
         """Tests the reset() method."""
@@ -45,15 +53,15 @@ class TestPokemonSilverFlatten(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((426,), obs.shape)
 
-    def test_get_obs(self):
-        """Tests the get_obs() method."""
-        obs = self.env.get_obs()
+    def test_obs(self):
+        """Tests the obs() method."""
+        obs = self.env.obs()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((426,), obs.shape)
 
-    def test_get_reward(self):
-        """Tests the get_reward() method."""
-        np.testing.assert_allclose(0.07211457496318055, self.env.get_reward())
+    def test_reward(self):
+        """Tests the reward() method."""
+        np.testing.assert_allclose(0.015317400078356254, self.env.reward())
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
@@ -61,6 +69,7 @@ class TestPokemonSilverFlatten(unittest.TestCase):
             env_id=self.env_id,
             num_envs=self.num_envs,
             vectorization_mode=self.vectorization_mode,
+            rom_path=self.rom_path,
             init_state_path=self.init_state_path,
         )
 
@@ -79,7 +88,7 @@ class TestPokemonSilverFlatten(unittest.TestCase):
         self.assertEqual((self.num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
         self.assertEqual((self.num_envs,), truncated.shape)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [1] * self.num_envs
@@ -92,7 +101,7 @@ class TestPokemonSilverFlatten(unittest.TestCase):
         self.assertEqual((self.num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
         self.assertEqual((self.num_envs,), truncated.shape)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
         vectorized_env.close()
 
@@ -102,11 +111,15 @@ class TestPokemonSilverFullImage(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Silver-full-image-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_silver_test_1.state"
+        self.rom_path = "./resources/roms/pokemon/gen_2/pokemon_silver.gbc"
+        self.init_state_path = (
+            "./resources/states/pokemon/gen_2/pokemon_silver_after_first_pokemon.state"
+        )
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(
             env_id=self.env_id,
+            rom_path=self.rom_path,
             init_state_path=self.init_state_path,
         )
         self.env.reset()
@@ -122,7 +135,7 @@ class TestPokemonSilverFullImage(unittest.TestCase):
         self.assertIsInstance(reward, float)
         self.assertIsInstance(terminated, bool)
         self.assertIsInstance(truncated, bool)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
         obs, reward, terminated, truncated, info = self.env.step(1)
         self.assertIsInstance(obs, np.ndarray)
@@ -130,7 +143,7 @@ class TestPokemonSilverFullImage(unittest.TestCase):
         self.assertIsInstance(reward, float)
         self.assertIsInstance(terminated, bool)
         self.assertIsInstance(truncated, bool)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
     def test_reset(self):
         """Tests the reset() method."""
@@ -138,15 +151,15 @@ class TestPokemonSilverFullImage(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
-    def test_get_obs(self):
-        """Tests the get_obs() method."""
-        obs = self.env.get_obs()
+    def test_obs(self):
+        """Tests the obs() method."""
+        obs = self.env.obs()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
-    def test_get_reward(self):
-        """Tests the get_reward() method."""
-        np.testing.assert_allclose(0.07211457496318055, self.env.get_reward())
+    def test_reward(self):
+        """Tests the reward() method."""
+        np.testing.assert_allclose(0.015317400078356254, self.env.reward())
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
@@ -154,6 +167,7 @@ class TestPokemonSilverFullImage(unittest.TestCase):
             env_id=self.env_id,
             num_envs=self.num_envs,
             vectorization_mode=self.vectorization_mode,
+            rom_path=self.rom_path,
             init_state_path=self.init_state_path,
         )
 
@@ -172,7 +186,7 @@ class TestPokemonSilverFullImage(unittest.TestCase):
         self.assertEqual((self.num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
         self.assertEqual((self.num_envs,), truncated.shape)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [1] * self.num_envs
@@ -185,7 +199,7 @@ class TestPokemonSilverFullImage(unittest.TestCase):
         self.assertEqual((self.num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
         self.assertEqual((self.num_envs,), truncated.shape)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
         vectorized_env.close()
 
@@ -195,11 +209,15 @@ class TestPokemonSilverMinimalImage(unittest.TestCase):
 
     def setUp(self):
         self.env_id = "Pokemon-Silver-minimal-image-v1"
-        self.init_state_path = "./gymboy/resources/states/pokemon/gen_2/pokemon_silver_test_1.state"
+        self.rom_path = "./resources/roms/pokemon/gen_2/pokemon_silver.gbc"
+        self.init_state_path = (
+            "./resources/states/pokemon/gen_2/pokemon_silver_after_first_pokemon.state"
+        )
         self.num_envs = 3
         self.vectorization_mode = "sync"
         self.env = gymboy.make(
             env_id=self.env_id,
+            rom_path=self.rom_path,
             init_state_path=self.init_state_path,
         )
         self.env.reset()
@@ -215,7 +233,7 @@ class TestPokemonSilverMinimalImage(unittest.TestCase):
         self.assertIsInstance(reward, float)
         self.assertIsInstance(terminated, bool)
         self.assertIsInstance(truncated, bool)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
         obs, reward, terminated, truncated, info = self.env.step(1)
         self.assertIsInstance(obs, np.ndarray)
@@ -223,7 +241,7 @@ class TestPokemonSilverMinimalImage(unittest.TestCase):
         self.assertIsInstance(reward, float)
         self.assertIsInstance(terminated, bool)
         self.assertIsInstance(truncated, bool)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
     def test_reset(self):
         """Tests the reset() method."""
@@ -231,15 +249,15 @@ class TestPokemonSilverMinimalImage(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((18, 20), obs.shape)
 
-    def test_get_obs(self):
-        """Tests the get_obs() method."""
-        obs = self.env.get_obs()
+    def test_obs(self):
+        """Tests the obs() method."""
+        obs = self.env.obs()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((18, 20), obs.shape)
 
-    def test_get_reward(self):
-        """Tests the get_reward() method."""
-        np.testing.assert_allclose(0.07211457496318055, self.env.get_reward())
+    def test_reward(self):
+        """Tests the reward() method."""
+        np.testing.assert_allclose(0.015317400078356254, self.env.reward())
 
     def test_vectorized_env(self):
         """Tests the vectorized environment."""
@@ -247,6 +265,7 @@ class TestPokemonSilverMinimalImage(unittest.TestCase):
             env_id=self.env_id,
             num_envs=self.num_envs,
             vectorization_mode=self.vectorization_mode,
+            rom_path=self.rom_path,
             init_state_path=self.init_state_path,
         )
 
@@ -265,7 +284,7 @@ class TestPokemonSilverMinimalImage(unittest.TestCase):
         self.assertEqual((self.num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
         self.assertEqual((self.num_envs,), truncated.shape)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [1] * self.num_envs
@@ -278,7 +297,7 @@ class TestPokemonSilverMinimalImage(unittest.TestCase):
         self.assertEqual((self.num_envs,), terminated.shape)
         self.assertIsInstance(truncated, np.ndarray)
         self.assertEqual((self.num_envs,), truncated.shape)
-        self.assertIsInstance(info, dict)
+        self.assertIsInstance(info, Dict)
 
         vectorized_env.close()
 
