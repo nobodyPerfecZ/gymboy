@@ -1,3 +1,9 @@
 gymnasium>=1.1.1
 pyboy>=2.5.3
 scikit-image>=0.25.2
+pytest>=8.3.5
+pytest-cov>=6.1.1
+flake8>=7.2.0
+black>=25.1.0
+twine>=6.1.0
+build>=1.2.2.post1

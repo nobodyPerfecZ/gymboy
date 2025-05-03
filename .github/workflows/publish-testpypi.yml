@@ -24,7 +24,6 @@ jobs:
       - name: Install Python dependencies
         run: |
           pip install -r requirements.txt
-          pip install build twine
       - name: Update version for TestPyPI
         run: |
           VERSION_SUFFIX=$(date +%Y%m%d%H%M%S)
