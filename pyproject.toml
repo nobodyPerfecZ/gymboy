@@ -1,24 +1,22 @@
 [project]
 name = "gymboy"
 version = "0.0.1"
+description = "Gameboy (Color) environments in Gymnasium 🤖"
+authors = [
+    {name = "Dennis Jabs", email = ""},
+]
 dependencies = [
-    "gymnasium==1.0.0",
-    "pyboy==2.4.0",
-    "scikit-image==0.24.0",
+    "gymnasium>=1.1.1",
+    "pyboy>=2.5.3",
+    "scikit-image>=0.25.2",
 ]
 requires-python = ">=3.10"
-authors = [
-    { name = "Dennis Jabs" },
-]
-description = "PyBoy environments in Gymnasium"
 readme = "README.md"
 license = { file = "LICENSE" }
-classifiers = [
-    "Programming Language :: Python :: 3.10",
-    "Programming Language :: Python :: 3.11",
-    "Programming Language :: Python :: 3.12",
-]
 
 [build-system]
-requires = [ "setuptools>=61.0" ]
-build-backend = "setuptools.build_meta"
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
+
+[tool.pdm]
+distribution = true

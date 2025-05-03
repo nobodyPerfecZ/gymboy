@@ -6,7 +6,7 @@
     Gymboy 🤖
     <br>
     <span style="font-size: large">
-      Gameboy Color Environments in Gymnasium 
+      Gameboy (Color) Environments in Gymnasium 
     </span>
     <br>
       <a href="https://github.com/psf/black">
@@ -19,7 +19,7 @@
         <img src="https://img.shields.io/badge/tests-passed-brightgreen">
       </a>
       <a>
-        <img src="https://img.shields.io/badge/coverage-98%25-brightgreen">
+        <img src="https://img.shields.io/badge/coverage-99%25-brightgreen">
       </a>
   </h1>
   <img src="docs/kirby_dream_land_1.gif" alt="Kirby Dream Land 1" width="200" />
@@ -61,15 +61,13 @@ Gymboy supports a range of different RL environments from the Game Boy Color usi
 
 ## Installation ⚙️
 
-You can install the package using pip:
+Install the package via `pip`:
 
 ```bash
 pip install gymboy
 ```
 
-To use the environments from gymboy, you need to manually install the required ROMs and place them in the `resources/roms` directory.
-
-For more information about the naming conventions of the ROM files refer to this [example](https://drive.google.com/file/d/1-6PIgpuhxmVNYW_KqVjyem8SDDDqhfgL/view).
+> ⚠️ **Important**: Gymboy requires specific ROM files to function properly. Make sure you have the necessary ROMs available before using any of the environments.
 
 ## Usage 🚀
 
@@ -79,26 +77,29 @@ Here's a quick example of how to use a gymboy environment:
 import gymboy
 
 # Create the environment
-env = gymboy.make("Pokemon-Blue-full-image-v1")
+env = gymboy.make(
+    env_id="Pokemon-Blue-full-image-v1",
+    rom_path="./resources/roms/pokemon/gen_1/pokemon_blue.gb",
+    init_state_path="./resources/states/pokemon/gen_1/pokemon_blue_after_intro.state",
+)
 num_steps = 1000
 
 # Reset the environment
 obs, info = env.reset()
 for i in range(num_steps):
-  # Sample a random action
-  action = env.action_space.sample()
+    # Sample a random action
+    action = env.action_space.sample()
 
-  # Perform the action
-  obs, reward, terminated, truncated, info = env.step(action)
-  done = terminated or truncated
+    # Perform the action
+    obs, reward, terminated, truncated, info = env.step(action)
+    done = terminated or truncated
 
-  # Render the environment (not necessary for gymboy)
-  env.render()
+    # Render the environment (not necessary for gymboy)
+    env.render()
 
-  if done:
-    # Case: Environment has terminated
-    break
-
+    if done:
+        # Case: Environment has terminated
+        break
 # Close the environment
 env.close()
 ```
