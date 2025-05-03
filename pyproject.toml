@@ -14,6 +14,10 @@ requires-python = ">=3.10"
 readme = "README.md"
 license = { file = "LICENSE" }
 
+[project.urls]
+Homepage = "https://github.com/nobodyPerfecZ/gymboy"
+Issues = "https://github.com/nobodyPerfecZ/gymboy/issues"
+
 [build-system]
 requires = ["pdm-backend"]
 build-backend = "pdm.backend"
