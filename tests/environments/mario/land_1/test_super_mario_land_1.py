@@ -33,7 +33,7 @@ class TestSuperMarioLand1Flatten(unittest.TestCase):
         """Tests the step() method."""
         obs, reward, terminated, truncated, info = self.env.step(0)
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((324,), obs.shape)
+        self.assertEqual((325,), obs.shape)
         self.assertIsInstance(reward, float)
         self.assertIsInstance(terminated, bool)
         self.assertIsInstance(truncated, bool)
@@ -41,7 +41,7 @@ class TestSuperMarioLand1Flatten(unittest.TestCase):
 
         obs, reward, terminated, truncated, info = self.env.step(1)
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((324,), obs.shape)
+        self.assertEqual((325,), obs.shape)
         self.assertIsInstance(reward, float)
         self.assertIsInstance(terminated, bool)
         self.assertIsInstance(truncated, bool)
@@ -51,13 +51,13 @@ class TestSuperMarioLand1Flatten(unittest.TestCase):
         """Tests the reset() method."""
         obs, _ = self.env.reset()
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((324,), obs.shape)
+        self.assertEqual((325,), obs.shape)
 
     def test_obs(self):
         """Tests the obs() method."""
         obs = self.env.obs()
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((324,), obs.shape)
+        self.assertEqual((325,), obs.shape)
 
     def test_reward(self):
         """Tests the reward() method."""
@@ -75,13 +75,13 @@ class TestSuperMarioLand1Flatten(unittest.TestCase):
 
         obs, info = vectorized_env.reset()
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((self.num_envs, 324), obs.shape)
+        self.assertEqual((self.num_envs, 325), obs.shape)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [0] * self.num_envs
         )
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((self.num_envs, 324), obs.shape)
+        self.assertEqual((self.num_envs, 325), obs.shape)
         self.assertIsInstance(reward, np.ndarray)
         self.assertEqual((self.num_envs,), reward.shape)
         self.assertIsInstance(terminated, np.ndarray)
@@ -94,7 +94,7 @@ class TestSuperMarioLand1Flatten(unittest.TestCase):
             [1] * self.num_envs
         )
         self.assertIsInstance(obs, np.ndarray)
-        self.assertEqual((self.num_envs, 324), obs.shape)
+        self.assertEqual((self.num_envs, 325), obs.shape)
         self.assertIsInstance(reward, np.ndarray)
         self.assertEqual((self.num_envs,), reward.shape)
         self.assertIsInstance(terminated, np.ndarray)

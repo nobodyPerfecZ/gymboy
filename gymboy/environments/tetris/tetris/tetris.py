@@ -32,9 +32,9 @@ class Tetris(PyBoyEnv, ABC):
         )
 
     def reward(self) -> float:
-        score = _score(self.pyboy) / 999999
-        game_over = -1.0 if _game_over(self.pyboy) else 0.0
-        return score + game_over
+        if _game_over(self.pyboy):
+            return -1.0
+        return _score(self.pyboy) / 999999
 
     def terminated(self) -> bool:
         return _game_over(self.pyboy)
@@ -66,9 +66,9 @@ class TetrisFlatten(Tetris):
     - [2:]: The simplified game area
 
     ## Rewards
-    The reward is the sum of:
-    - The normalized score
+    The reward is:
     - -1.0 if the game is over
+    - otherwise the normalized score
 
     ## Version History
     - v1: Original version
@@ -128,9 +128,9 @@ class TetrisFullImage(Tetris):
     screen.
 
     ## Rewards
-    The reward is the sum of:
-    - The normalized score
+    The reward is:
     - -1.0 if the game is over
+    - otherwise the normalized score
 
     ## Version History
     - v1: Original version
@@ -187,9 +187,9 @@ class TetrisMinimalImage(Tetris):
     screen.
 
     ## Rewards
-    The reward is the sum of:
-    - The normalized score
+    The reward is:
     - -1.0 if the game is over
+    - otherwise the normalized score
 
     ## Version History
     - v1: Original version

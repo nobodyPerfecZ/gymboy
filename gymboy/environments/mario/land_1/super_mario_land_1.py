@@ -43,12 +43,11 @@ class SuperMarioLand1(PyBoyEnv, ABC):
         )
 
     def reward(self) -> float:
-        score = _score(self.pyboy) / 999999
-        coin = _coins(self.pyboy) / 99
-        time_over = -1.0 if _time_over(self.pyboy) else 0.0
-        level_finished = 1.0 if _level_finished(self.pyboy) else 0.0
-        game_over = -1.0 if _game_over(self.pyboy) else 0.0
-        return score + coin + time_over + level_finished + game_over
+        if _time_over(self.pyboy) or _game_over(self.pyboy):
+            return -1.0
+        if _level_finished(self.pyboy):
+            return 1.0
+        return _score(self.pyboy) / 999999
 
     def terminated(self) -> bool:
         return _game_over(self.pyboy)
@@ -74,20 +73,19 @@ class SuperMarioLand1Flatten(SuperMarioLand1):
     - 8: Press Select
 
     ## Observation Space
-    The observation is an (324,) array that consists:
+    The observation is an (325,) array that consists:
     - [0]: The current world
     - [1]: The current level
     - [2]: The current lives
-    - [3]: The current time left
-    - [4:]: The simplified game area
+    - [3]: The current number of coins
+    - [4]: The current time left
+    - [5:]: The simplified game area
 
     ## Rewards
-    The reward is the sum of:
-    - The normalized score
-    - The normalized number of coins
-    - -1.0 if the time is over
+    The reward is:
+    - -1.0 if the time or the game is over
     - 1.0 if the level is finished
-    - -1.0 if the game is over
+    - otherwise the normalized score
 
     ## Version History
     - v1: Original version
@@ -114,7 +112,7 @@ class SuperMarioLand1Flatten(SuperMarioLand1):
         return spaces.Box(
             low=-np.inf,
             high=np.inf,
-            shape=(324,),
+            shape=(325,),
             dtype=np.float32,
         )
 
@@ -122,9 +120,12 @@ class SuperMarioLand1Flatten(SuperMarioLand1):
         world, level = _world_level(self.pyboy)
         world, level = np.array([world]), np.array([level])
         lives = np.array([_lives(self.pyboy)])
+        coins = np.array([_coins(self.pyboy)])
         time = np.array([_time(self.pyboy)])
         game_area = _game_area(self.pyboy).flatten()
-        return np.concatenate((world, level, lives, time, game_area)).astype(np.float32)
+        return np.concatenate((world, level, lives, coins, time, game_area)).astype(
+            np.float32
+        )
 
 
 class SuperMarioLand1FullImage(SuperMarioLand1):
@@ -148,12 +149,10 @@ class SuperMarioLand1FullImage(SuperMarioLand1):
     screen.
 
     ## Rewards
-    The reward is the sum of:
-    - The normalized score
-    - The normalized number of coins
-    - -1.0 if the time is over
+    The reward is:
+    - -1.0 if the time or the game is over
     - 1.0 if the level is finished
-    - -1.0 if the game is over
+    - otherwise the normalized score
 
     ## Version History
     - v1: Original version
@@ -210,12 +209,10 @@ class SuperMarioLand1MinimalImage(SuperMarioLand1):
     screen.
 
     ## Rewards
-    The reward is the sum of:
-    - The normalized score
-    - The normalized number of coins
-    - -1.0 if the time is over
+    The reward is:
+    - -1.0 if the time or the game is over
     - 1.0 if the level is finished
-    - -1.0 if the game is over
+    - otherwise the normalized score
 
     ## Version History
     - v1: Original version
