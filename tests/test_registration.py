@@ -209,6 +209,171 @@ def test_make(
 
 
 @pytest.mark.parametrize(
+    argnames=["env_id", "rom_path", "init_state_path", "num_steps"],
+    argvalues=[
+        (
+            "Kirby-Dream-Land-1-flatten-v1",
+            "resources/roms/kirby/dream_land_1/kirby_dream_land_1.gb",
+            "resources/states/kirby/dream_land_1/kirby_dream_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Kirby-Dream-Land-1-full-image-v1",
+            "resources/roms/kirby/dream_land_1/kirby_dream_land_1.gb",
+            "resources/states/kirby/dream_land_1/kirby_dream_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Kirby-Dream-Land-1-minimal-image-v1",
+            "resources/roms/kirby/dream_land_1/kirby_dream_land_1.gb",
+            "resources/states/kirby/dream_land_1/kirby_dream_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Blue-flatten-v1",
+            "resources/roms/pokemon/gen_1/pokemon_blue.gb",
+            "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Blue-full-image-v1",
+            "resources/roms/pokemon/gen_1/pokemon_blue.gb",
+            "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Blue-minimal-image-v1",
+            "resources/roms/pokemon/gen_1/pokemon_blue.gb",
+            "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Gold-flatten-v1",
+            "resources/roms/pokemon/gen_2/pokemon_gold.gbc",
+            "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Gold-full-image-v1",
+            "resources/roms/pokemon/gen_2/pokemon_gold.gbc",
+            "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Gold-minimal-image-v1",
+            "resources/roms/pokemon/gen_2/pokemon_gold.gbc",
+            "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Red-flatten-v1",
+            "resources/roms/pokemon/gen_1/pokemon_red.gb",
+            "resources/states/pokemon/gen_1/pokemon_red_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Red-full-image-v1",
+            "resources/roms/pokemon/gen_1/pokemon_red.gb",
+            "resources/states/pokemon/gen_1/pokemon_red_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Red-minimal-image-v1",
+            "resources/roms/pokemon/gen_1/pokemon_red.gb",
+            "resources/states/pokemon/gen_1/pokemon_red_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Silver-flatten-v1",
+            "resources/roms/pokemon/gen_2/pokemon_silver.gbc",
+            "resources/states/pokemon/gen_2/pokemon_silver_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Silver-full-image-v1",
+            "resources/roms/pokemon/gen_2/pokemon_silver.gbc",
+            "resources/states/pokemon/gen_2/pokemon_silver_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Silver-minimal-image-v1",
+            "resources/roms/pokemon/gen_2/pokemon_silver.gbc",
+            "resources/states/pokemon/gen_2/pokemon_silver_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Yellow-flatten-v1",
+            "resources/roms/pokemon/gen_1/pokemon_yellow.gbc",
+            "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Yellow-full-image-v1",
+            "resources/roms/pokemon/gen_1/pokemon_yellow.gbc",
+            "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Yellow-minimal-image-v1",
+            "resources/roms/pokemon/gen_1/pokemon_yellow.gbc",
+            "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state",
+            100,
+        ),
+        (
+            "Super-Mario-Land-1-flatten-v1",
+            "resources/roms/mario/land_1/super_mario_land_1.gb",
+            "resources/states/mario/land_1/super_mario_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Super-Mario-Land-1-full-image-v1",
+            "resources/roms/mario/land_1/super_mario_land_1.gb",
+            "resources/states/mario/land_1/super_mario_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Super-Mario-Land-1-minimal-image-v1",
+            "resources/roms/mario/land_1/super_mario_land_1.gb",
+            "resources/states/mario/land_1/super_mario_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Tetris-flatten-v1",
+            "resources/roms/tetris/tetris/tetris.gb",
+            "resources/states/tetris/tetris/tetris_after_intro.state",
+            100,
+        ),
+        (
+            "Tetris-full-image-v1",
+            "resources/roms/tetris/tetris/tetris.gb",
+            "resources/states/tetris/tetris/tetris_after_intro.state",
+            100,
+        ),
+        (
+            "Tetris-minimal-image-v1",
+            "resources/roms/tetris/tetris/tetris.gb",
+            "resources/states/tetris/tetris/tetris_after_intro.state",
+            100,
+        ),
+    ],
+)
+def test_env_reset_step(
+    env_id: str,
+    rom_path: str,
+    init_state_path: str,
+    num_steps: int,
+):
+    """Tests the reset() and step() methods of the environment."""
+    env = gymboy.make(env_id=env_id, rom_path=rom_path, init_state_path=init_state_path)
+    observation, info = env.reset(seed=0)
+
+    for _ in range(num_steps):
+        observation, reward, terminated, truncated, info = env.step(
+            env.action_space.sample()
+        )
+
+
+@pytest.mark.parametrize(
     argnames=["env_id", "num_envs", "rom_path", "init_state_path", "expected"],
     argvalues=[
         (
@@ -396,3 +561,203 @@ def test_make_vec(
         init_state_path=init_state_path,
     )
     assert isinstance(envs.envs[0], expected)
+
+
+@pytest.mark.parametrize(
+    argnames=["env_id", "num_envs", "rom_path", "init_state_path", "num_steps"],
+    argvalues=[
+        (
+            "Kirby-Dream-Land-1-flatten-v1",
+            1,
+            "resources/roms/kirby/dream_land_1/kirby_dream_land_1.gb",
+            "resources/states/kirby/dream_land_1/kirby_dream_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Kirby-Dream-Land-1-full-image-v1",
+            1,
+            "resources/roms/kirby/dream_land_1/kirby_dream_land_1.gb",
+            "resources/states/kirby/dream_land_1/kirby_dream_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Kirby-Dream-Land-1-minimal-image-v1",
+            1,
+            "resources/roms/kirby/dream_land_1/kirby_dream_land_1.gb",
+            "resources/states/kirby/dream_land_1/kirby_dream_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Blue-flatten-v1",
+            1,
+            "resources/roms/pokemon/gen_1/pokemon_blue.gb",
+            "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Blue-full-image-v1",
+            1,
+            "resources/roms/pokemon/gen_1/pokemon_blue.gb",
+            "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Blue-minimal-image-v1",
+            1,
+            "resources/roms/pokemon/gen_1/pokemon_blue.gb",
+            "resources/states/pokemon/gen_1/pokemon_blue_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Gold-flatten-v1",
+            1,
+            "resources/roms/pokemon/gen_2/pokemon_gold.gbc",
+            "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Gold-full-image-v1",
+            1,
+            "resources/roms/pokemon/gen_2/pokemon_gold.gbc",
+            "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Gold-minimal-image-v1",
+            1,
+            "resources/roms/pokemon/gen_2/pokemon_gold.gbc",
+            "resources/states/pokemon/gen_2/pokemon_gold_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Red-flatten-v1",
+            1,
+            "resources/roms/pokemon/gen_1/pokemon_red.gb",
+            "resources/states/pokemon/gen_1/pokemon_red_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Red-full-image-v1",
+            1,
+            "resources/roms/pokemon/gen_1/pokemon_red.gb",
+            "resources/states/pokemon/gen_1/pokemon_red_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Red-minimal-image-v1",
+            1,
+            "resources/roms/pokemon/gen_1/pokemon_red.gb",
+            "resources/states/pokemon/gen_1/pokemon_red_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Silver-flatten-v1",
+            1,
+            "resources/roms/pokemon/gen_2/pokemon_silver.gbc",
+            "resources/states/pokemon/gen_2/pokemon_silver_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Silver-full-image-v1",
+            1,
+            "resources/roms/pokemon/gen_2/pokemon_silver.gbc",
+            "resources/states/pokemon/gen_2/pokemon_silver_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Silver-minimal-image-v1",
+            1,
+            "resources/roms/pokemon/gen_2/pokemon_silver.gbc",
+            "resources/states/pokemon/gen_2/pokemon_silver_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Yellow-flatten-v1",
+            1,
+            "resources/roms/pokemon/gen_1/pokemon_yellow.gbc",
+            "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Yellow-full-image-v1",
+            1,
+            "resources/roms/pokemon/gen_1/pokemon_yellow.gbc",
+            "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state",
+            100,
+        ),
+        (
+            "Pokemon-Yellow-minimal-image-v1",
+            1,
+            "resources/roms/pokemon/gen_1/pokemon_yellow.gbc",
+            "resources/states/pokemon/gen_1/pokemon_yellow_after_intro.state",
+            100,
+        ),
+        (
+            "Super-Mario-Land-1-flatten-v1",
+            1,
+            "resources/roms/mario/land_1/super_mario_land_1.gb",
+            "resources/states/mario/land_1/super_mario_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Super-Mario-Land-1-full-image-v1",
+            1,
+            "resources/roms/mario/land_1/super_mario_land_1.gb",
+            "resources/states/mario/land_1/super_mario_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Super-Mario-Land-1-minimal-image-v1",
+            1,
+            "resources/roms/mario/land_1/super_mario_land_1.gb",
+            "resources/states/mario/land_1/super_mario_land_1_after_intro.state",
+            100,
+        ),
+        (
+            "Tetris-flatten-v1",
+            1,
+            "resources/roms/tetris/tetris/tetris.gb",
+            "resources/states/tetris/tetris/tetris_after_intro.state",
+            100,
+        ),
+        (
+            "Tetris-full-image-v1",
+            1,
+            "resources/roms/tetris/tetris/tetris.gb",
+            "resources/states/tetris/tetris/tetris_after_intro.state",
+            100,
+        ),
+        (
+            "Tetris-minimal-image-v1",
+            1,
+            "resources/roms/tetris/tetris/tetris.gb",
+            "resources/states/tetris/tetris/tetris_after_intro.state",
+            100,
+        ),
+    ],
+)
+def test_env_reset_step_vec(
+    env_id: str,
+    num_envs: int,
+    rom_path: str,
+    init_state_path: str,
+    num_steps: int,
+):
+    """Tests the reset() and step() methods of the vectorized environment."""
+    envs = gymboy.make_vec(
+        env_id=env_id,
+        num_envs=num_envs,
+        rom_path=rom_path,
+        init_state_path=init_state_path,
+    )
+    observations, info = envs.reset(seed=0)
+    assert observations.shape[0] == num_envs
+
+    for _ in range(num_steps):
+        observations, rewards, terminations, truncations, infos = envs.step(
+            envs.action_space.sample()
+        )
+        assert observations.shape[0] == num_envs
+        assert rewards.shape[0] == num_envs
+        assert terminations.shape[0] == num_envs
+        assert truncations.shape[0] == num_envs
