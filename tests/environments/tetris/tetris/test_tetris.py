@@ -51,9 +51,9 @@ class TestTetrisFlatten(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((182,), obs.shape)
 
-    def test_obs(self):
-        """Tests the obs() method."""
-        obs = self.env.obs()
+    def test_observation(self):
+        """Tests the observation() method."""
+        obs = self.env.observation()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((182,), obs.shape)
 
@@ -148,9 +148,9 @@ class TestTetrisFullImage(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
-    def test_obs(self):
-        """Tests the obs() method."""
-        obs = self.env.obs()
+    def test_observation(self):
+        """Tests the observation() method."""
+        obs = self.env.observation()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
@@ -245,9 +245,9 @@ class TestTetrisMinimalImage(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((18, 10), obs.shape)
 
-    def test_obs(self):
-        """Tests the obs() method."""
-        obs = self.env.obs()
+    def test_observation(self):
+        """Tests the observation() method."""
+        obs = self.env.observation()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((18, 10), obs.shape)
 

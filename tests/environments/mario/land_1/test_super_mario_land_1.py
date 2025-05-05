@@ -53,9 +53,9 @@ class TestSuperMarioLand1Flatten(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((325,), obs.shape)
 
-    def test_obs(self):
-        """Tests the obs() method."""
-        obs = self.env.obs()
+    def test_observation(self):
+        """Tests the observation() method."""
+        obs = self.env.observation()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((325,), obs.shape)
 
@@ -151,9 +151,9 @@ class TestSuperMarioLand1FullImage(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
-    def test_obs(self):
-        """Tests the obs() method."""
-        obs = self.env.obs()
+    def test_observation(self):
+        """Tests the observation() method."""
+        obs = self.env.observation()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
@@ -249,9 +249,9 @@ class TestSuperMarioLand1MinimalImage(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((16, 20), obs.shape)
 
-    def test_obs(self):
-        """Tests the obs() method."""
-        obs = self.env.obs()
+    def test_observation(self):
+        """Tests the observation() method."""
+        obs = self.env.observation()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((16, 20), obs.shape)
 

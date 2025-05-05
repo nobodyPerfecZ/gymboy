@@ -117,7 +117,7 @@ class KirbyDreamLand1Flatten(KirbyDreamLand1):
             dtype=np.float32,
         )
 
-    def obs(self) -> np.ndarray:
+    def observation(self) -> np.ndarray:
         kirby_health = np.array([_kirby_health(self.pyboy)])
         lives = np.array([_lives(self.pyboy)])
         game_area = _game_area(self.pyboy).flatten()
@@ -178,8 +178,9 @@ class KirbyDreamLand1FullImage(KirbyDreamLand1):
             dtype=np.uint8,
         )
 
-    def obs(self) -> np.ndarray:
-        return ski.color.rgba2rgb(self.pyboy.screen.ndarray).astype(np.uint8)
+    def observation(self) -> np.ndarray:
+        obs = ski.color.rgba2rgb(self.pyboy.screen.image)
+        return (255 * obs).clip(0, 255).astype(np.uint8)
 
 
 class KirbyDreamLand1MinimalImage(KirbyDreamLand1):
@@ -236,5 +237,5 @@ class KirbyDreamLand1MinimalImage(KirbyDreamLand1):
             dtype=np.float32,
         )
 
-    def obs(self) -> np.ndarray:
+    def observation(self) -> np.ndarray:
         return _game_area(self.pyboy).astype(np.float32)

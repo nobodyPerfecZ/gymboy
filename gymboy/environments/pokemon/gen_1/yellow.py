@@ -140,8 +140,7 @@ class PokemonYellowFlatten(PokemonYellow):
             dtype=np.float32,
         )
 
-    def obs(self) -> np.ndarray:
-        """Returns the current observation."""
+    def observation(self) -> np.ndarray:
         pokemon_ids = _pokemon_ids(self.pyboy, yellow=True)
         levels = _levels(self.pyboy, yellow=True)
         hps = _hps(self.pyboy, yellow=True)
@@ -210,9 +209,9 @@ class PokemonYellowFullImage(PokemonYellow):
             dtype=np.uint8,
         )
 
-    def obs(self) -> np.ndarray:
-        """Returns the current observation."""
-        return ski.color.rgba2rgb(self.pyboy.screen.ndarray).astype(np.uint8)
+    def observation(self) -> np.ndarray:
+        obs = ski.color.rgba2rgb(self.pyboy.screen.image)
+        return (255 * obs).clip(0, 255).astype(np.uint8)
 
 
 class PokemonYellowMinimalImage(PokemonYellow):
@@ -272,6 +271,5 @@ class PokemonYellowMinimalImage(PokemonYellow):
             dtype=np.float32,
         )
 
-    def obs(self) -> np.ndarray:
-        """Returns the current observation."""
+    def observation(self) -> np.ndarray:
         return _game_area(self.pyboy, yellow=True).astype(np.float32)

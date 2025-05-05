@@ -134,7 +134,7 @@ class PokemonGoldFlatten(PokemonGold):
             dtype=np.float32,
         )
 
-    def obs(self) -> np.ndarray:
+    def observation(self) -> np.ndarray:
         pokemon_ids = _pokemon_ids(self.pyboy)
         levels = _levels(self.pyboy)
         hps = _hps(self.pyboy)
@@ -202,8 +202,9 @@ class PokemonGoldFullImage(PokemonGold):
             dtype=np.uint8,
         )
 
-    def obs(self) -> np.ndarray:
-        return ski.color.rgba2rgb(self.pyboy.screen.ndarray).astype(np.uint8)
+    def observation(self) -> np.ndarray:
+        obs = ski.color.rgba2rgb(self.pyboy.screen.image)
+        return (255 * obs).clip(0, 255).astype(np.uint8)
 
 
 class PokemonGoldMinimalImage(PokemonGold):
@@ -262,5 +263,5 @@ class PokemonGoldMinimalImage(PokemonGold):
             dtype=np.float32,
         )
 
-    def obs(self) -> np.ndarray:
+    def observation(self) -> np.ndarray:
         return _game_area(self.pyboy).astype(np.float32)

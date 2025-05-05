@@ -117,8 +117,7 @@ class TetrisFlatten(Tetris):
             dtype=np.float32,
         )
 
-    def obs(self) -> np.ndarray:
-        """Returns the current observation."""
+    def observation(self) -> np.ndarray:
         level = np.array([_level(self.pyboy)])
         next_block = np.array([_next_block(self.pyboy)])
         game_area = _game_area(self.pyboy).flatten()
@@ -179,9 +178,9 @@ class TetrisFullImage(Tetris):
             dtype=np.uint8,
         )
 
-    def obs(self) -> np.ndarray:
-        """Returns the current observation."""
-        return ski.color.rgba2rgb(self.pyboy.screen.ndarray).astype(np.uint8)
+    def observation(self) -> np.ndarray:
+        obs = ski.color.rgba2rgb(self.pyboy.screen.image)
+        return (255 * obs).clip(0, 255).astype(np.uint8)
 
 
 class TetrisMinimalImage(Tetris):
@@ -238,6 +237,5 @@ class TetrisMinimalImage(Tetris):
             dtype=np.float32,
         )
 
-    def obs(self) -> np.ndarray:
-        """Returns the current observation."""
+    def observation(self) -> np.ndarray:
         return _game_area(self.pyboy).astype(np.float32)

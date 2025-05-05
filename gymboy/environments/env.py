@@ -109,7 +109,7 @@ class PyBoyEnv(gym.Env, ABC):
         self.pyboy.tick(self.n_frameskip)
 
         # Get the observation, reward, done and info
-        observation = self.obs()
+        observation = self.observation()
         reward = self.reward()
         terminated = self.terminated()
         truncated = self.truncated()
@@ -136,7 +136,7 @@ class PyBoyEnv(gym.Env, ABC):
         self.pyboy.tick(1)
 
         # Get the initial observation and info
-        observation = self.obs()
+        observation = self.observation()
         info = {}
 
         return observation, info
@@ -148,7 +148,7 @@ class PyBoyEnv(gym.Env, ABC):
         self.pyboy.stop()
 
     @abstractmethod
-    def obs(self) -> np.ndarray:
+    def observation(self) -> np.ndarray:
         """Returns the current observation."""
         pass
 

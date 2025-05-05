@@ -134,7 +134,7 @@ class SuperMarioLand1Flatten(SuperMarioLand1):
             dtype=np.float32,
         )
 
-    def obs(self) -> np.ndarray:
+    def observation(self) -> np.ndarray:
         world, level = _world_level(self.pyboy)
         world, level = np.array([world]), np.array([level])
         lives = np.array([_lives(self.pyboy)])
@@ -201,9 +201,9 @@ class SuperMarioLand1FullImage(SuperMarioLand1):
             dtype=np.uint8,
         )
 
-    def obs(self) -> np.ndarray:
-        """Returns the current observation."""
-        return ski.color.rgba2rgb(self.pyboy.screen.ndarray).astype(np.uint8)
+    def observation(self) -> np.ndarray:
+        obs = ski.color.rgba2rgb(self.pyboy.screen.image)
+        return (255 * obs).clip(0, 255).astype(np.uint8)
 
 
 class SuperMarioLand1MinimalImage(SuperMarioLand1):
@@ -261,6 +261,5 @@ class SuperMarioLand1MinimalImage(SuperMarioLand1):
             dtype=np.float32,
         )
 
-    def obs(self) -> np.ndarray:
-        """Returns the current observation."""
+    def observation(self) -> np.ndarray:
         return _game_area(self.pyboy).astype(np.float32)

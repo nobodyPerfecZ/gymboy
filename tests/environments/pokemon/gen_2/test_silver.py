@@ -53,9 +53,9 @@ class TestPokemonSilverFlatten(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((426,), obs.shape)
 
-    def test_obs(self):
-        """Tests the obs() method."""
-        obs = self.env.obs()
+    def test_observation(self):
+        """Tests the observation() method."""
+        obs = self.env.observation()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((426,), obs.shape)
 
@@ -151,9 +151,9 @@ class TestPokemonSilverFullImage(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
-    def test_obs(self):
-        """Tests the obs() method."""
-        obs = self.env.obs()
+    def test_observation(self):
+        """Tests the observation() method."""
+        obs = self.env.observation()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((144, 160, 3), obs.shape)
 
@@ -249,9 +249,9 @@ class TestPokemonSilverMinimalImage(unittest.TestCase):
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((18, 20), obs.shape)
 
-    def test_obs(self):
-        """Tests the obs() method."""
-        obs = self.env.obs()
+    def test_observation(self):
+        """Tests the observation() method."""
+        obs = self.env.observation()
         self.assertIsInstance(obs, np.ndarray)
         self.assertEqual((18, 20), obs.shape)
 
