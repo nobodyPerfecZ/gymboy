@@ -74,6 +74,8 @@ pip install gymboy
 Here's a quick example of how to use a gymboy environment:
 
 ```python
+import numpy as np
+
 import gymboy
 
 # Create the environment
@@ -85,23 +87,51 @@ env = gymboy.make(
 num_steps = 1000
 
 # Reset the environment
-obs, info = env.reset()
+observation, info = env.reset()
 for i in range(num_steps):
     # Sample a random action
     action = env.action_space.sample()
 
     # Perform the action
-    obs, reward, terminated, truncated, info = env.step(action)
-    done = terminated or truncated
-
-    # Render the environment (not necessary for gymboy)
-    env.render()
+    observation, reward, terminated, truncated, info = env.step(action)
+    done = np.logical_or(terminated, truncated)
 
     if done:
         # Case: Environment has terminated
         break
 # Close the environment
 env.close()
+```
+
+You can also create multiple instances of the environment running in parallel:
+
+```python
+import numpy as np
+
+import gymboy
+
+# Create the environments
+envs = gymboy.make_vec(
+    env_id="Pokemon-Blue-full-image-v1",
+    num_envs=2,
+    rom_path="./resources/roms/pokemon/gen_1/pokemon_blue.gb",
+    init_state_path="./resources/states/pokemon/gen_1/pokemon_blue_after_intro.state",
+)
+num_steps = 1000
+
+# Reset the environments
+observations, infos = envs.reset()
+for i in range(num_steps):
+    # Sample random actions
+    actions = envs.action_space.sample()
+
+    # Perform the actions
+    observations, rewards, terminated, truncated, infos = envs.step(actions)
+    dones = np.logical_or(terminated, truncated)
+    # No need to check for dones — environments auto-reset internally
+
+# Close the environments
+envs.close()
 ```
 
 ## Development 🔧
