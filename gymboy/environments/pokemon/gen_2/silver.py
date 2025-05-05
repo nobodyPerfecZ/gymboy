@@ -22,7 +22,25 @@ from ._memory import (
 
 
 class PokemonSilver(PyBoyEnv, ABC):
-    """Abstract class for the Pokemon Silver environment."""
+    """
+    Abstract class for the Pokemon Silver environment.
+
+    Args:
+        rom_path (str):
+            The path to the ROM file.
+
+        init_state_path (str | None):
+            The path to the initial state file.
+
+        n_frameskip (int):
+            The number of frames to skip between each action
+
+        sound (bool):
+            The flag to dis-/enable the sound.
+
+        render_mode (str | None):
+            The mode in which the game will be rendered.
+    """
 
     def __init__(
         self,
@@ -91,7 +109,7 @@ class PokemonSilverFlatten(PokemonSilver):
     - v1: Original version
 
     Args:
-        rom_path (str | None):
+        rom_path (str):
             The path to the ROM file.
 
         init_state_path (str | None):
@@ -160,7 +178,7 @@ class PokemonSilverFullImage(PokemonSilver):
     - v1: Original version
 
     Args:
-        rom_path (str | None):
+        rom_path (str):
             The path to the ROM file.
 
         init_state_path (str | None):
@@ -221,7 +239,7 @@ class PokemonSilverMinimalImage(PokemonSilver):
     - v1: Original version
 
     Args:
-        rom_path (str | None):
+        rom_path (str):
             The path to the ROM file.
 
         init_state_path (str | None):

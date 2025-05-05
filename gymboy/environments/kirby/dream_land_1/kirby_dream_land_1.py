@@ -12,7 +12,25 @@ from ._memory import _game_area, _game_over, _kirby_health, _lives, _score
 
 
 class KirbyDreamLand1(PyBoyEnv, ABC):
-    """Abstract class for the Kirby's Dream Land 1 environment."""
+    """
+    Abstract class for the Kirby's Dream Land 1 environment.
+
+    Args:
+        rom_path (str):
+            The path to the ROM file.
+
+        init_state_path (str | None):
+            The path to the initial state file.
+
+        n_frameskip (int):
+            The number of frames to skip between each action
+
+        sound (bool):
+            The flag to dis-/enable the sound.
+
+        render_mode (str | None):
+            The mode in which the game will be rendered.
+    """
 
     def __init__(
         self,
@@ -74,7 +92,7 @@ class KirbyDreamLand1Flatten(KirbyDreamLand1):
     - v1: Original version
 
     Args:
-        rom_path (str | None):
+        rom_path (str):
             The path to the ROM file.
 
         init_state_path (str | None):
@@ -135,7 +153,7 @@ class KirbyDreamLand1FullImage(KirbyDreamLand1):
     - v1: Original version
 
     Args:
-        rom_path (str | None):
+        rom_path (str):
             The path to the ROM file.
 
         init_state_path (str | None):
@@ -193,7 +211,7 @@ class KirbyDreamLand1MinimalImage(KirbyDreamLand1):
     - v1: Original version
 
     Args:
-        rom_path (str | None):
+        rom_path (str):
             The path to the ROM file.
 
         init_state_path (str | None):

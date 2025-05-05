@@ -10,7 +10,28 @@ from pyboy import PyBoy
 
 
 class PyBoyEnv(gym.Env, ABC):
-    """Base class for all PyBoy environments."""
+    """
+    Base class for all PyBoy environments.
+
+    Args:
+        cartridge_title (str):
+            The title of the cartridge.
+
+        rom_path (str):
+            The path to the ROM file.
+
+        init_state_path (str | None):
+            The path to the initial state file.
+
+        n_frameskip (int):
+            The number of frames to skip between each action
+
+        sound (bool):
+            The flag to dis-/enable the sound.
+
+        render_mode (str | None):
+            The mode in which the game will be rendered.
+    """
 
     def __init__(
         self,
