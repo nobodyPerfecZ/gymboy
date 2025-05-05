@@ -99,6 +99,7 @@ for i in range(num_steps):
     if done:
         # Case: Environment has terminated
         break
+
 # Close the environment
 env.close()
 ```
