@@ -1,7 +1,7 @@
 <div align="middle">
   <h1>
     <p>
-      <img src="docs/logo.png" alt="Logo" height="300" />
+      <img src="docs/images/logo.png" alt="Logo" height="300" />
     </p>
     Gymboy 🤖
     <br>
@@ -22,10 +22,10 @@
         <img src="https://img.shields.io/badge/coverage-99%25-brightgreen">
       </a>
   </h1>
-  <img src="docs/kirby_dream_land_1.gif" alt="Kirby Dream Land 1" width="200" />
-  <img src="docs/pokemon_blue.gif" alt="Pokemon Blue" width="200" />
-  <img src="docs/pokemon_gold.gif" alt="Pokemon Gold" width="200" />
-  <img src="docs/super_mario_land_1.gif" alt="Super Mario Land 1" width="200" />
+  <img src="docs/gifs/kirby_dream_land_1.gif" alt="Kirby Dream Land 1" width="200" />
+  <img src="docs/gifs/pokemon_blue.gif" alt="Pokemon Blue" width="200" />
+  <img src="docs/gifs/pokemon_gold.gif" alt="Pokemon Gold" width="200" />
+  <img src="docs/gifs/super_mario_land_1.gif" alt="Super Mario Land 1" width="200" />
 </div>
 
 Gymboy supports a range of different RL environments from the Game Boy Color using the Gymnasium API.
