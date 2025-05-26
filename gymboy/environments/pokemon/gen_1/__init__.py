@@ -1,21 +1,14 @@
 """Pokemon Gen 1 environments."""
 
-from .blue import PokemonBlueFlatten, PokemonBlueFullImage, PokemonBlueMinimalImage
-from .red import PokemonRedFlatten, PokemonRedFullImage, PokemonRedMinimalImage
-from .yellow import (
-    PokemonYellowFlatten,
-    PokemonYellowFullImage,
-    PokemonYellowMinimalImage,
-)
+from .blue import PokemonBlueFullImage, PokemonBlueMinimalImage
+from .red import PokemonRedFullImage, PokemonRedMinimalImage
+from .yellow import PokemonYellowFullImage, PokemonYellowMinimalImage
 
 __all__ = [
-    "PokemonBlueFlatten",
     "PokemonBlueFullImage",
     "PokemonBlueMinimalImage",
-    "PokemonRedFlatten",
     "PokemonRedFullImage",
     "PokemonRedMinimalImage",
-    "PokemonYellowFlatten",
     "PokemonYellowFullImage",
     "PokemonYellowMinimalImage",
 ]

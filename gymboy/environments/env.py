@@ -148,7 +148,7 @@ class PyBoyEnv(gym.Env, ABC):
         self.pyboy.stop()
 
     @abstractmethod
-    def observation(self) -> np.ndarray:
+    def observation(self) -> Dict[str, np.ndarray]:
         """Returns the current observation."""
         pass
 

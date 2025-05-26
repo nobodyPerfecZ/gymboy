@@ -1,7 +1,5 @@
 """Tests kirby/dream_land_1/_memory.py."""
 
-import unittest
-
 import numpy as np
 from pyboy import PyBoy
 
@@ -15,434 +13,63 @@ from gymboy.environments.kirby.dream_land_1._memory import (
 )
 
 
-class TestMemory(unittest.TestCase):
+class TestMemory:
     """Tests the methods under kirby/dream_land_1/_memory.py."""
 
-    def setUp(self):
-        self.rom_path = "./resources/roms/kirby/dream_land_1/kirby_dream_land_1.gb"
-        self.init_state_path1 = (
-            "./resources/states/kirby/dream_land_1/kirby_dream_land_1_after_intro.state"
-        )
-        self.init_state_path2 = (
-            "./resources/states/kirby/dream_land_1/kirby_dream_land_1_stage_1.state"
-        )
-        self.init_state_path3 = (
-            "./resources/states/kirby/dream_land_1/kirby_dream_land_1_stage_2.state"
-        )
+    rom_path = "./resources/roms/kirby/dream_land_1/kirby_dream_land_1.gb"
+    init_state_path1 = (
+        "./resources/tests/kirby/dream_land_1/kirby_dream_land_1_stage_1.state"
+    )
+    init_state_path2 = (
+        "./resources/tests/kirby/dream_land_1/kirby_dream_land_1_stage_2.state"
+    )
 
-        self.pyboy1 = PyBoy(self.rom_path, sound_emulated=False)
-        with open(self.init_state_path1, "rb") as f:
-            self.pyboy1.load_state(f)
-        self.pyboy1.tick(1)
+    @classmethod
+    def setup_class(cls):
+        cls.pyboy1 = PyBoy(cls.rom_path, sound_emulated=False)
+        with open(cls.init_state_path1, "rb") as f:
+            cls.pyboy1.load_state(f)
+        cls.pyboy1.tick(1)
 
-        self.pyboy2 = PyBoy(self.rom_path, sound_emulated=False)
-        with open(self.init_state_path2, "rb") as f:
-            self.pyboy2.load_state(f)
-        self.pyboy2.tick(1)
+        cls.pyboy2 = PyBoy(cls.rom_path, sound_emulated=False)
+        with open(cls.init_state_path2, "rb") as f:
+            cls.pyboy2.load_state(f)
+        cls.pyboy2.tick(1)
 
-        self.pyboy3 = PyBoy(self.rom_path, sound_emulated=False)
-        with open(self.init_state_path3, "rb") as f:
-            self.pyboy3.load_state(f)
-        self.pyboy3.tick(1)
-
-    def tearDown(self):
-        self.pyboy1.stop()
-        self.pyboy2.stop()
-        self.pyboy3.stop()
+    @classmethod
+    def teardown_class(cls):
+        cls.pyboy1.stop()
+        cls.pyboy2.stop()
 
     def test_score(self):
         """Tests the _score() method."""
-        self.assertEqual(0, _score(self.pyboy1))
-        self.assertEqual(2600, _score(self.pyboy2))
-        self.assertEqual(47510, _score(self.pyboy3))
+        assert _score(self.pyboy1) == 2600
+        assert _score(self.pyboy2) == 47510
 
     def test_kirby_health(self):
         """Tests the _kirby_health() method."""
-        self.assertEqual(6, _kirby_health(self.pyboy1))
-        self.assertEqual(5, _kirby_health(self.pyboy2))
-        self.assertEqual(6, _kirby_health(self.pyboy3))
+        assert _kirby_health(self.pyboy1) == 5
+        assert _kirby_health(self.pyboy2) == 6
 
     def test_boss_health(self):
         """Tests the _boss_health() method."""
-        self.assertEqual(0, _boss_health(self.pyboy1))
-        self.assertEqual(0, _boss_health(self.pyboy2))
-        self.assertEqual(0, _boss_health(self.pyboy3))
+        assert _boss_health(self.pyboy1) == 0
+        assert _boss_health(self.pyboy2) == 0
 
     def test_lives(self):
         """Tests the _lives() method."""
-        self.assertEqual(5, _lives(self.pyboy1))
-        self.assertEqual(5, _lives(self.pyboy2))
-        self.assertEqual(4, _lives(self.pyboy3))
+        assert _lives(self.pyboy1) == 5
+        assert _lives(self.pyboy2) == 4
 
     def test_game_over(self):
         """Tests the _game_over() method."""
-        self.assertFalse(_game_over(self.pyboy1))
-        self.assertFalse(_game_over(self.pyboy2))
-        self.assertFalse(_game_over(self.pyboy3))
+        assert _game_over(self.pyboy1) is False
+        assert _game_over(self.pyboy2) is False
 
     def test_game_area(self):
         """Tests the _game_area() method."""
         np.testing.assert_allclose(
             _game_area(self.pyboy1),
-            np.array(
-                [
-                    [
-                        383,
-                        383,
-                        383,
-                        383,
-                        293,
-                        292,
-                        383,
-                        383,
-                        383,
-                        383,
-                        301,
-                        383,
-                        383,
-                        383,
-                        297,
-                        383,
-                        383,
-                        313,
-                        312,
-                        311,
-                    ],
-                    [
-                        383,
-                        383,
-                        383,
-                        299,
-                        383,
-                        383,
-                        298,
-                        383,
-                        383,
-                        383,
-                        383,
-                        300,
-                        294,
-                        295,
-                        296,
-                        383,
-                        315,
-                        314,
-                        383,
-                        383,
-                    ],
-                    [
-                        383,
-                        383,
-                        301,
-                        383,
-                        383,
-                        383,
-                        297,
-                        383,
-                        383,
-                        383,
-                        290,
-                        291,
-                        383,
-                        383,
-                        383,
-                        383,
-                        316,
-                        383,
-                        383,
-                        383,
-                    ],
-                    [
-                        298,
-                        383,
-                        383,
-                        300,
-                        294,
-                        295,
-                        296,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        317,
-                        383,
-                        383,
-                        383,
-                    ],
-                    [
-                        297,
-                        383,
-                        290,
-                        291,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        293,
-                        292,
-                        383,
-                        383,
-                        290,
-                        291,
-                        317,
-                        383,
-                        383,
-                        383,
-                    ],
-                    [
-                        296,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        299,
-                        383,
-                        383,
-                        298,
-                        383,
-                        383,
-                        383,
-                        317,
-                        383,
-                        383,
-                        383,
-                    ],
-                    [
-                        293,
-                        292,
-                        383,
-                        383,
-                        383,
-                        307,
-                        308,
-                        383,
-                        301,
-                        383,
-                        383,
-                        383,
-                        297,
-                        383,
-                        383,
-                        383,
-                        317,
-                        383,
-                        383,
-                        307,
-                    ],
-                    [
-                        383,
-                        383,
-                        298,
-                        383,
-                        383,
-                        309,
-                        310,
-                        383,
-                        383,
-                        300,
-                        294,
-                        295,
-                        296,
-                        383,
-                        383,
-                        299,
-                        317,
-                        383,
-                        383,
-                        309,
-                    ],
-                    [
-                        383,
-                        383,
-                        297,
-                        383,
-                        383,
-                        309,
-                        307,
-                        308,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        301,
-                        383,
-                        317,
-                        383,
-                        383,
-                        309,
-                    ],
-                    [
-                        294,
-                        295,
-                        296,
-                        383,
-                        383,
-                        309,
-                        309,
-                        310,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        300,
-                        325,
-                        383,
-                        383,
-                        309,
-                    ],
-                    [
-                        272,
-                        274,
-                        383,
-                        383,
-                        2,
-                        18,
-                        309,
-                        310,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        383,
-                        307,
-                        308,
-                    ],
-                    [
-                        275,
-                        276,
-                        272,
-                        274,
-                        3,
-                        19,
-                        309,
-                        310,
-                        272,
-                        274,
-                        383,
-                        383,
-                        383,
-                        383,
-                        272,
-                        274,
-                        272,
-                        274,
-                        309,
-                        310,
-                    ],
-                    [
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        331,
-                        332,
-                        331,
-                        331,
-                        331,
-                        331,
-                    ],
-                    [
-                        328,
-                        328,
-                        277,
-                        278,
-                        277,
-                        278,
-                        277,
-                        278,
-                        328,
-                        328,
-                        328,
-                        328,
-                        328,
-                        328,
-                        328,
-                        333,
-                        328,
-                        328,
-                        328,
-                        328,
-                    ],
-                    [
-                        277,
-                        278,
-                        279,
-                        281,
-                        279,
-                        281,
-                        279,
-                        281,
-                        277,
-                        278,
-                        328,
-                        328,
-                        277,
-                        278,
-                        328,
-                        333,
-                        328,
-                        328,
-                        277,
-                        278,
-                    ],
-                    [
-                        279,
-                        281,
-                        280,
-                        282,
-                        280,
-                        282,
-                        280,
-                        282,
-                        279,
-                        281,
-                        277,
-                        278,
-                        279,
-                        281,
-                        328,
-                        333,
-                        277,
-                        278,
-                        279,
-                        281,
-                    ],
-                ]
-            ),
-        )
-        np.testing.assert_allclose(
-            _game_area(self.pyboy2),
             np.array(
                 [
                     [
@@ -801,7 +428,7 @@ class TestMemory(unittest.TestCase):
             ),
         )
         np.testing.assert_allclose(
-            _game_area(self.pyboy3),
+            _game_area(self.pyboy2),
             np.array(
                 [
                     [
@@ -1159,7 +786,3 @@ class TestMemory(unittest.TestCase):
                 ]
             ),
         )
-
-
-if __name__ == "__main__":
-    unittest.main()

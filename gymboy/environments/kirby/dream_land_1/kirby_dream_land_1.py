@@ -1,6 +1,7 @@
 """Kirby's Dream Land 1 environments."""
 
 from abc import ABC
+from typing import Dict
 
 import numpy as np
 import skimage as ski
@@ -61,69 +62,6 @@ class KirbyDreamLand1(PyBoyEnv, ABC):
         return False
 
 
-class KirbyDreamLand1Flatten(KirbyDreamLand1):
-    """
-    The Kirby's Dream Land 1 environment.
-
-    ## Action Space
-    The action space consists of 9 discrete actions:
-    - 0: No action
-    - 1: Press A
-    - 2: Press B
-    - 3: Press Left
-    - 4: Press Right
-    - 5: Press Up
-    - 6: Press Down
-    - 7: Press Start
-    - 8: Press Select
-
-    ## Observation Space
-    The observation is an (322,) array that consists:
-    - [0]: The current health of Kirby
-    - [1]: The current lives of Kirby
-    - [2:]: The simplified game area
-
-    ## Rewards
-    The reward is:
-    - -1.0 if the game is over
-    - otherwise the normalized score
-
-    ## Version History
-    - v1: Original version
-
-    Args:
-        rom_path (str):
-            The path to the ROM file.
-
-        init_state_path (str | None):
-            The path to the initial state file.
-
-        n_frameskip (int):
-            The number of frames to skip between each action
-
-        sound (bool):
-            The flag to dis-/enable the sound.
-
-        render_mode (str | None):
-            The mode in which the game will be rendered.
-    """
-
-    @property
-    def observation_space(self) -> spaces.Space:
-        return spaces.Box(
-            low=-np.inf,
-            high=np.inf,
-            shape=(322,),
-            dtype=np.float32,
-        )
-
-    def observation(self) -> np.ndarray:
-        kirby_health = np.array([_kirby_health(self.pyboy)])
-        lives = np.array([_lives(self.pyboy)])
-        game_area = _game_area(self.pyboy).flatten()
-        return np.concatenate((kirby_health, lives, game_area)).astype(np.float32)
-
-
 class KirbyDreamLand1FullImage(KirbyDreamLand1):
     """
     The Kirby's Dream Land 1 environment.
@@ -141,8 +79,11 @@ class KirbyDreamLand1FullImage(KirbyDreamLand1):
     - 8: Press Select
 
     ## Observation Space
-    The observation is an (144, 160, 3) array representing the RGB image of the game
-    screen.
+    The observation is a dictionary containing:
+    - 'health': An (1,) array representing Kirby's health
+    - 'lives': An (1,) array representing the number of lives left
+    - 'score': An (1,) array representing the current score
+    - 'img': An (144, 160, 3) array representing the RGB image of the game screen
 
     ## Rewards
     The reward is:
@@ -171,16 +112,25 @@ class KirbyDreamLand1FullImage(KirbyDreamLand1):
 
     @property
     def observation_space(self) -> spaces.Space:
-        return spaces.Box(
-            low=0,
-            high=255,
-            shape=(144, 160, 3),
-            dtype=np.uint8,
+        return spaces.Dict(
+            {
+                "health": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "lives": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "score": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "img": spaces.Box(0, 255, shape=(144, 160, 3), dtype=np.uint8),
+            }
         )
 
-    def observation(self) -> np.ndarray:
-        obs = ski.color.rgba2rgb(self.pyboy.screen.image)
-        return (255 * obs).clip(0, 255).astype(np.uint8)
+    def observation(self) -> Dict[str, np.ndarray]:
+        kirby_health = np.array([_kirby_health(self.pyboy)]).astype(np.float32)
+        lives = np.array([_lives(self.pyboy)]).astype(np.float32)
+        score = np.array([_score(self.pyboy)]).astype(np.float32)
+        img = (
+            (255 * ski.color.rgba2rgb(self.pyboy.screen.image))
+            .clip(0, 255)
+            .astype(np.uint8)
+        )
+        return {"health": kirby_health, "lives": lives, "score": score, "img": img}
 
 
 class KirbyDreamLand1MinimalImage(KirbyDreamLand1):
@@ -200,8 +150,10 @@ class KirbyDreamLand1MinimalImage(KirbyDreamLand1):
     - 8: Press Select
 
     ## Observation Space
-    The observation is an (16, 20) array representing a simplified view of the game
-    screen.
+    - 'health': An (1,) array representing Kirby's health
+    - 'lives': An (1,) array representing the number of lives left
+    - 'score': An (1,) array representing the current score
+    - 'img': An (16, 20) array representing the simplified view of the game screen
 
     ## Rewards
     The reward is:
@@ -230,12 +182,18 @@ class KirbyDreamLand1MinimalImage(KirbyDreamLand1):
 
     @property
     def observation_space(self) -> spaces.Space:
-        return spaces.Box(
-            low=-np.inf,
-            high=np.inf,
-            shape=(16, 20),
-            dtype=np.float32,
+        return spaces.Dict(
+            {
+                "health": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "lives": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "score": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "img": spaces.Box(-np.inf, np.inf, shape=(16, 20), dtype=np.float32),
+            }
         )
 
-    def observation(self) -> np.ndarray:
-        return _game_area(self.pyboy).astype(np.float32)
+    def observation(self) -> Dict[str, np.ndarray]:
+        kirby_health = np.array([_kirby_health(self.pyboy)]).astype(np.float32)
+        lives = np.array([_lives(self.pyboy)]).astype(np.float32)
+        score = np.array([_score(self.pyboy)]).astype(np.float32)
+        img = _game_area(self.pyboy).astype(np.float32)
+        return {"health": kirby_health, "lives": lives, "score": score, "img": img}

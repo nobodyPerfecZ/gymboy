@@ -1,6 +1,7 @@
 """Pokemon Gold environments."""
 
 from abc import ABC
+from typing import Dict
 
 import numpy as np
 import skimage as ski
@@ -10,14 +11,18 @@ from gymboy.environments.env import PyBoyEnv
 
 from ._memory import (
     _badges,
+    _exps,
     _game_area,
     _hps,
     _levels,
+    _max_hps,
+    _max_pps,
     _money,
     _moves,
     _pokemon_ids,
     _pps,
     _seen_pokemons,
+    _team_size,
 )
 
 
@@ -73,79 +78,6 @@ class PokemonGold(PyBoyEnv, ABC):
         return False
 
 
-class PokemonGoldFlatten(PokemonGold):
-    """
-    The Pokemon Gold environment.
-
-    ## Action Space
-    The action space consists of 9 discrete actions:
-    - 0: No action
-    - 1: Press A
-    - 2: Press B
-    - 3: Press Left
-    - 4: Press Right
-    - 5: Press Up
-    - 6: Press Down
-    - 7: Press Start
-    - 8: Press Select
-
-    ## Observation Space
-    The observation is an (426,) array that consists:
-    - [0:6]: The ids each pokemon in the team
-    - [6:12]: The levels of each pokemon in the team
-    - [12:18]: The hps of each pokemon in the team
-    - [18:42]: The ids of the moves of each pokemon in the team
-    - [42:66]: The pps of the moves of each pokemon in the team
-    - [66:]: The simplified game area
-
-    ## Rewards
-    The reward is the sum of:
-    - The normalized number of badges
-    - The normalized amount of money
-    - The normalized sum of the levels of the pokemons
-    - The normalized number of pokemons seen
-
-    ## Version History
-    - v1: Original version
-
-    Args:
-        rom_path (str):
-            The path to the ROM file.
-
-        init_state_path (str | None):
-            The path to the initial state file.
-
-        n_frameskip (int):
-            The number of frames to skip between each action
-
-        sound (bool):
-            The flag to dis-/enable the sound.
-
-        render_mode (str | None):
-            The mode in which the game will be rendered.
-    """
-
-    @property
-    def observation_space(self) -> spaces.Space:
-        return spaces.Box(
-            low=-np.inf,
-            high=np.inf,
-            shape=(426,),
-            dtype=np.float32,
-        )
-
-    def observation(self) -> np.ndarray:
-        pokemon_ids = _pokemon_ids(self.pyboy)
-        levels = _levels(self.pyboy)
-        hps = _hps(self.pyboy)
-        moves = _moves(self.pyboy).flatten()
-        pps = _pps(self.pyboy).flatten()
-        game_area = _game_area(self.pyboy).flatten()
-        return np.concatenate((pokemon_ids, levels, hps, moves, pps, game_area)).astype(
-            np.float32
-        )
-
-
 class PokemonGoldFullImage(PokemonGold):
     """
     The Pokemon Gold environment.
@@ -163,8 +95,20 @@ class PokemonGoldFullImage(PokemonGold):
     - 8: Press Select
 
     ## Observation Space
-    The observation is an (144, 160, 3) array representing the RGB image of the game
-    screen.
+    The observation is a dictionary containing:
+    - 'pokemon':
+        - 'ids': An (6,) array representing the IDs of the pokemons in the team
+        - 'team_size': An (1,) array representing the size of the team
+        - 'exps': An (6,) array representing the experience points of the pokemons
+        - 'levels': An (6,) array representing the levels of the pokemons
+        - 'max_hps': An (6,) array representing the maximum HPs of the pokemons
+        - 'hps': An (6,) array representing the current HPs of the pokemons
+        - 'moves': An (6, 4) array representing the moves of the pokemons
+        - 'max_pps': An (6, 4) array representing the maximum PPs of the moves
+        - 'pps': An (6, 4) array representing the current PPs of the moves
+    - 'badges': An (1,) array representing the number of badges
+    - 'money': An (1,) array representing the amount of money
+    - 'img': An (144, 160, 3) array representing the RGB image of the game screen
 
     ## Rewards
     The reward is the sum of:
@@ -195,16 +139,78 @@ class PokemonGoldFullImage(PokemonGold):
 
     @property
     def observation_space(self) -> spaces.Space:
-        return spaces.Box(
-            low=0,
-            high=255,
-            shape=(144, 160, 3),
-            dtype=np.uint8,
+        return spaces.Dict(
+            {
+                "pokemon": spaces.Dict(
+                    {
+                        "ids": spaces.Box(
+                            -np.inf, np.inf, shape=(6,), dtype=np.float32
+                        ),
+                        "team_size": spaces.Box(
+                            -np.inf, np.inf, shape=(1,), dtype=np.float32
+                        ),
+                        "exps": spaces.Box(
+                            -np.inf, np.inf, shape=(6,), dtype=np.float32
+                        ),
+                        "levels": spaces.Box(
+                            -np.inf, np.inf, shape=(6,), dtype=np.float32
+                        ),
+                        "max_hps": spaces.Box(
+                            -np.inf, np.inf, shape=(6,), dtype=np.float32
+                        ),
+                        "hps": spaces.Box(
+                            -np.inf, np.inf, shape=(6,), dtype=np.float32
+                        ),
+                        "moves": spaces.Box(
+                            -np.inf, np.inf, shape=(6, 4), dtype=np.float32
+                        ),
+                        "max_pps": spaces.Box(
+                            -np.inf, np.inf, shape=(6, 4), dtype=np.float32
+                        ),
+                        "pps": spaces.Box(
+                            -np.inf, np.inf, shape=(6, 4), dtype=np.float32
+                        ),
+                    }
+                ),
+                "badges": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "money": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "img": spaces.Box(0, 255, shape=(144, 160, 3), dtype=np.uint8),
+            }
         )
 
-    def observation(self) -> np.ndarray:
-        obs = ski.color.rgba2rgb(self.pyboy.screen.image)
-        return (255 * obs).clip(0, 255).astype(np.uint8)
+    def observation(self) -> Dict[str, np.ndarray]:
+        ids = _pokemon_ids(self.pyboy).astype(np.float32)
+        team_size = np.array([_team_size(self.pyboy)]).astype(np.float32)
+        exps = _exps(self.pyboy).astype(np.float32)
+        levels = _levels(self.pyboy).astype(np.float32)
+        max_hps = _max_hps(self.pyboy).astype(np.float32)
+        hps = _hps(self.pyboy).astype(np.float32)
+        moves = _moves(self.pyboy).astype(np.float32)
+        max_pps = _max_pps(self.pyboy).astype(np.float32)
+        pps = _pps(self.pyboy).astype(np.float32)
+        badges = np.array([_badges(self.pyboy)]).astype(np.float32)
+        money = np.array([_money(self.pyboy)]).astype(np.float32)
+        img = (
+            (255 * ski.color.rgba2rgb(self.pyboy.screen.image))
+            .clip(0, 255)
+            .astype(np.uint8)
+        )
+        return {
+            "pokemon": {
+                "ids": ids,
+                "team_size": team_size,
+                "exps": exps,
+                "levels": levels,
+                "max_hps": max_hps,
+                "hps": hps,
+                "moves": moves,
+                "max_pps": max_pps,
+                "pps": pps,
+            },
+            "badges": badges,
+            "money": money,
+            "img": img,
+        }
 
 
 class PokemonGoldMinimalImage(PokemonGold):
@@ -224,8 +230,20 @@ class PokemonGoldMinimalImage(PokemonGold):
     - 8: Press Select
 
     ## Observation Space
-    The observation is an (18, 20) array representing a simplified view of the game
-    screen.
+    The observation is a dictionary containing:
+    - 'pokemon':
+        - 'ids': An (6,) array representing the IDs of the pokemons in the team
+        - 'team_size': An (1,) array representing the size of the team
+        - 'exps': An (6,) array representing the experience points of the pokemons
+        - 'levels': An (6,) array representing the levels of the pokemons
+        - 'max_hps': An (6,) array representing the maximum HPs of the pokemons
+        - 'hps': An (6,) array representing the current HPs of the pokemons
+        - 'moves': An (6, 4) array representing the moves of the pokemons
+        - 'max_pps': An (6, 4) array representing the maximum PPs of the moves
+        - 'pps': An (6, 4) array representing the current PPs of the moves
+    - 'badges': An (1,) array representing the number of badges
+    - 'money': An (1,) array representing the amount of money
+    - 'img': An (18, 20) array representing the simplified view of the game screen
 
     ## Rewards
     The reward is the sum of:
@@ -256,12 +274,71 @@ class PokemonGoldMinimalImage(PokemonGold):
 
     @property
     def observation_space(self) -> spaces.Space:
-        return spaces.Box(
-            low=-np.inf,
-            high=np.inf,
-            shape=(18, 20),
-            dtype=np.float32,
+        return spaces.Dict(
+            {
+                "pokemon": spaces.Dict(
+                    {
+                        "ids": spaces.Box(
+                            -np.inf, np.inf, shape=(6,), dtype=np.float32
+                        ),
+                        "team_size": spaces.Box(
+                            -np.inf, np.inf, shape=(1,), dtype=np.float32
+                        ),
+                        "exps": spaces.Box(
+                            -np.inf, np.inf, shape=(6,), dtype=np.float32
+                        ),
+                        "levels": spaces.Box(
+                            -np.inf, np.inf, shape=(6,), dtype=np.float32
+                        ),
+                        "max_hps": spaces.Box(
+                            -np.inf, np.inf, shape=(6,), dtype=np.float32
+                        ),
+                        "hps": spaces.Box(
+                            -np.inf, np.inf, shape=(6,), dtype=np.float32
+                        ),
+                        "moves": spaces.Box(
+                            -np.inf, np.inf, shape=(6, 4), dtype=np.float32
+                        ),
+                        "max_pps": spaces.Box(
+                            -np.inf, np.inf, shape=(6, 4), dtype=np.float32
+                        ),
+                        "pps": spaces.Box(
+                            -np.inf, np.inf, shape=(6, 4), dtype=np.float32
+                        ),
+                    }
+                ),
+                "badges": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "money": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "img": spaces.Box(-np.inf, np.inf, shape=(18, 20), dtype=np.float32),
+            }
         )
 
-    def observation(self) -> np.ndarray:
-        return _game_area(self.pyboy).astype(np.float32)
+    def observation(self) -> Dict[str, np.ndarray]:
+        ids = _pokemon_ids(self.pyboy).astype(np.float32)
+        team_size = np.array([_team_size(self.pyboy)]).astype(np.float32)
+        exps = _exps(self.pyboy).astype(np.float32)
+        levels = _levels(self.pyboy).astype(np.float32)
+        max_hps = _max_hps(self.pyboy).astype(np.float32)
+        hps = _hps(self.pyboy).astype(np.float32)
+        moves = _moves(self.pyboy).astype(np.float32)
+        max_pps = _max_pps(self.pyboy).astype(np.float32)
+        pps = _pps(self.pyboy).astype(np.float32)
+        badges = np.array([_badges(self.pyboy)]).astype(np.float32)
+        money = np.array([_money(self.pyboy)]).astype(np.float32)
+        img = _game_area(self.pyboy).astype(np.float32)
+        return {
+            "pokemon": {
+                "ids": ids,
+                "team_size": team_size,
+                "exps": exps,
+                "levels": levels,
+                "max_hps": max_hps,
+                "hps": hps,
+                "moves": moves,
+                "max_pps": max_pps,
+                "pps": pps,
+            },
+            "badges": badges,
+            "money": money,
+            "img": img,
+        }

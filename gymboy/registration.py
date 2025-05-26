@@ -5,28 +5,20 @@ from typing import Callable
 import gymnasium as gym
 
 from .environments import (
-    KirbyDreamLand1Flatten,
     KirbyDreamLand1FullImage,
     KirbyDreamLand1MinimalImage,
-    PokemonBlueFlatten,
     PokemonBlueFullImage,
     PokemonBlueMinimalImage,
-    PokemonGoldFlatten,
     PokemonGoldFullImage,
     PokemonGoldMinimalImage,
-    PokemonRedFlatten,
     PokemonRedFullImage,
     PokemonRedMinimalImage,
-    PokemonSilverFlatten,
     PokemonSilverFullImage,
     PokemonSilverMinimalImage,
-    PokemonYellowFlatten,
     PokemonYellowFullImage,
     PokemonYellowMinimalImage,
-    SuperMarioLand1Flatten,
     SuperMarioLand1FullImage,
     SuperMarioLand1MinimalImage,
-    TetrisFlatten,
     TetrisFullImage,
     TetrisMinimalImage,
 )
@@ -53,11 +45,7 @@ def make(
         raise ValueError(f"{env_id} is not in registered gymboy environments.")
 
     # 1. Kirby environments
-    if env_id == "Kirby-Dream-Land-1-flatten-v1":
-        env = KirbyDreamLand1Flatten(
-            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
-        )
-    elif env_id == "Kirby-Dream-Land-1-full-image-v1":
+    if env_id == "Kirby-Dream-Land-1-full-image-v1":
         env = KirbyDreamLand1FullImage(
             rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
         )
@@ -67,20 +55,12 @@ def make(
         )
 
     # 2. Pokemon environments
-    elif env_id == "Pokemon-Blue-flatten-v1":
-        env = PokemonBlueFlatten(
-            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
-        )
     elif env_id == "Pokemon-Blue-full-image-v1":
         env = PokemonBlueFullImage(
             rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
         )
     elif env_id == "Pokemon-Blue-minimal-image-v1":
         env = PokemonBlueMinimalImage(
-            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
-        )
-    elif env_id == "Pokemon-Gold-flatten-v1":
-        env = PokemonGoldFlatten(
             rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
         )
     elif env_id == "Pokemon-Gold-full-image-v1":
@@ -91,10 +71,6 @@ def make(
         env = PokemonGoldMinimalImage(
             rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
         )
-    elif env_id == "Pokemon-Red-flatten-v1":
-        env = PokemonRedFlatten(
-            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
-        )
     elif env_id == "Pokemon-Red-full-image-v1":
         env = PokemonRedFullImage(
             rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
@@ -103,20 +79,12 @@ def make(
         env = PokemonRedMinimalImage(
             rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
         )
-    elif env_id == "Pokemon-Silver-flatten-v1":
-        env = PokemonSilverFlatten(
-            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
-        )
     elif env_id == "Pokemon-Silver-full-image-v1":
         env = PokemonSilverFullImage(
             rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
         )
     elif env_id == "Pokemon-Silver-minimal-image-v1":
         env = PokemonSilverMinimalImage(
-            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
-        )
-    elif env_id == "Pokemon-Yellow-flatten-v1":
-        env = PokemonYellowFlatten(
             rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
         )
     elif env_id == "Pokemon-Yellow-full-image-v1":
@@ -129,10 +97,6 @@ def make(
         )
 
     # 3. Mario environments
-    elif env_id == "Super-Mario-Land-1-flatten-v1":
-        env = SuperMarioLand1Flatten(
-            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
-        )
     elif env_id == "Super-Mario-Land-1-full-image-v1":
         env = SuperMarioLand1FullImage(
             rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
@@ -143,10 +107,6 @@ def make(
         )
 
     # 4. Tetris environments
-    elif env_id == "Tetris-flatten-v1":
-        env = TetrisFlatten(
-            rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
-        )
     elif env_id == "Tetris-full-image-v1":
         env = TetrisFullImage(
             rom_path=rom_path, init_state_path=init_state_path, **env_kwargs
@@ -204,30 +164,24 @@ def make_vec(
 
 
 registered_envs = [
-    "Kirby-Dream-Land-1-flatten-v1",
     "Kirby-Dream-Land-1-full-image-v1",
     "Kirby-Dream-Land-1-minimal-image-v1",
-    "Pokemon-Blue-flatten-v1",
     "Pokemon-Blue-full-image-v1",
     "Pokemon-Blue-minimal-image-v1",
-    "Pokemon-Gold-flatten-v1",
     "Pokemon-Gold-full-image-v1",
     "Pokemon-Gold-minimal-image-v1",
-    "Pokemon-Red-flatten-v1",
     "Pokemon-Red-full-image-v1",
     "Pokemon-Red-minimal-image-v1",
-    "Pokemon-Silver-flatten-v1",
     "Pokemon-Silver-full-image-v1",
     "Pokemon-Silver-minimal-image-v1",
-    "Pokemon-Yellow-flatten-v1",
     "Pokemon-Yellow-full-image-v1",
     "Pokemon-Yellow-minimal-image-v1",
-    "Super-Mario-Land-1-flatten-v1",
     "Super-Mario-Land-1-full-image-v1",
     "Super-Mario-Land-1-minimal-image-v1",
-    "Tetris-flatten-v1",
     "Tetris-full-image-v1",
     "Tetris-minimal-image-v1",
 ]
 
-assert registered_envs == sorted(registered_envs)
+assert registered_envs == sorted(
+    registered_envs
+), f"registered_envs needs to be sorted into {sorted(registered_envs)}!"

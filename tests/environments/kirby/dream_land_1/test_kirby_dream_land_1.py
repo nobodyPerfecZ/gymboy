@@ -1,4 +1,4 @@
-"""Tests pokemon/gen_2/silver.py."""
+"""Tests kirby/dream_land_1/kirby_dream_land_1.py."""
 
 from typing import Dict
 
@@ -7,13 +7,13 @@ import numpy as np
 import gymboy
 
 
-class TestPokemonSilverFullImage:
-    """Tests the PokemonSilverFullImage class."""
+class TestKirbyDreamLand1FullImage:
+    """Tests the KirbyDreamLand1FullImage class."""
 
-    env_id = "Pokemon-Silver-full-image-v1"
-    rom_path = "./resources/roms/pokemon/gen_2/pokemon_silver.gbc"
+    env_id = "Kirby-Dream-Land-1-full-image-v1"
+    rom_path = "./resources/roms/kirby/dream_land_1/kirby_dream_land_1.gb"
     init_state_path = (
-        "./resources/tests/pokemon/gen_2/pokemon_silver_after_first_pokemon.state"
+        "./resources/tests/kirby/dream_land_1/kirby_dream_land_1_stage_2.state"
     )
     num_envs = 3
     vectorization_mode = "sync"
@@ -35,7 +35,10 @@ class TestPokemonSilverFullImage:
         """Tests the step() method."""
         obs, reward, terminated, truncated, info = self.env.step(0)
         assert isinstance(obs, Dict)
-
+        assert obs["health"].shape == (1,)
+        assert obs["lives"].shape == (1,)
+        assert obs["score"].shape == (1,)
+        assert obs["img"].shape == (144, 160, 3)
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
@@ -43,7 +46,10 @@ class TestPokemonSilverFullImage:
 
         obs, reward, terminated, truncated, info = self.env.step(1)
         assert isinstance(obs, Dict)
-
+        assert obs["health"].shape == (1,)
+        assert obs["lives"].shape == (1,)
+        assert obs["score"].shape == (1,)
+        assert obs["img"].shape == (144, 160, 3)
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
@@ -53,11 +59,19 @@ class TestPokemonSilverFullImage:
         """Tests the reset() method."""
         obs, _ = self.env.reset()
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (1,)
+        assert obs["lives"].shape == (1,)
+        assert obs["score"].shape == (1,)
+        assert obs["img"].shape == (144, 160, 3)
 
     def test_observation(self):
         """Tests the observation() method."""
         obs = self.env.observation()
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (1,)
+        assert obs["lives"].shape == (1,)
+        assert obs["score"].shape == (1,)
+        assert obs["img"].shape == (144, 160, 3)
 
     def test_reward(self):
         """Tests the reward() method."""
@@ -75,11 +89,19 @@ class TestPokemonSilverFullImage:
 
         obs, info = vectorized_env.reset()
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (self.num_envs, 1)
+        assert obs["lives"].shape == (self.num_envs, 1)
+        assert obs["score"].shape == (self.num_envs, 1)
+        assert obs["img"].shape == (self.num_envs, 144, 160, 3)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [0] * self.num_envs
         )
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (self.num_envs, 1)
+        assert obs["lives"].shape == (self.num_envs, 1)
+        assert obs["score"].shape == (self.num_envs, 1)
+        assert obs["img"].shape == (self.num_envs, 144, 160, 3)
 
         assert isinstance(reward, np.ndarray)
         assert reward.shape == (self.num_envs,)
@@ -93,6 +115,10 @@ class TestPokemonSilverFullImage:
             [1] * self.num_envs
         )
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (self.num_envs, 1)
+        assert obs["lives"].shape == (self.num_envs, 1)
+        assert obs["score"].shape == (self.num_envs, 1)
+        assert obs["img"].shape == (self.num_envs, 144, 160, 3)
 
         assert isinstance(reward, np.ndarray)
         assert reward.shape == (self.num_envs,)
@@ -105,13 +131,13 @@ class TestPokemonSilverFullImage:
         vectorized_env.close()
 
 
-class TestPokemonSilverMinimalImage:
-    """Tests the PokemonSilverMinimalImage class."""
+class TestKirbyDreamLand1MinimalImage:
+    """Tests the KirbyDreamLand1MinimalImage class."""
 
-    env_id = "Pokemon-Silver-minimal-image-v1"
-    rom_path = "./resources/roms/pokemon/gen_2/pokemon_silver.gbc"
+    env_id = "Kirby-Dream-Land-1-minimal-image-v1"
+    rom_path = "./resources/roms/kirby/dream_land_1/kirby_dream_land_1.gb"
     init_state_path = (
-        "./resources/tests/pokemon/gen_2/pokemon_silver_after_first_pokemon.state"
+        "./resources/tests/kirby/dream_land_1/kirby_dream_land_1_stage_2.state"
     )
     num_envs = 3
     vectorization_mode = "sync"
@@ -133,6 +159,10 @@ class TestPokemonSilverMinimalImage:
         """Tests the step() method."""
         obs, reward, terminated, truncated, info = self.env.step(0)
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (1,)
+        assert obs["lives"].shape == (1,)
+        assert obs["score"].shape == (1,)
+        assert obs["img"].shape == (16, 20)
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
@@ -140,6 +170,10 @@ class TestPokemonSilverMinimalImage:
 
         obs, reward, terminated, truncated, info = self.env.step(1)
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (1,)
+        assert obs["lives"].shape == (1,)
+        assert obs["score"].shape == (1,)
+        assert obs["img"].shape == (16, 20)
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
@@ -149,11 +183,19 @@ class TestPokemonSilverMinimalImage:
         """Tests the reset() method."""
         obs, _ = self.env.reset()
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (1,)
+        assert obs["lives"].shape == (1,)
+        assert obs["score"].shape == (1,)
+        assert obs["img"].shape == (16, 20)
 
     def test_observation(self):
         """Tests the observation() method."""
         obs = self.env.observation()
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (1,)
+        assert obs["lives"].shape == (1,)
+        assert obs["score"].shape == (1,)
+        assert obs["img"].shape == (16, 20)
 
     def test_reward(self):
         """Tests the reward() method."""
@@ -171,11 +213,19 @@ class TestPokemonSilverMinimalImage:
 
         obs, info = vectorized_env.reset()
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (self.num_envs, 1)
+        assert obs["lives"].shape == (self.num_envs, 1)
+        assert obs["score"].shape == (self.num_envs, 1)
+        assert obs["img"].shape == (self.num_envs, 16, 20)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [0] * self.num_envs
         )
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (self.num_envs, 1)
+        assert obs["lives"].shape == (self.num_envs, 1)
+        assert obs["score"].shape == (self.num_envs, 1)
+        assert obs["img"].shape == (self.num_envs, 16, 20)
         assert isinstance(reward, np.ndarray)
         assert reward.shape == (self.num_envs,)
         assert isinstance(terminated, np.ndarray)
@@ -188,6 +238,10 @@ class TestPokemonSilverMinimalImage:
             [1] * self.num_envs
         )
         assert isinstance(obs, Dict)
+        assert obs["health"].shape == (self.num_envs, 1)
+        assert obs["lives"].shape == (self.num_envs, 1)
+        assert obs["score"].shape == (self.num_envs, 1)
+        assert obs["img"].shape == (self.num_envs, 16, 20)
         assert isinstance(reward, np.ndarray)
         assert reward.shape == (self.num_envs,)
         assert isinstance(terminated, np.ndarray)

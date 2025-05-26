@@ -1,11 +1,11 @@
 """Super Mario Land 1 environments."""
 
 from abc import ABC
+from typing import Dict
 
 import numpy as np
 import skimage as ski
 from gymnasium import spaces
-
 
 from gymboy.environments.env import PyBoyEnv
 
@@ -74,78 +74,6 @@ class SuperMarioLand1(PyBoyEnv, ABC):
         return False
 
 
-class SuperMarioLand1Flatten(SuperMarioLand1):
-    """
-    The Super Mario Land 1 environment.
-
-    ## Action Space
-    The action space consists of 9 discrete actions:
-    - 0: No action
-    - 1: Press A
-    - 2: Press B
-    - 3: Press Left
-    - 4: Press Right
-    - 5: Press Up
-    - 6: Press Down
-    - 7: Press Start
-    - 8: Press Select
-
-    ## Observation Space
-    The observation is an (325,) array that consists:
-    - [0]: The current world
-    - [1]: The current level
-    - [2]: The current lives
-    - [3]: The current number of coins
-    - [4]: The current time left
-    - [5:]: The simplified game area
-
-    ## Rewards
-    The reward is:
-    - -1.0 if the time or the game is over
-    - 1.0 if the level is finished
-    - otherwise the normalized score
-
-    ## Version History
-    - v1: Original version
-
-    Args:
-        rom_path (str):
-            The path to the ROM file.
-
-        init_state_path (str | None):
-            The path to the initial state file.
-
-        n_frameskip (int):
-            The number of frames to skip between each action
-
-        sound (bool):
-            The flag to dis-/enable the sound.
-
-        render_mode (str | None):
-            The mode in which the game will be rendered.
-    """
-
-    @property
-    def observation_space(self) -> spaces.Space:
-        return spaces.Box(
-            low=-np.inf,
-            high=np.inf,
-            shape=(325,),
-            dtype=np.float32,
-        )
-
-    def observation(self) -> np.ndarray:
-        world, level = _world_level(self.pyboy)
-        world, level = np.array([world]), np.array([level])
-        lives = np.array([_lives(self.pyboy)])
-        coins = np.array([_coins(self.pyboy)])
-        time = np.array([_time(self.pyboy)])
-        game_area = _game_area(self.pyboy).flatten()
-        return np.concatenate((world, level, lives, coins, time, game_area)).astype(
-            np.float32
-        )
-
-
 class SuperMarioLand1FullImage(SuperMarioLand1):
     """
     The Super Mario Land 1 environment.
@@ -163,8 +91,14 @@ class SuperMarioLand1FullImage(SuperMarioLand1):
     - 8: Press Select
 
     ## Observation Space
-    The observation is an (144, 160, 3) array representing the RGB image of the game
-    screen.
+    The observation is a dictionary containing:
+    - 'world': An (1,) array representing the current world
+    - 'level': An (1,) array representing the current level
+    - 'lives': An (1,) array representing the current number of lives
+    - 'coins': An (1,) array representing the current number of coins
+    - 'score': An (1,) array representing the current score
+    - 'time': An (1,) array representing the current time
+    - 'img': An (144, 160, 3) array representing the RGB image of the game screen
 
     ## Rewards
     The reward is:
@@ -194,16 +128,41 @@ class SuperMarioLand1FullImage(SuperMarioLand1):
 
     @property
     def observation_space(self) -> spaces.Space:
-        return spaces.Box(
-            low=0,
-            high=255,
-            shape=(144, 160, 3),
-            dtype=np.uint8,
+        return spaces.Dict(
+            {
+                "world": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "level": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "lives": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "coins": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "score": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "time": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "img": spaces.Box(0, 255, shape=(144, 160, 3), dtype=np.uint8),
+            }
         )
 
-    def observation(self) -> np.ndarray:
-        obs = ski.color.rgba2rgb(self.pyboy.screen.image)
-        return (255 * obs).clip(0, 255).astype(np.uint8)
+    def observation(self) -> Dict[str, np.ndarray]:
+        world, level = _world_level(self.pyboy)
+        world, level = np.array([world]).astype(np.float32), np.array([level]).astype(
+            np.float32
+        )
+        lives = np.array([_lives(self.pyboy)]).astype(np.float32)
+        coins = np.array([_coins(self.pyboy)]).astype(np.float32)
+        score = np.array([_score(self.pyboy)]).astype(np.float32)
+        time = np.array([_time(self.pyboy)]).astype(np.float32)
+        img = (
+            (255 * ski.color.rgba2rgb(self.pyboy.screen.image))
+            .clip(0, 255)
+            .astype(np.uint8)
+        )
+        return {
+            "world": world,
+            "level": level,
+            "lives": lives,
+            "coins": coins,
+            "score": score,
+            "time": time,
+            "img": img,
+        }
 
 
 class SuperMarioLand1MinimalImage(SuperMarioLand1):
@@ -223,8 +182,14 @@ class SuperMarioLand1MinimalImage(SuperMarioLand1):
     - 8: Press Select
 
     ## Observation Space
-    The observation is an (16, 20) array representing a simplified view of the game
-    screen.
+    The observation is a dictionary containing:
+    - 'world': An (1,) array representing the current world
+    - 'level': An (1,) array representing the current level
+    - 'lives': An (1,) array representing the current number of lives
+    - 'coins': An (1,) array representing the current number of coins
+    - 'score': An (1,) array representing the current score
+    - 'time': An (1,) array representing the current time
+    - 'img': An (16, 20) array representing the simplified view of the game screen
 
     ## Rewards
     The reward is:
@@ -254,12 +219,34 @@ class SuperMarioLand1MinimalImage(SuperMarioLand1):
 
     @property
     def observation_space(self) -> spaces.Space:
-        return spaces.Box(
-            low=-np.inf,
-            high=np.inf,
-            shape=(16, 20),
-            dtype=np.float32,
+        return spaces.Dict(
+            {
+                "world": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "level": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "lives": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "coins": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "score": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "time": spaces.Box(-np.inf, np.inf, shape=(1,), dtype=np.float32),
+                "img": spaces.Box(-np.inf, np.inf, shape=(16, 20), dtype=np.float32),
+            }
         )
 
-    def observation(self) -> np.ndarray:
-        return _game_area(self.pyboy).astype(np.float32)
+    def observation(self) -> Dict[str, np.ndarray]:
+        world, level = _world_level(self.pyboy)
+        world, level = np.array([world]).astype(np.float32), np.array([level]).astype(
+            np.float32
+        )
+        lives = np.array([_lives(self.pyboy)]).astype(np.float32)
+        coins = np.array([_coins(self.pyboy)]).astype(np.float32)
+        score = np.array([_score(self.pyboy)]).astype(np.float32)
+        time = np.array([_time(self.pyboy)]).astype(np.float32)
+        img = _game_area(self.pyboy).astype(np.float32)
+        return {
+            "world": world,
+            "level": level,
+            "lives": lives,
+            "coins": coins,
+            "score": score,
+            "time": time,
+            "img": img,
+        }
