@@ -3,24 +3,34 @@ name = "gymboy"
 version = "0.0.1"
 description = "Gameboy (Color) environments in Gymnasium 🤖"
 authors = [
-    {name = "Dennis Jabs", email = ""},
-]
-dependencies = [
-    "gymnasium>=1.1.1",
-    "pyboy>=2.5.3",
-    "scikit-image>=0.25.2",
+    { name = "Dennis Jabs" },
 ]
 requires-python = ">=3.10"
 readme = "README.md"
 license = { file = "LICENSE" }
 
+dependencies = [
+    "gymnasium>=1.1.1",
+    "pyboy>=2.5.3",
+    "scikit-image>=0.25.2",
+]
+
+[dependency-groups]
+dev = [
+    "black>=23.7.0",
+    "flake8>=7.3.0",
+    "isort>=5.12.0",
+    "pytest>=7.4.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.14.1",
+]
+
 [project.urls]
 Homepage = "https://github.com/nobodyPerfecZ/gymboy"
 Issues = "https://github.com/nobodyPerfecZ/gymboy/issues"
 
-[build-system]
-requires = ["pdm-backend"]
-build-backend = "pdm.backend"
-
-[tool.pdm]
-distribution = true
+[[tool.uv.index]]
+name = "testpypi"
+url = "https://test.pypi.org/simple/"
+publish-url = "https://test.pypi.org/legacy/"
+explicit = true
