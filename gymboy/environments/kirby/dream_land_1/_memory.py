@@ -1,6 +1,6 @@
+import numpy as np
 from pyboy import PyBoy
 
-import numpy as np
 from gymboy.utils.binary import reduced_bcds_to_integer
 
 from ._constant import (
