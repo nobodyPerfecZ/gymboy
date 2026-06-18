@@ -1,7 +1,5 @@
 """Tests kirby/dream_land_1/kirby_dream_land_1.py."""
 
-from typing import Dict
-
 import numpy as np
 
 import gymboy
@@ -34,7 +32,7 @@ class TestKirbyDreamLand1FullImage:
     def test_step(self):
         """Tests the step() method."""
         obs, reward, terminated, truncated, info = self.env.step(0)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (1,)
         assert obs["lives"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -42,10 +40,10 @@ class TestKirbyDreamLand1FullImage:
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = self.env.step(1)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (1,)
         assert obs["lives"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -53,12 +51,12 @@ class TestKirbyDreamLand1FullImage:
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
     def test_reset(self):
         """Tests the reset() method."""
         obs, _ = self.env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (1,)
         assert obs["lives"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -67,7 +65,7 @@ class TestKirbyDreamLand1FullImage:
     def test_observation(self):
         """Tests the observation() method."""
         obs = self.env.observation()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (1,)
         assert obs["lives"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -88,7 +86,7 @@ class TestKirbyDreamLand1FullImage:
         )
 
         obs, info = vectorized_env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (self.num_envs, 1)
         assert obs["lives"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -97,7 +95,7 @@ class TestKirbyDreamLand1FullImage:
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [0] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (self.num_envs, 1)
         assert obs["lives"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -109,12 +107,12 @@ class TestKirbyDreamLand1FullImage:
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [1] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (self.num_envs, 1)
         assert obs["lives"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -126,7 +124,7 @@ class TestKirbyDreamLand1FullImage:
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         vectorized_env.close()
 
@@ -158,7 +156,7 @@ class TestKirbyDreamLand1MinimalImage:
     def test_step(self):
         """Tests the step() method."""
         obs, reward, terminated, truncated, info = self.env.step(0)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (1,)
         assert obs["lives"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -166,10 +164,10 @@ class TestKirbyDreamLand1MinimalImage:
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = self.env.step(1)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (1,)
         assert obs["lives"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -177,12 +175,12 @@ class TestKirbyDreamLand1MinimalImage:
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
     def test_reset(self):
         """Tests the reset() method."""
         obs, _ = self.env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (1,)
         assert obs["lives"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -191,7 +189,7 @@ class TestKirbyDreamLand1MinimalImage:
     def test_observation(self):
         """Tests the observation() method."""
         obs = self.env.observation()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (1,)
         assert obs["lives"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -212,7 +210,7 @@ class TestKirbyDreamLand1MinimalImage:
         )
 
         obs, info = vectorized_env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (self.num_envs, 1)
         assert obs["lives"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -221,7 +219,7 @@ class TestKirbyDreamLand1MinimalImage:
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [0] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (self.num_envs, 1)
         assert obs["lives"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -232,12 +230,12 @@ class TestKirbyDreamLand1MinimalImage:
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [1] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["health"].shape == (self.num_envs, 1)
         assert obs["lives"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -248,6 +246,6 @@ class TestKirbyDreamLand1MinimalImage:
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         vectorized_env.close()

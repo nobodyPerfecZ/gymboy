@@ -22,11 +22,12 @@ from .environments import (
     TetrisFullImage,
     TetrisMinimalImage,
 )
+from .environments.env import PyBoyEnv
 
 
 def make(
     env_id: str, rom_path: str, init_state_path: str | None = None, **env_kwargs
-) -> gym.Env:
+) -> PyBoyEnv:
     """
     A self-version of OpenAI's infamous env.make(env_name).
 
@@ -38,7 +39,7 @@ def make(
             Keyword arguments to pass to the environment.
 
     Returns:
-        gym.Env:
+        PyBoyEnv:
             The Gymboy environment
     """
     if env_id not in registered_envs:
@@ -125,7 +126,7 @@ def make_vec(
     num_envs: int = 1,
     vectorization_mode: str = "sync",
     **env_kwargs,
-) -> gym.vector.VectorEnv:
+) -> gym.vector.SyncVectorEnv | gym.vector.AsyncVectorEnv:
     """
     A self-version of OpenAI's infamous env.vec_make(env_name).
 
@@ -141,7 +142,7 @@ def make_vec(
             Can be either "async" or "sync".
 
     Returns:
-        gym.vector.VectorEnv:
+        gym.vector.SyncVectorEnv | gym.vector.AsyncVectorEnv:
             The vectorized environment
     """
     if num_envs <= 0:

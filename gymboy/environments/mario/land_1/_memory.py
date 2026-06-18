@@ -1,5 +1,3 @@
-from typing import Tuple
-
 import numpy as np
 from pyboy import PyBoy
 
@@ -32,7 +30,7 @@ def _score(pyboy: PyBoy) -> int:
     return bcds_to_integer(reversed(pyboy.memory[SCORE_ADDRESS : SCORE_ADDRESS + 3]))
 
 
-def _world_level(pyboy: PyBoy) -> Tuple[int, int]:
+def _world_level(pyboy: PyBoy) -> tuple[int, int]:
     """
     Returns the current world and level of the game.
 
@@ -41,7 +39,7 @@ def _world_level(pyboy: PyBoy) -> Tuple[int, int]:
             The game boy instance
 
     Returns:
-        Tuple[int, int]:
+        tuple[int, int]:
             The current (world, level) of the game
     """
     return (

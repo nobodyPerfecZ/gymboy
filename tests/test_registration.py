@@ -397,6 +397,7 @@ def test_make_vec(
         rom_path=rom_path,
         init_state_path=init_state_path,
     )
+    assert isinstance(envs, gym.vector.SyncVectorEnv)
     assert isinstance(envs.envs[0], expected)
 
 

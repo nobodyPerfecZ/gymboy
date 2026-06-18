@@ -7,7 +7,12 @@ requires-python = ">=3.10"
 readme = "README.md"
 license = { file = "LICENSE" }
 
-dependencies = ["gymnasium>=1.1.1", "pyboy>=2.5.3", "scikit-image>=0.25.2"]
+dependencies = [
+    "gymnasium>=1.1.1",
+    "numpy>=2.2.6",
+    "pyboy>=2.5.3",
+    "scikit-image>=0.25.2",
+]
 
 [dependency-groups]
 dev = [
@@ -39,3 +44,13 @@ lint.ignore = ["E203"]
 lint.select = ["E", "F", "B", "I"]
 lint.mccabe.max-complexity = 10
 target-version = "py310"
+
+[tool.deptry.per_rule_ignores]
+DEP003 = ["gymboy"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["app"]

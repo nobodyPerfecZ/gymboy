@@ -1,7 +1,7 @@
 """Super Mario Land 1 environments."""
 
 from abc import ABC
-from typing import Dict
+from typing import Any
 
 import numpy as np
 import skimage as ski
@@ -140,7 +140,7 @@ class SuperMarioLand1FullImage(SuperMarioLand1):
             }
         )
 
-    def observation(self) -> Dict[str, np.ndarray]:
+    def observation(self) -> dict[str, Any]:
         world, level = _world_level(self.pyboy)
         world, level = (
             np.array([world]).astype(np.float32),
@@ -232,7 +232,7 @@ class SuperMarioLand1MinimalImage(SuperMarioLand1):
             }
         )
 
-    def observation(self) -> Dict[str, np.ndarray]:
+    def observation(self) -> dict[str, Any]:
         world, level = _world_level(self.pyboy)
         world, level = (
             np.array([world]).astype(np.float32),

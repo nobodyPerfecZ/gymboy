@@ -1,11 +1,10 @@
 import os
 from abc import ABC, abstractmethod
-from typing import Any, Dict, SupportsFloat, Tuple
+from typing import Any
 
 import gymnasium as gym
-import numpy as np
 from gymnasium import spaces
-from gymnasium.core import ActType, ObsType, RenderFrame
+from gymnasium.core import RenderFrame
 from pyboy import PyBoy
 
 
@@ -46,10 +45,13 @@ class PyBoyEnv(gym.Env, ABC):
             raise ValueError(f"'{rom_path}' is not referring to a ROM file.")
         if not os.path.exists(rom_path):
             raise FileNotFoundError(f"ROM file '{rom_path}' not found.")
-        if not init_state_path.endswith(".state"):
-            raise ValueError(f"'{init_state_path}' is not referring to a state file.")
-        if not os.path.exists(init_state_path):
-            raise FileNotFoundError(f"State file '{init_state_path}' not found.")
+        if init_state_path is not None:
+            if not init_state_path.endswith(".state"):
+                raise ValueError(
+                    f"'{init_state_path}' is not referring to a state file."
+                )
+            if not os.path.exists(init_state_path):
+                raise FileNotFoundError(f"State file '{init_state_path}' not found.")
         if n_frameskip <= 0:
             raise ValueError(f"n_frameskip must be greater than 0, got {n_frameskip}.")
 
@@ -94,8 +96,8 @@ class PyBoyEnv(gym.Env, ABC):
 
     def step(
         self,
-        action: ActType,
-    ) -> Tuple[ObsType, SupportsFloat, bool, bool, Dict[str, Any]]:
+        action: int,
+    ) -> tuple[dict[str, Any], float, bool, bool, dict[str, Any]]:
         if not self.action_space.contains(action):
             raise ValueError(f"{action} ({type(action)}) invalid.")
 
@@ -121,8 +123,8 @@ class PyBoyEnv(gym.Env, ABC):
         self,
         *,
         seed: int | None = None,
-        options: Dict[str, Any] | None = None,
-    ) -> Tuple[ObsType, Dict[str, Any]]:
+        options: dict[str, Any] | None = None,
+    ) -> tuple[dict[str, Any], dict[str, Any]]:
         if self.init_state_path is None:
             # Case: Reset the game
             self.pyboy.game_wrapper.reset_game(seed)
@@ -148,7 +150,7 @@ class PyBoyEnv(gym.Env, ABC):
         self.pyboy.stop()
 
     @abstractmethod
-    def observation(self) -> Dict[str, np.ndarray]:
+    def observation(self) -> dict[str, Any]:
         """Returns the current observation."""
         pass
 

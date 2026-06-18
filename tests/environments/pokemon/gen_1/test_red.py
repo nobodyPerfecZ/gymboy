@@ -1,7 +1,5 @@
 """Tests pokemon/gen_1/red.py."""
 
-from typing import Dict
-
 import numpy as np
 
 import gymboy
@@ -34,30 +32,30 @@ class TestPokemonRedFullImage:
     def test_step(self):
         """Tests the step() method."""
         obs, reward, terminated, truncated, info = self.env.step(0)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
 
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = self.env.step(1)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
 
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
     def test_reset(self):
         """Tests the reset() method."""
         obs, _ = self.env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
 
     def test_observation(self):
         """Tests the observation() method."""
         obs = self.env.observation()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
 
     def test_reward(self):
         """Tests the reward() method."""
@@ -74,12 +72,12 @@ class TestPokemonRedFullImage:
         )
 
         obs, info = vectorized_env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [0] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
 
         assert isinstance(reward, np.ndarray)
         assert reward.shape == (self.num_envs,)
@@ -87,12 +85,12 @@ class TestPokemonRedFullImage:
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [1] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
 
         assert isinstance(reward, np.ndarray)
         assert reward.shape == (self.num_envs,)
@@ -100,7 +98,7 @@ class TestPokemonRedFullImage:
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         vectorized_env.close()
 
@@ -132,28 +130,28 @@ class TestPokemonRedMinimalImage:
     def test_step(self):
         """Tests the step() method."""
         obs, reward, terminated, truncated, info = self.env.step(0)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = self.env.step(1)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
     def test_reset(self):
         """Tests the reset() method."""
         obs, _ = self.env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
 
     def test_observation(self):
         """Tests the observation() method."""
         obs = self.env.observation()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
 
     def test_reward(self):
         """Tests the reward() method."""
@@ -170,30 +168,30 @@ class TestPokemonRedMinimalImage:
         )
 
         obs, info = vectorized_env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [0] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert isinstance(reward, np.ndarray)
         assert reward.shape == (self.num_envs,)
         assert isinstance(terminated, np.ndarray)
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [1] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert isinstance(reward, np.ndarray)
         assert reward.shape == (self.num_envs,)
         assert isinstance(terminated, np.ndarray)
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         vectorized_env.close()

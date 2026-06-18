@@ -1,7 +1,7 @@
 """Tetris environments."""
 
 from abc import ABC
-from typing import Dict
+from typing import Any
 
 import numpy as np
 import skimage as ski
@@ -121,7 +121,7 @@ class TetrisFullImage(Tetris):
             }
         )
 
-    def observation(self) -> Dict[str, np.ndarray]:
+    def observation(self) -> dict[str, Any]:
         level = np.array([_level(self.pyboy)]).astype(np.float32)
         next_block = np.array([_next_block(self.pyboy)]).astype(np.float32)
         score = np.array([_score(self.pyboy)]).astype(np.float32)
@@ -192,7 +192,7 @@ class TetrisMinimalImage(Tetris):
             }
         )
 
-    def observation(self) -> Dict[str, np.ndarray]:
+    def observation(self) -> dict[str, Any]:
         level = np.array([_level(self.pyboy)]).astype(np.float32)
         next_block = np.array([_next_block(self.pyboy)]).astype(np.float32)
         score = np.array([_score(self.pyboy)]).astype(np.float32)

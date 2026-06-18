@@ -1,7 +1,5 @@
 """Tests tetris/tetris/tetris.py."""
 
-from typing import Dict
-
 import numpy as np
 
 import gymboy
@@ -32,7 +30,7 @@ class TestTetrisFullImage:
     def test_step(self):
         """Tests the step() method."""
         obs, reward, terminated, truncated, info = self.env.step(0)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (1,)
         assert obs["next_block"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -40,10 +38,10 @@ class TestTetrisFullImage:
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = self.env.step(1)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (1,)
         assert obs["next_block"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -51,12 +49,12 @@ class TestTetrisFullImage:
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
     def test_reset(self):
         """Tests the reset() method."""
         obs, _ = self.env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (1,)
         assert obs["next_block"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -65,7 +63,7 @@ class TestTetrisFullImage:
     def test_observation(self):
         """Tests the observation() method."""
         obs = self.env.observation()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (1,)
         assert obs["next_block"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -86,7 +84,7 @@ class TestTetrisFullImage:
         )
 
         obs, info = vectorized_env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (self.num_envs, 1)
         assert obs["next_block"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -95,7 +93,7 @@ class TestTetrisFullImage:
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [0] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (self.num_envs, 1)
         assert obs["next_block"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -106,12 +104,12 @@ class TestTetrisFullImage:
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [1] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (self.num_envs, 1)
         assert obs["next_block"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -122,7 +120,7 @@ class TestTetrisFullImage:
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         vectorized_env.close()
 
@@ -152,7 +150,7 @@ class TestTetrisMinimalImage:
     def test_step(self):
         """Tests the step() method."""
         obs, reward, terminated, truncated, info = self.env.step(0)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (1,)
         assert obs["next_block"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -160,10 +158,10 @@ class TestTetrisMinimalImage:
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = self.env.step(1)
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (1,)
         assert obs["next_block"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -171,12 +169,12 @@ class TestTetrisMinimalImage:
         assert isinstance(reward, float)
         assert isinstance(terminated, bool)
         assert isinstance(truncated, bool)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
     def test_reset(self):
         """Tests the reset() method."""
         obs, _ = self.env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (1,)
         assert obs["next_block"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -185,7 +183,7 @@ class TestTetrisMinimalImage:
     def test_observation(self):
         """Tests the observation() method."""
         obs = self.env.observation()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (1,)
         assert obs["next_block"].shape == (1,)
         assert obs["score"].shape == (1,)
@@ -206,7 +204,7 @@ class TestTetrisMinimalImage:
         )
 
         obs, info = vectorized_env.reset()
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (self.num_envs, 1)
         assert obs["next_block"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -215,7 +213,7 @@ class TestTetrisMinimalImage:
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [0] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (self.num_envs, 1)
         assert obs["next_block"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -226,12 +224,12 @@ class TestTetrisMinimalImage:
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         obs, reward, terminated, truncated, info = vectorized_env.step(
             [1] * self.num_envs
         )
-        assert isinstance(obs, Dict)
+        assert isinstance(obs, dict)
         assert obs["level"].shape == (self.num_envs, 1)
         assert obs["next_block"].shape == (self.num_envs, 1)
         assert obs["score"].shape == (self.num_envs, 1)
@@ -242,6 +240,6 @@ class TestTetrisMinimalImage:
         assert terminated.shape == (self.num_envs,)
         assert isinstance(truncated, np.ndarray)
         assert truncated.shape == (self.num_envs,)
-        assert isinstance(info, Dict)
+        assert isinstance(info, dict)
 
         vectorized_env.close()

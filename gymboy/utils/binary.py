@@ -1,9 +1,12 @@
-def bytes_bit_count(numbers: list[int]) -> int:
+from collections.abc import Iterable
+
+
+def bytes_bit_count(numbers: Iterable[int]) -> int:
     """
     Counts the number of bits set to 1.
 
     Args:
-        numbers (list[int]):
+        numbers (Iterable[int]):
             The list of byte values
 
     Returns:
@@ -21,12 +24,12 @@ def bytes_bit_count(numbers: list[int]) -> int:
     return sum(number.bit_count() for number in numbers)
 
 
-def bytes_to_int(numbers: list[int]) -> int:
+def bytes_to_int(numbers: Iterable[int]) -> int:
     """
     Converts a list of bytes in big-endian order to an integer.
 
     Args:
-        numbers (list[int]):
+        numbers (Iterable[int]):
             The list of byte values
 
     Returns:
@@ -44,7 +47,7 @@ def bytes_to_int(numbers: list[int]) -> int:
     return int.from_bytes(numbers, byteorder="big")
 
 
-def bcds_to_integer(numbers: list[int]) -> int:
+def bcds_to_integer(numbers: Iterable[int]) -> int:
     """
     Converts a list of BCD numbers to an integer.
 
@@ -52,7 +55,7 @@ def bcds_to_integer(numbers: list[int]) -> int:
     where the high and low hex values contains values from 0x00 to 0x09.
 
     Args:
-        numbers (list[int]):
+        numbers (Iterable[int]):
             The list of BCD numbers
 
     Returns:
@@ -76,7 +79,7 @@ def bcds_to_integer(numbers: list[int]) -> int:
     return result
 
 
-def reduced_bcds_to_integer(numbers: list[int]) -> int:
+def reduced_bcds_to_integer(numbers: Iterable[int]) -> int:
     """
     Converts a list of reduced BCD numbers to an integer.
 
@@ -84,7 +87,7 @@ def reduced_bcds_to_integer(numbers: list[int]) -> int:
     where only the low hex value is used to represent a decimal number.
 
     Args:
-        numbers (list[int]):
+        numbers (Iterable[int]):
             The list of BCD numbers
 
     Returns:

@@ -1,7 +1,7 @@
 """Kirby's Dream Land 1 environments."""
 
 from abc import ABC
-from typing import Dict
+from typing import Any
 
 import numpy as np
 import skimage as ski
@@ -121,7 +121,7 @@ class KirbyDreamLand1FullImage(KirbyDreamLand1):
             }
         )
 
-    def observation(self) -> Dict[str, np.ndarray]:
+    def observation(self) -> dict[str, Any]:
         kirby_health = np.array([_kirby_health(self.pyboy)]).astype(np.float32)
         lives = np.array([_lives(self.pyboy)]).astype(np.float32)
         score = np.array([_score(self.pyboy)]).astype(np.float32)
@@ -191,7 +191,7 @@ class KirbyDreamLand1MinimalImage(KirbyDreamLand1):
             }
         )
 
-    def observation(self) -> Dict[str, np.ndarray]:
+    def observation(self) -> dict[str, Any]:
         kirby_health = np.array([_kirby_health(self.pyboy)]).astype(np.float32)
         lives = np.array([_lives(self.pyboy)]).astype(np.float32)
         score = np.array([_score(self.pyboy)]).astype(np.float32)

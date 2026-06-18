@@ -1,7 +1,7 @@
 """Pokemon Yellow environments."""
 
 from abc import ABC
-from typing import Dict
+from typing import Any
 
 import numpy as np
 import skimage as ski
@@ -184,7 +184,7 @@ class PokemonYellowFullImage(PokemonYellow):
             }
         )
 
-    def observation(self) -> Dict[str, np.ndarray]:
+    def observation(self) -> dict[str, Any]:
         ids = _pokemon_ids(self.pyboy, yellow=True).astype(np.float32)
         team_size = np.array([_team_size(self.pyboy, yellow=True)]).astype(np.float32)
         exps = _exps(self.pyboy, yellow=True).astype(np.float32)
@@ -320,7 +320,7 @@ class PokemonYellowMinimalImage(PokemonYellow):
             }
         )
 
-    def observation(self) -> Dict[str, np.ndarray]:
+    def observation(self) -> dict[str, Any]:
         ids = _pokemon_ids(self.pyboy, yellow=True).astype(np.float32)
         team_size = np.array([_team_size(self.pyboy, yellow=True)]).astype(np.float32)
         exps = _exps(self.pyboy, yellow=True).astype(np.float32)
