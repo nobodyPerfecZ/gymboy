@@ -11,14 +11,14 @@
         <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Code Style: Ruff">
     </a>
     <img src="https://img.shields.io/badge/python-3.13%2B-blue?logo=python&logoColor=white" alt="Python Version">
-    <a href="https://github.com/nobodyPerfecZ/python-project-template/actions/workflows/lint.yml">
-        <img src="https://github.com/nobodyPerfecZ/python-project-template/actions/workflows/lint.yml/badge.svg" alt="Lint">
+    <a href="https://github.com/nobodyPerfecZ/gymboy/actions/workflows/lint.yml">
+        <img src="https://github.com/nobodyPerfecZ/gymboy/actions/workflows/lint.yml/badge.svg" alt="Lint">
     </a>
-    <a href="https://github.com/nobodyPerfecZ/python-project-template/actions/workflows/test.yml">
-        <img src="https://github.com/nobodyPerfecZ/python-project-template/actions/workflows/test.yml/badge.svg" alt="Tests">
+    <a href="https://github.com/nobodyPerfecZ/gymboy/actions/workflows/test.yml">
+        <img src="https://github.com/nobodyPerfecZ/gymboy/actions/workflows/test.yml/badge.svg" alt="Tests">
     </a>
-    <a href="https://codecov.io/gh/nobodyPerfecZ/python-project-template">
-        <img src="https://codecov.io/gh/nobodyPerfecZ/python-project-template/graph/badge.svg?token=XRSIHPNDF7" alt="Coverage">
+    <a href="https://codecov.io/gh/nobodyPerfecZ/gymboy">
+        <img src="https://codecov.io/gh/nobodyPerfecZ/gymboy/graph/badge.svg?token=XRSIHPNDF7" alt="Coverage">
     </a>
 </div>
 <div align="center">

@@ -11,10 +11,16 @@ dependencies = ["gymnasium>=1.1.1", "pyboy>=2.5.3", "scikit-image>=0.25.2"]
 
 [dependency-groups]
 dev = [
+    "bandit>=1.9.4",
+    "deptry>=0.25.1",
+    "ipykernel>=7.3.0",
     "pytest>=7.4.0",
     "pytest-cov>=4.1.0",
     "pytest-mock>=3.14.1",
     "ruff>=0.12.1",
+    "rumdl>=0.2.18",
+    "tox-uv>=1.35.2",
+    "ty>=0.0.50",
 ]
 
 [project.urls]
@@ -30,6 +36,6 @@ explicit = true
 [tool.ruff]
 line-length = 88
 lint.ignore = ["E203"]
-target-version = "py310"
 lint.select = ["E", "F", "B", "I"]
 lint.mccabe.max-complexity = 10
+target-version = "py310"
