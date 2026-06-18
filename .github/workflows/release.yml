@@ -1,25 +1,23 @@
-name: Publish TestPyPI
+name: Release
 
 on:
   push:
     branches:
-      - master
       - main
 
 jobs:
-  publish-to-testpypi:
+  publish:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: ["ubuntu-latest"]
         python-version: ["3.10"]
-    name: ${{ matrix.os }} python-${{ matrix.python-version }}
+    name: Publish TestPyPI (${{ matrix.os }}, Python ${{ matrix.python-version }})
     steps:
       - name: Set up the repository
         uses: actions/checkout@v4
       - name: Install uv
-        run: |
-          curl -LsSf https://astral.sh/uv/install.sh | sh
+        uses: astral-sh/setup-uv@v5
       - name: Update version for TestPyPI
         run: |
           VERSION_SUFFIX=$(date +%Y%m%d%H%M%S)
