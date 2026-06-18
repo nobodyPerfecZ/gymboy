@@ -1,34 +1,39 @@
-<div align="middle">
-  <h1>
-    <p>
-      <img src="docs/images/logo.png" alt="Logo" height="300" />
-    </p>
-    Gymboy 🤖
-    <br>
-    <span style="font-size: large">
-      Gameboy (Color) Environments in Gymnasium 
-    </span>
-    <br>
-      <a href="https://github.com/psf/black">
-        <img src="https://img.shields.io/badge/code%20style-black-000000.svg">
-      </a>
-      <a>
-        <img src="https://img.shields.io/badge/python-3.10-blue">
-      </a>
-      <a>
-        <img src="https://img.shields.io/badge/tests-passed-brightgreen">
-      </a>
-      <a>
-        <img src="https://img.shields.io/badge/coverage-99%25-brightgreen">
-      </a>
-  </h1>
-  <img src="docs/gifs/kirby_dream_land_1.gif" alt="Kirby Dream Land 1" width="200" />
+<div align="center">
+  <img src="docs/images/logo.png" alt="Logo" width="300" height="300" />
+  <h3>Gymboy 🤖 </h3>
+</div>
+
+---
+
+<div align="center">
+    <h4> Gameboy (Color) Environments in Gymnasium  </h4>
+    <a href="https://github.com/astral-sh/ruff">
+        <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Code Style: Ruff">
+    </a>
+    <img src="https://img.shields.io/badge/python-3.13%2B-blue?logo=python&logoColor=white" alt="Python Version">
+    <a href="https://github.com/nobodyPerfecZ/python-project-template/actions/workflows/lint.yml">
+        <img src="https://github.com/nobodyPerfecZ/python-project-template/actions/workflows/lint.yml/badge.svg" alt="Lint">
+    </a>
+    <a href="https://github.com/nobodyPerfecZ/python-project-template/actions/workflows/test.yml">
+        <img src="https://github.com/nobodyPerfecZ/python-project-template/actions/workflows/test.yml/badge.svg" alt="Tests">
+    </a>
+    <a href="https://codecov.io/gh/nobodyPerfecZ/python-project-template">
+        <img src="https://codecov.io/gh/nobodyPerfecZ/python-project-template/graph/badge.svg?token=XRSIHPNDF7" alt="Coverage">
+    </a>
+</div>
+<div align="center">
+<img src="docs/gifs/kirby_dream_land_1.gif" alt="Kirby Dream Land 1" width="200" />
   <img src="docs/gifs/pokemon_blue.gif" alt="Pokemon Blue" width="200" />
   <img src="docs/gifs/pokemon_gold.gif" alt="Pokemon Gold" width="200" />
   <img src="docs/gifs/super_mario_land_1.gif" alt="Super Mario Land 1" width="200" />
 </div>
 
-Gymboy supports a range of different RL environments from the Game Boy Color using the Gymnasium API.
+---
+
+<div align="center">
+  <p>Gymboy supports a range of different RL environments from the Game Boy Color using the Gymnasium API.
+</p>
+</div>
 
 ## Implemented Environments 🌍
 
@@ -59,7 +64,8 @@ Install the package via `pip`:
 pip install gymboy
 ```
 
-> ⚠️ **Important**: Gymboy requires specific ROM files to function properly. Make sure you have the necessary ROMs available before using any of the environments.
+> ⚠️ **Important**: Gymboy requires specific ROM files to function properly.
+> Make sure you have the necessary ROMs available before using any of the environments.
 
 ## Usage 🚀
 
@@ -133,4 +139,5 @@ Contributions are welcome!
 
 Please fork the repository and submit a pull request.
 
-Make sure to follow the coding standards and write tests for any new features or bug fixes.
+Make sure to follow the coding standards and write tests for any new features or
+bug fixes.
