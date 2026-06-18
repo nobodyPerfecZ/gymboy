@@ -182,6 +182,6 @@ registered_envs = [
     "Tetris-minimal-image-v1",
 ]
 
-assert registered_envs == sorted(
-    registered_envs
-), f"registered_envs needs to be sorted into {sorted(registered_envs)}!"
+assert registered_envs == sorted(registered_envs), (
+    f"registered_envs needs to be sorted into {sorted(registered_envs)}!"
+)

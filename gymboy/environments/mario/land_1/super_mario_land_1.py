@@ -142,8 +142,9 @@ class SuperMarioLand1FullImage(SuperMarioLand1):
 
     def observation(self) -> Dict[str, np.ndarray]:
         world, level = _world_level(self.pyboy)
-        world, level = np.array([world]).astype(np.float32), np.array([level]).astype(
-            np.float32
+        world, level = (
+            np.array([world]).astype(np.float32),
+            np.array([level]).astype(np.float32),
         )
         lives = np.array([_lives(self.pyboy)]).astype(np.float32)
         coins = np.array([_coins(self.pyboy)]).astype(np.float32)
@@ -233,8 +234,9 @@ class SuperMarioLand1MinimalImage(SuperMarioLand1):
 
     def observation(self) -> Dict[str, np.ndarray]:
         world, level = _world_level(self.pyboy)
-        world, level = np.array([world]).astype(np.float32), np.array([level]).astype(
-            np.float32
+        world, level = (
+            np.array([world]).astype(np.float32),
+            np.array([level]).astype(np.float32),
         )
         lives = np.array([_lives(self.pyboy)]).astype(np.float32)
         coins = np.array([_coins(self.pyboy)]).astype(np.float32)

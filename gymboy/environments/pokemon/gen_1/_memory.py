@@ -286,8 +286,7 @@ def _seen_pokemons(pyboy: PyBoy, yellow: bool = False) -> int:
     """
     return bytes_bit_count(
         pyboy.memory[
-            POKEDEX_SEEN_START_ADDRESS
-            - int(yellow) : POKEDEX_SEEN_END_ADDRESS
+            POKEDEX_SEEN_START_ADDRESS - int(yellow) : POKEDEX_SEEN_END_ADDRESS
             - int(yellow)
         ]
     )
@@ -310,8 +309,7 @@ def _owned_pokemons(pyboy: PyBoy, yellow: bool = False) -> int:
     """
     return bytes_bit_count(
         pyboy.memory[
-            POKEDEX_OWNED_START_ADDRESS
-            - int(yellow) : POKEDEX_OWNED_END_ADDRESS
+            POKEDEX_OWNED_START_ADDRESS - int(yellow) : POKEDEX_OWNED_END_ADDRESS
             - int(yellow)
         ]
     )
@@ -334,8 +332,7 @@ def _events(pyboy: PyBoy, yellow: bool = False) -> int:
     """
     return bytes_bit_count(
         pyboy.memory[
-            EVENT_FLAGS_START_ADDRESS
-            - int(yellow) : EVENT_FLAGS_END_ADDRESS
+            EVENT_FLAGS_START_ADDRESS - int(yellow) : EVENT_FLAGS_END_ADDRESS
             - int(yellow)
         ]
     )
