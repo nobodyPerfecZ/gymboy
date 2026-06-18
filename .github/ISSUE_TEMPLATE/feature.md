@@ -1,18 +1,18 @@
 ---
 name: Feature request
-about: Propose a new feature or an improvement for the project.
-title: "[FEATURE] <Brief summary of the issue>"
+about: ✨ Propose a new feature or improvement.
+title: "[FEATURE] <Brief summary of the feature>"
 labels: enhancement
 assignees: ""
 ---
 
-## Summary
+## Description
 
-Provide a brief summary of the feature request in one or two sentences.
+> Briefly describe the feature or improvement in one or two sentences.
 
 ## Checklist
 
-Please ensure the following before submitting your feature request:
+> Please ensure the following before submitting your feature request:
 
 - [ ] I have searched the existing issues to make sure this feature hasn’t already been requested or implemented.
 - [ ] I am using the latest version of the project.
