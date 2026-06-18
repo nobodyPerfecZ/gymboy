@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="docs/images/logo.png" alt="Logo" width="300" height="300" />
+  <img src="docs/images/logo.png" alt="Logo" height="300" />
   <h3>Gymboy 🤖 </h3>
 </div>
 
