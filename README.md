@@ -10,7 +10,7 @@
     <a href="https://github.com/astral-sh/ruff">
         <img src="https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json" alt="Code Style: Ruff">
     </a>
-    <img src="https://img.shields.io/badge/python-3.13%2B-blue?logo=python&logoColor=white" alt="Python Version">
+    <img src="https://img.shields.io/badge/python-3.10%2B-blue?logo=python&logoColor=white" alt="Python Version">
     <a href="https://github.com/nobodyPerfecZ/gymboy/actions/workflows/lint.yml">
         <img src="https://github.com/nobodyPerfecZ/gymboy/actions/workflows/lint.yml/badge.svg" alt="Lint">
     </a>
@@ -18,7 +18,7 @@
         <img src="https://github.com/nobodyPerfecZ/gymboy/actions/workflows/test.yml/badge.svg" alt="Tests">
     </a>
     <a href="https://codecov.io/gh/nobodyPerfecZ/gymboy">
-        <img src="https://codecov.io/gh/nobodyPerfecZ/gymboy/graph/badge.svg?token=XRSIHPNDF7" alt="Coverage">
+        <img src="https://codecov.io/gh/nobodyPerfecZ/gymboy/graph/badge.svg?token=EI0XC923XO" alt="Coverage">
     </a>
 </div>
 <div align="center">
