@@ -10,7 +10,7 @@ license = { file = "LICENSE" }
 dependencies = [
     "gymnasium>=1.1.1",
     "numpy>=2.2.6",
-    "pyboy>=2.5.3",
+    "pyboy==2.5.3",
     "scikit-image>=0.25.2",
 ]
 
