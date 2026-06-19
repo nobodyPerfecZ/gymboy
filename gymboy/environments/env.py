@@ -1,4 +1,6 @@
+import hashlib
 import os
+import warnings
 from abc import ABC, abstractmethod
 from typing import Any
 
@@ -6,6 +8,8 @@ import gymnasium as gym
 from gymnasium import spaces
 from gymnasium.core import RenderFrame
 from pyboy import PyBoy
+
+from gymboy.utils.validation import SUPPORTED_ROMS
 
 
 class PyBoyEnv(gym.Env, ABC):
@@ -82,6 +86,22 @@ class PyBoyEnv(gym.Env, ABC):
                 f"Cartridge mismatch, got '{self.pyboy.cartridge_title}', "
                 + f"expected '{self.cartridge_title}'."
             )
+
+        # Check ROM hash
+        if self.cartridge_title in SUPPORTED_ROMS:
+            expected_hashes = SUPPORTED_ROMS[self.cartridge_title]
+            with open(self.rom_path, "rb") as f:
+                rom_data = f.read()
+            md5_hash = hashlib.md5(rom_data).hexdigest()
+            if md5_hash != expected_hashes["md5"]:
+                warnings.warn(
+                    f"ROM MD5 mismatch for {self.cartridge_title}. "
+                    f"Expected {expected_hashes['md5']}, got {md5_hash}. "
+                    "You may be using an incompatible ROM revision or it might be corrupted, "
+                    "which could lead to corrupted observations or silent bugs.",
+                    UserWarning,
+                    stacklevel=2,
+                )
 
     @property
     @abstractmethod
